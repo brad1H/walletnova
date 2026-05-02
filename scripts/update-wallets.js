@@ -13,19 +13,6 @@ async function scrapeLeaderboard() {
   console.log('Navigating to KOL Scan leaderboard...');
   await page.goto('https://kolscan.io/leaderboard', { waitUntil: 'networkidle2', timeout: 45000 });
 
-  // Try clicking Monthly tab
-  try {
-    await page.evaluate(() => {
-      const els = Array.from(document.querySelectorAll('button, a, span, div'));
-      const monthly = els.find(el => el.textContent.trim().toLowerCase() === 'monthly');
-      if (monthly) monthly.click();
-    });
-    await new Promise(r => setTimeout(r, 3000));
-    console.log('Clicked Monthly tab');
-  } catch(e) {
-    console.log('Could not click Monthly tab, using default view');
-  }
-
   await page.waitForSelector('a[href*="/account/"]', { timeout: 20000 });
   await new Promise(r => setTimeout(r, 2000));
 
