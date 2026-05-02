@@ -26,25 +26,35 @@ async function scrapeLeaderboard() {
     console.log('Could not click Monthly tab, using default view');
   }
 
-  // Wait for wallet rows to appear
   await page.waitForSelector('a[href*="/account/"]', { timeout: 20000 });
   await new Promise(r => setTimeout(r, 2000));
 
-  // Debug: dump first link structure so we can diagnose selector issues
+  // Debug: show the full row container of the first wallet link
   const debug = await page.evaluate(() => {
     const links = document.querySelectorAll('a[href*="/account/"]');
     const first = links[0];
+    if (!first) return { error: 'no links found' };
+
+    // Walk up to find row container with meaningful text content
+    let row = first.parentElement;
+    for (let i = 0; i < 8; i++) {
+      if (!row) break;
+      const text = row.innerText || '';
+      if (text.includes('$') || text.includes('%')) break;
+      row = row.parentElement;
+    }
+
     return {
       totalLinks: links.length,
-      firstHref: first ? first.getAttribute('href') : 'none',
-      firstHTML: first ? first.innerHTML.slice(0, 800) : 'none'
+      firstHref: first.getAttribute('href'),
+      rowHTML: row ? row.innerHTML.slice(0, 1200) : 'no row found',
+      rowText: row ? (row.innerText || '').slice(0, 400) : 'no row found'
     };
   });
   console.log('DEBUG:', JSON.stringify(debug, null, 2));
 
   const wallets = await page.evaluate(() => {
     function parsePnl(text) {
-      // Handle K/M suffixes and various formats: +$49.2K, -$1.2M, $49,178, ($49,178)
       const negative = text.includes('-') || (text.includes('(') && text.includes(')'));
       const cleaned = text.replace(/[^0-9.KMkm]/g, '');
       if (!cleaned) return null;
@@ -73,13 +83,12 @@ async function scrapeLeaderboard() {
       if (seen.has(address)) return;
       seen.add(address);
 
-      // Try heading tags first, then fall back to first non-empty meaningful text node
+      // Get name from heading inside link
       let name = null;
       const heading = link.querySelector('h1, h2, h3, h4, h5, h6');
       if (heading && heading.textContent.trim()) {
         name = heading.textContent.trim();
       } else {
-        // Walk all child elements, pick first one that looks like a name (not a number/symbol)
         const els = Array.from(link.querySelectorAll('*'));
         for (const el of els) {
           const t = el.childNodes.length === 1 && el.firstChild.nodeType === 3
@@ -92,7 +101,19 @@ async function scrapeLeaderboard() {
       }
       if (!name) return;
 
-      const spans = Array.from(link.querySelectorAll('span')).map(s => s.textContent.trim()).filter(Boolean);
+      // Walk up from the link to find the row container that has PnL/WR data
+      let row = link.parentElement;
+      for (let i = 0; i < 8; i++) {
+        if (!row) break;
+        const text = row.innerText || row.textContent || '';
+        if (text.includes('$') || text.includes('%')) break;
+        row = row.parentElement;
+      }
+
+      const searchRoot = row || link;
+      const spans = Array.from(searchRoot.querySelectorAll('span, div, p'))
+        .map(el => (el.childNodes.length <= 2 ? el.textContent.trim() : ''))
+        .filter(Boolean);
 
       let pnl = null;
       let wr = null;
@@ -100,18 +121,15 @@ async function scrapeLeaderboard() {
       for (let i = 0; i < spans.length; i++) {
         const s = spans[i];
 
-        // PnL: any span containing $ sign
         if (s.includes('$') && pnl === null) {
           const val = parsePnl(s);
           if (val !== null) pnl = val;
         }
 
-        // Win rate: direct percentage like "52%"
         if (/^\d+(\.\d+)?%$/.test(s) && wr === null) {
           wr = Math.round(parseFloat(s));
         }
 
-        // Win rate: wins / losses format
         if (s === '/' && wr === null) {
           const w = parseInt(spans[i - 1]);
           const l = parseInt(spans[i + 1]);
@@ -141,7 +159,6 @@ async function updateHtml(scraped) {
 
   const content = fs.readFileSync('websitewalletnova.html', 'utf8');
 
-  // Preserve existing emojis by address
   const emojiMap = {};
   const existingRegex = /\{\s*rank:\d+,\s*name:"[^"]*",\s*emoji:"([^"]*)",\s*address:"([^"]*)"/g;
   let em;
