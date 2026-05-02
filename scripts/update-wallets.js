@@ -111,31 +111,29 @@ async function scrapeLeaderboard() {
       }
 
       const searchRoot = row || link;
-      const spans = Array.from(searchRoot.querySelectorAll('span, div, p'))
-        .map(el => (el.childNodes.length <= 2 ? el.textContent.trim() : ''))
-        .filter(Boolean);
+      const rowText = (searchRoot.innerText || searchRoot.textContent || '').replace(/\s+/g, ' ');
 
       let pnl = null;
       let wr = null;
 
-      for (let i = 0; i < spans.length; i++) {
-        const s = spans[i];
-
-        if (s.includes('$') && pnl === null) {
-          const val = parsePnl(s);
-          if (val !== null) pnl = val;
+      // Win rate: parse W / L pattern
+      const wrMatch = rowText.match(/(\d+)\s*\/\s*(\d+)/);
+      if (wrMatch) {
+        const w = parseInt(wrMatch[1]);
+        const l = parseInt(wrMatch[2]);
+        if (!isNaN(w) && !isNaN(l) && (w + l) > 0) {
+          wr = Math.round((w / (w + l)) * 100);
         }
+      }
 
-        if (/^\d+(\.\d+)?%$/.test(s) && wr === null) {
-          wr = Math.round(parseFloat(s));
-        }
-
-        if (s === '/' && wr === null) {
-          const w = parseInt(spans[i - 1]);
-          const l = parseInt(spans[i + 1]);
-          if (!isNaN(w) && !isNaN(l) && (w + l) > 0) {
-            wr = Math.round((w / (w + l)) * 100);
-          }
+      // PnL: use Sol +/- for sign, USD amount for value
+      const solSignMatch = rowText.match(/([+-])([\d.]+)\s*Sol/i);
+      const usdMatch = rowText.match(/\$[\d,]+\.?\d*/);
+      if (usdMatch) {
+        const val = parsePnl(usdMatch[0]);
+        if (val !== null) {
+          const negative = solSignMatch ? solSignMatch[1] === '-' : rowText.includes('-$');
+          pnl = negative ? -Math.abs(val) : Math.abs(val);
         }
       }
 
