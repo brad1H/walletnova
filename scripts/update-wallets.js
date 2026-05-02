@@ -157,7 +157,7 @@ async function updateHtml(scraped) {
     process.exit(1);
   }
 
-  const content = fs.readFileSync('websitewalletnova.html', 'utf8');
+  const content = fs.readFileSync('index.html', 'utf8');
 
   const emojiMap = {};
   const existingRegex = /\{\s*rank:\d+,\s*name:"[^"]*",\s*emoji:"([^"]*)",\s*address:"([^"]*)"/g;
@@ -186,8 +186,8 @@ async function updateHtml(scraped) {
   }
 
   const updated = content.slice(0, start) + newArray + content.slice(end);
-  fs.writeFileSync('websitewalletnova.html', updated, 'utf8');
-  console.log('websitewalletnova.html updated successfully.');
+  fs.writeFileSync('index.html', updated, 'utf8');
+  console.log('index.html updated successfully.');
 }
 
 (async () => {
