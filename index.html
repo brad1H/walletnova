@@ -802,6 +802,14 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal()
 // Nav ribbon entrance
 gsap.from('#site-nav', { y: -58, opacity: 0, duration: 0.9, ease: 'power2.out', delay: 1.6 });
 
+// Browser back/forward
+window.addEventListener('popstate', e => navigate(e.state && e.state.page ? e.state.page : 'home', true));
+(function() {
+  const hash = location.hash.replace('#', '');
+  if (hash === 'import' || hash === 'leaderboard') navigate(hash, true);
+  else history.replaceState({ page: 'home' }, '', location.href);
+})();
+
 // Blob floating
 gsap.to('.b1', { x: 70,  y: 50,  scale: 1.1,  duration: 9,  ease: 'sine.inOut', repeat: -1, yoyo: true });
 gsap.to('.b2', { x: -55, y: -40, scale: 1.07, duration: 11, ease: 'sine.inOut', repeat: -1, yoyo: true, delay: 1.5 });
@@ -831,10 +839,15 @@ gsap.from('.home-lb-stats .lb-stat', {
 });
 
 // Page routing
-function navigate(page) {
+function navigate(page, skipPush) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById('page-' + page).classList.add('active');
   window.scrollTo(0, 0);
+
+  if (!skipPush) {
+    const hash = page === 'home' ? '' : '#' + page;
+    history.pushState({ page }, '', location.pathname + location.search + hash);
+  }
 
   const nav = document.getElementById('site-nav');
   if (page === 'home') {
