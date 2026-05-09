@@ -66,9 +66,11 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:10px 4
 #logo-anim{display:flex;align-items:center;gap:28px}
 #logo-text-wrap{overflow:hidden}
 #hero-logo-text{font-family:'Inter',sans-serif;font-weight:800;font-size:clamp(52px,7vw,84px);letter-spacing:-2px;white-space:nowrap;line-height:1;color:#fff}
-.scroll-hint{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);letter-spacing:1px;animation:bounce 2s infinite;position:relative;z-index:4}
-.scroll-hint svg{width:16px;height:16px;stroke:var(--muted)}
-@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(5px)}}
+#scroll-cue{position:absolute;bottom:36px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:9px;opacity:0;z-index:4;pointer-events:none}
+.scroll-mouse{width:24px;height:38px;border:1.5px solid rgba(255,255,255,0.22);border-radius:12px;display:flex;justify-content:center;padding-top:7px;transition:border-color 0.3s}
+.scroll-dot{width:3px;height:7px;background:rgba(255,255,255,0.55);border-radius:3px;animation:sdot 2.2s cubic-bezier(0.45,0,0.55,1) infinite}
+@keyframes sdot{0%{transform:translateY(0);opacity:0.9}55%{transform:translateY(11px);opacity:0}80%{transform:translateY(11px);opacity:0}100%{transform:translateY(0);opacity:0.9}}
+.scroll-label{font-size:9px;color:rgba(255,255,255,0.22);letter-spacing:2.5px;text-transform:uppercase;font-family:'Inter',sans-serif;font-weight:500}
 @keyframes fadeInLogo{0%{opacity:0;transform:scale(0.96)}100%{opacity:1;transform:scale(1)}}
 #emoji-bg{position:fixed;inset:0;pointer-events:none;z-index:1;transition:opacity 0.3s ease}
 .be{position:absolute;user-select:none;will-change:transform;line-height:1}
@@ -359,6 +361,10 @@ footer p{font-size:11px;color:var(--muted)}
           <div id="hero-logo-text">Nova Wallet</div>
         </div>
       </div>
+    </div>
+    <div id="scroll-cue">
+      <div class="scroll-mouse"><div class="scroll-dot"></div></div>
+      <span class="scroll-label">Scroll</span>
     </div>
   </div>
 
@@ -1730,6 +1736,7 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal()
     const progress = Math.min(1, window.scrollY / window.innerHeight);
     bg.style.opacity = Math.max(0, 1 - progress * 2);
     document.getElementById('scroll-dark').style.opacity = progress * 0.82;
+    document.getElementById('scroll-cue').style.opacity = Math.max(0, 1 - progress * 10);
     const navAlpha = 0.08 + progress * 0.84;
     const borderAlpha = 0.28 - progress * 0.16;
     document.getElementById('site-nav').style.background = `rgba(8,8,8,${navAlpha.toFixed(2)})`;
@@ -1739,6 +1746,9 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal()
 
 // Nav ribbon entrance
 gsap.from('#site-nav', { y: -58, opacity: 0, duration: 0.9, ease: 'power2.out', delay: 1.6 });
+
+// Scroll cue entrance — appears after logo animation finishes
+gsap.to('#scroll-cue', { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out', delay: 2.8 });
 
 // Browser back/forward
 window.addEventListener('popstate', e => navigate(e.state && e.state.page ? e.state.page : 'home', true));
