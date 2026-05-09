@@ -231,6 +231,21 @@ footer p{font-size:11px;color:var(--muted)}
 .lb-stat-val{font-family:'Syne',sans-serif;font-size:32px;font-weight:800;color:var(--purple-bright)}
 .lb-stat-lbl{font-size:11px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-top:3px}
 
+/* TICKER */
+.ticker-wrap{overflow:hidden;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:rgba(155,140,255,0.025);position:relative;z-index:2}
+.ticker-wrap::before,.ticker-wrap::after{content:'';position:absolute;top:0;bottom:0;width:120px;z-index:3;pointer-events:none}
+.ticker-wrap::before{left:0;background:linear-gradient(to right,#020204,transparent)}
+.ticker-wrap::after{right:0;background:linear-gradient(to left,#020204,transparent)}
+.ticker-track{display:flex;width:max-content;animation:tkscroll 90s linear infinite}
+.ticker-track:hover{animation-play-state:paused}
+@keyframes tkscroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.ticker-item{display:flex;align-items:center;gap:9px;padding:12px 22px;border-right:1px solid var(--border);white-space:nowrap}
+.ticker-item-rank{font-family:'Syne',sans-serif;font-size:10px;color:var(--muted);font-weight:700;min-width:18px}
+.ticker-item-name{font-size:12px;color:var(--text);font-weight:500}
+.ticker-item-pnl{font-size:11px;font-weight:700;padding:2px 8px;border-radius:100px}
+.ticker-item-pnl.pos{color:var(--green);background:var(--green-dim)}
+.ticker-item-pnl.neg{color:var(--red);background:rgba(255,107,107,0.1)}
+
 /* IMPORT PAGE */
 .import-wrap{max-width:880px;margin:0 auto;padding:80px 40px 100px}
 .import-hdr{text-align:center;margin-bottom:60px}
@@ -270,6 +285,10 @@ footer p{font-size:11px;color:var(--muted)}
         </div>
       </div>
     </div>
+  </div>
+
+  <div class="ticker-wrap">
+    <div class="ticker-track" id="ticker-track"></div>
   </div>
 
   <!-- Import Wallets Feature -->
@@ -317,9 +336,9 @@ footer p{font-size:11px;color:var(--muted)}
         <button class="home-cta-btn secondary" style="margin-top:28px" onclick="navigate('leaderboard')">View Leaderboard →</button>
       </div>
       <div class="home-lb-stats">
-        <div class="lb-stat"><div class="lb-stat-val">50</div><div class="lb-stat-lbl">Wallets</div></div>
-        <div class="lb-stat"><div class="lb-stat-val">KOL</div><div class="lb-stat-lbl">Source</div></div>
-        <div class="lb-stat"><div class="lb-stat-val">Live</div><div class="lb-stat-lbl">Status</div></div>
+        <div class="lb-stat"><div class="lb-stat-val" id="stat-wallets">—</div><div class="lb-stat-lbl">Wallets</div></div>
+        <div class="lb-stat"><div class="lb-stat-val" id="stat-pnl">—</div><div class="lb-stat-lbl">Daily PnL</div></div>
+        <div class="lb-stat"><div class="lb-stat-val" id="stat-wr">—</div><div class="lb-stat-lbl">Avg Win Rate</div></div>
       </div>
     </div>
   </section>
@@ -1047,6 +1066,50 @@ gsap.from('.home-lb-stats .lb-stat', {
   scrollTrigger: { trigger: '.home-lb-sec', start: 'top 85%' },
   y: 24, opacity: 0, duration: 0.6, ease: 'power2.out', stagger: 0.12, delay: 0.2
 });
+
+// Wallet ticker
+(function() {
+  const track = document.getElementById('ticker-track');
+  if (!track) return;
+  const items = wallets.filter(w => w.pnl !== null);
+  const html = [...items, ...items].map(w => {
+    const sign = w.pnl >= 0 ? '+' : '';
+    const cls  = w.pnl >= 0 ? 'pos' : 'neg';
+    return `<div class="ticker-item"><span class="ticker-item-rank">#${w.rank}</span><span class="ticker-item-name">${w.emoji} ${w.name}</span><span class="ticker-item-pnl ${cls}">${sign}$${Math.abs(w.pnl).toLocaleString()}</span></div>`;
+  }).join('');
+  track.innerHTML = html;
+})();
+
+// Stat counters — computed live from wallet data
+(function() {
+  const walletsWithPnl = wallets.filter(w => w.pnl !== null);
+  const totalPnl = walletsWithPnl.reduce((s, w) => s + w.pnl, 0);
+  const walletsWithWr = wallets.filter(w => w.wr !== null);
+  const avgWr = Math.round(walletsWithWr.reduce((s, w) => s + w.wr, 0) / walletsWithWr.length);
+  const pnlK = Math.round(totalPnl / 1000);
+
+  function countUp(el, endVal, fmt, dur) {
+    const start = performance.now();
+    dur = dur || 1400;
+    (function tick(now) {
+      const t = Math.min((now - start) / dur, 1);
+      const ease = 1 - Math.pow(1 - t, 3);
+      el.textContent = fmt(Math.round(ease * endVal));
+      if (t < 1) requestAnimationFrame(tick);
+    })(performance.now());
+  }
+
+  ScrollTrigger.create({
+    trigger: '.home-lb-sec',
+    start: 'top 85%',
+    once: true,
+    onEnter() {
+      countUp(document.getElementById('stat-wallets'), 50, v => v);
+      countUp(document.getElementById('stat-pnl'), pnlK, v => '$' + v + 'K');
+      countUp(document.getElementById('stat-wr'), avgWr, v => v + '%');
+    }
+  });
+})();
 
 // Page routing
 function navigate(page, skipPush) {
