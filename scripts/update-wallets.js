@@ -154,21 +154,36 @@ async function scrapeLeaderboard() {
   const needsTwitter = wallets.filter(w => !w.twitter);
   if (needsTwitter.length > 0) {
     console.log(`Leaderboard missing Twitter for ${needsTwitter.length} wallets — checking account pages...`);
+    let firstPage = true;
     for (const w of needsTwitter) {
       try {
-        await page.goto(`https://kolscan.io/account/${w.address}`, { waitUntil: 'networkidle2', timeout: 20000 });
-        await new Promise(r => setTimeout(r, 800));
-        const result = await page.evaluate(() => {
+        await page.goto(`https://kolscan.io/account/${w.address}`, { waitUntil: 'networkidle2', timeout: 30000 });
+        await new Promise(r => setTimeout(r, 1500));
+        const result = await page.evaluate((isFirst) => {
           let twitter = null;
           let pfp = null;
 
-          const twitterLinks = document.querySelectorAll('a[href*="twitter.com"], a[href*="x.com"]');
-          for (const a of twitterLinks) {
+          // Check all anchors on the page for any twitter/x.com link
+          const allLinks = Array.from(document.querySelectorAll('a[href]'));
+          for (const a of allLinks) {
             const h = a.getAttribute('href') || '';
-            const m = h.match(/(?:twitter\.com|x\.com)\/([^/?#\s]+)/i);
-            if (m && m[1] && !['i', 'intent', 'home', 'share', 'hashtag'].includes(m[1].toLowerCase())) {
-              twitter = m[1];
+            const m = h.match(/(?:twitter\.com|x\.com)\/@?([^/?#\s]+)/i);
+            if (m && m[1] && !['i', 'intent', 'home', 'share', 'hashtag', 'search'].includes(m[1].toLowerCase())) {
+              twitter = m[1].replace(/^@/, '');
               break;
+            }
+          }
+
+          // Also check all elements for href or data attributes containing twitter/x.com
+          if (!twitter) {
+            const allEls = Array.from(document.querySelectorAll('[href],[data-href],[data-url]'));
+            for (const el of allEls) {
+              const val = el.getAttribute('href') || el.getAttribute('data-href') || el.getAttribute('data-url') || '';
+              const m = val.match(/(?:twitter\.com|x\.com)\/@?([^/?#\s]+)/i);
+              if (m && m[1] && !['i', 'intent', 'home', 'share', 'hashtag', 'search'].includes(m[1].toLowerCase())) {
+                twitter = m[1].replace(/^@/, '');
+                break;
+              }
             }
           }
 
@@ -181,8 +196,16 @@ async function scrapeLeaderboard() {
             }
           }
 
-          return { twitter, pfp };
-        });
+          // Debug: log all links from first account page
+          const debugLinks = isFirst ? allLinks.slice(0, 30).map(a => a.getAttribute('href')) : [];
+
+          return { twitter, pfp, debugLinks };
+        }, firstPage);
+
+        if (firstPage) {
+          console.log('DEBUG account page links:', JSON.stringify(result.debugLinks));
+          firstPage = false;
+        }
 
         if (result.twitter) {
           w.twitter = result.twitter;
