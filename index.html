@@ -249,6 +249,29 @@ footer p{font-size:11px;color:var(--muted)}
 .lb-stat-val{font-family:'Syne',sans-serif;font-size:32px;font-weight:800;color:var(--purple-bright)}
 .lb-stat-lbl{font-size:11px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-top:3px}
 
+/* CATALOG SHOWCASE */
+.home-cat-sec{padding:90px 44px 80px;position:relative;z-index:2;border-top:1px solid var(--border);overflow:hidden}
+.home-cat-sec::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 55% 90% at 75% 50%,rgba(155,140,255,0.08) 0%,transparent 70%);pointer-events:none}
+.home-cat-inner{max-width:1060px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center}
+.home-cat-h2{font-family:'Inter',sans-serif;font-size:clamp(36px,5vw,62px);font-weight:800;letter-spacing:-2.5px;line-height:1.04;margin-bottom:16px}
+.home-cat-sub{font-size:15px;color:var(--muted);max-width:380px;line-height:1.85;margin-bottom:36px}
+.cat-demo{background:var(--surface);border:1px solid var(--purple-border);border-radius:16px;padding:20px 20px 18px;position:relative;overflow:hidden}
+.cat-demo::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--purple) 30%,var(--purple-bright) 70%,transparent)}
+.cat-demo-bar{display:flex;align-items:center;gap:10px;background:var(--surface2);border:1px solid var(--border2);border-radius:8px;padding:10px 14px;margin-bottom:14px;transition:border-color 0.2s}
+.cat-demo-bar.typing{border-color:var(--purple-border)}
+.cat-demo-bar svg{width:14px;height:14px;stroke:var(--muted);flex-shrink:0}
+.cat-demo-input{font-size:13px;color:var(--text);font-family:'DM Sans',sans-serif;flex:1}
+.cat-demo-cursor{display:inline-block;width:2px;height:14px;background:var(--purple-bright);margin-left:1px;vertical-align:middle;animation:blink 1s infinite}
+.cat-demo-cards{display:flex;flex-direction:column;gap:7px;min-height:170px}
+.cat-demo-card{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:11px 14px;display:flex;align-items:center;gap:11px;opacity:0;transform:translateY(8px);transition:opacity 0.3s ease,transform 0.3s ease}
+.cat-demo-card.show{opacity:1;transform:translateY(0)}
+.cat-demo-av{width:34px;height:34px;border-radius:50%;background:var(--surface);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;position:relative;overflow:hidden}
+.cat-demo-av img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:50%}
+.cat-demo-info{flex:1;min-width:0}
+.cat-demo-name{font-size:12px;font-weight:600;margin-bottom:2px}
+.cat-demo-addr{font-size:10px;color:var(--muted);font-family:monospace}
+.cat-demo-copybtn{font-size:10px;color:var(--muted);border:1px solid var(--border);border-radius:4px;padding:3px 9px;flex-shrink:0;white-space:nowrap}
+
 /* TICKER */
 .ticker-wrap{overflow:hidden;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:rgba(155,140,255,0.025);position:relative;z-index:2}
 .ticker-wrap::before,.ticker-wrap::after{content:'';position:absolute;top:0;bottom:0;width:120px;z-index:3;pointer-events:none}
@@ -338,6 +361,30 @@ footer p{font-size:11px;color:var(--muted)}
   <div class="ticker-wrap">
     <div class="ticker-track" id="ticker-track"></div>
   </div>
+
+  <!-- Catalog Showcase -->
+  <section class="home-cat-sec">
+    <div class="home-cat-inner">
+      <div class="home-cat-text">
+        <div class="home-sec-tag">Wallet Catalog</div>
+        <h2 class="home-cat-h2">Find any KOL.<br><span class="hl">Instantly.</span></h2>
+        <p class="home-cat-sub">510+ KOLs from KOL Scan, all searchable by name or address. Copy any wallet in one click.</p>
+        <button class="home-cta-btn" onclick="navigate('catalog')">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          Browse Catalog
+        </button>
+      </div>
+      <div>
+        <div class="cat-demo">
+          <div class="cat-demo-bar" id="cat-demo-bar">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+            <span class="cat-demo-input" id="cat-demo-input"></span><span class="cat-demo-cursor"></span>
+          </div>
+          <div class="cat-demo-cards" id="cat-demo-cards"></div>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <!-- Import Wallets Feature -->
   <section class="home-sec">
@@ -1724,6 +1771,80 @@ gsap.from('.home-lb-stats .lb-stat', {
   scrollTrigger: { trigger: '.home-lb-sec', start: 'top 85%' },
   y: 24, opacity: 0, duration: 0.6, ease: 'power2.out', stagger: 0.12, delay: 0.2
 });
+
+// Catalog showcase demo
+(function() {
+  const inputEl = document.getElementById('cat-demo-input');
+  const cardsEl = document.getElementById('cat-demo-cards');
+  const barEl   = document.getElementById('cat-demo-bar');
+  if (!inputEl || !cardsEl) return;
+
+  const scenes = [
+    ['Casino',     ['Casino',    'Cented',   'decu']],
+    ['Jack Duval', ['Jack Duval','AlxCooks', 'Sheep']],
+    ['Cented',     ['Cented',   'theo',     'Fabix']],
+    ['Sheep',      ['Sheep',    'Leens',    'Cupsey']],
+  ].map(([q, names]) => ({
+    q,
+    wallets: names.map(n => kolCatalogWallets.find(w => w.name.toLowerCase().includes(n.toLowerCase()))).filter(Boolean)
+  }));
+
+  const sleep = ms => new Promise(r => setTimeout(r, ms));
+  let si = 0, active = false;
+
+  async function loop() {
+    while (true) {
+      const { q, wallets } = scenes[si++ % scenes.length];
+      barEl.classList.add('typing');
+
+      for (let i = 1; i <= q.length; i++) {
+        inputEl.textContent = q.slice(0, i);
+        await sleep(65 + Math.random() * 55);
+      }
+
+      await sleep(280);
+      const re = new RegExp(q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'), 'gi');
+      cardsEl.innerHTML = wallets.slice(0, 3).map((w, i) => {
+        const nameHl = w.name.replace(re, m => `<span style="color:var(--purple-bright);font-weight:700">${m}</span>`);
+        const img = w.pfp ? `<img src="${w.pfp}" loading="lazy" onerror="this.style.display='none'" alt="">` : '';
+        return `<div class="cat-demo-card" style="transition-delay:${i * 75}ms">
+          <div class="cat-demo-av">${w.emoji || '👛'}${img}</div>
+          <div class="cat-demo-info">
+            <div class="cat-demo-name">${nameHl}</div>
+            <div class="cat-demo-addr">${w.address.slice(0,5)}...${w.address.slice(-4)}</div>
+          </div>
+          <div class="cat-demo-copybtn">Copy</div>
+        </div>`;
+      }).join('');
+
+      await sleep(30);
+      cardsEl.querySelectorAll('.cat-demo-card').forEach(c => c.classList.add('show'));
+      await sleep(2400);
+
+      cardsEl.querySelectorAll('.cat-demo-card').forEach(c => c.classList.remove('show'));
+      await sleep(280);
+      cardsEl.innerHTML = '';
+
+      while (inputEl.textContent.length > 0) {
+        inputEl.textContent = inputEl.textContent.slice(0, -1);
+        await sleep(22);
+      }
+      barEl.classList.remove('typing');
+      await sleep(380);
+    }
+  }
+
+  ScrollTrigger.create({
+    trigger: '.home-cat-sec',
+    start: 'top 85%',
+    once: true,
+    onEnter() {
+      gsap.from('.home-cat-text > *', { y: 24, opacity: 0, duration: 0.65, ease: 'power2.out', stagger: 0.1 });
+      gsap.from('.cat-demo', { y: 32, opacity: 0, duration: 0.7, ease: 'power2.out', delay: 0.14 });
+      if (!active) { active = true; setTimeout(loop, 900); }
+    }
+  });
+})();
 
 // KOL preview card — live top 3
 (function() {
