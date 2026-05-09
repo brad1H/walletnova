@@ -111,10 +111,10 @@ h1 .hl{color:var(--purple-bright)}
 .meta-val{font-family:'Syne',sans-serif;font-size:16px;font-weight:800;color:var(--text)}
 .meta-lbl{font-size:10px;color:var(--muted);letter-spacing:0.5px}
 
-.dl-btn{display:flex;align-items:center;justify-content:center;gap:9px;background:var(--purple);color:#080808;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;border:none;border-radius:7px;padding:13px 20px;cursor:pointer;transition:background 0.2s,box-shadow 0.25s,transform 0.15s;width:100%;position:relative;overflow:hidden}
-.dl-btn::after{content:'';position:absolute;inset:0;background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,0.2) 50%,transparent 65%);transform:translateX(-100%);pointer-events:none;border-radius:inherit}
-.dl-btn:hover::after{animation:btn-shimmer 0.55s ease forwards}
-.dl-btn:hover{background:var(--purple-bright);box-shadow:0 6px 28px rgba(155,140,255,0.55),0 0 0 1px rgba(255,255,255,0.12)}
+.dl-btn{display:flex;align-items:center;justify-content:center;gap:9px;background:var(--purple);color:#080808;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;border:none;border-radius:7px;padding:13px 20px;cursor:pointer;transition:background 0.2s,transform 0.15s;width:100%;position:relative;isolation:isolate}
+.dl-btn::before{content:'';position:absolute;inset:-2px;border-radius:9px;background:conic-gradient(from var(--spin-angle,0deg),transparent 0deg,transparent 295deg,rgba(155,140,255,0.5) 318deg,rgba(255,255,255,0.95) 340deg,rgba(184,173,255,0.55) 352deg,transparent 360deg);z-index:-1;opacity:0;transition:opacity 0.2s ease;pointer-events:none}
+.dl-btn.btn-active::before{opacity:1}
+.dl-btn:hover{background:var(--purple-bright)}
 .dl-btn:active{transform:scale(0.99)}
 .dl-btn svg{width:15px;height:15px;flex-shrink:0}
 .dl-btn.disabled{background:var(--surface2);color:var(--muted);cursor:not-allowed;border:1px solid var(--border)}
@@ -213,14 +213,14 @@ footer p{font-size:11px;color:var(--muted)}
 .home-sec-tag{font-family:'Inter',sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--purple);margin-bottom:22px}
 .home-sec-h2{font-family:'Inter',sans-serif;font-size:clamp(38px,5.5vw,68px);font-weight:800;letter-spacing:-2.5px;line-height:1.04;margin-bottom:20px}
 .home-sec-sub{font-family:'Inter',sans-serif;font-size:15px;color:var(--muted);max-width:460px;line-height:1.85;margin-bottom:44px}
-.home-cta-btn{display:inline-flex;align-items:center;gap:10px;background:var(--purple);color:#080808;font-family:'Inter',sans-serif;font-size:14px;font-weight:600;border:none;border-radius:8px;padding:15px 30px;cursor:pointer;transition:background 0.2s,transform 0.2s,box-shadow 0.25s;position:relative;overflow:hidden}
-.home-cta-btn::after{content:'';position:absolute;inset:0;background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,0.22) 50%,transparent 65%);transform:translateX(-100%);pointer-events:none;border-radius:inherit}
-.home-cta-btn:hover::after{animation:btn-shimmer 0.55s ease forwards}
-@keyframes btn-shimmer{to{transform:translateX(200%)}}
-.home-cta-btn:hover{background:var(--purple-bright);transform:translateY(-2px);box-shadow:0 8px 32px rgba(155,140,255,0.55),0 0 0 1px rgba(255,255,255,0.14),0 0 64px rgba(155,140,255,0.2)}
-.home-cta-btn.secondary{background:transparent;color:var(--text);border:1px solid var(--border2);font-size:13px;padding:12px 24px;overflow:visible}
-.home-cta-btn.secondary::after{display:none}
-.home-cta-btn.secondary:hover{border-color:rgba(155,140,255,0.7);color:var(--purple-bright);background:var(--purple-dim);box-shadow:0 0 0 1px rgba(155,140,255,0.4),0 0 24px rgba(155,140,255,0.18);transform:translateY(-2px)}
+@property --spin-angle{syntax:'<angle>';initial-value:0deg;inherits:false}
+.home-cta-btn{display:inline-flex;align-items:center;gap:10px;background:var(--purple);color:#080808;font-family:'Inter',sans-serif;font-size:14px;font-weight:600;border:none;border-radius:8px;padding:15px 30px;cursor:pointer;transition:background 0.2s,transform 0.2s;position:relative;isolation:isolate}
+.home-cta-btn::before{content:'';position:absolute;inset:-2px;border-radius:10px;background:conic-gradient(from var(--spin-angle,0deg),transparent 0deg,transparent 295deg,rgba(155,140,255,0.5) 318deg,rgba(255,255,255,0.95) 340deg,rgba(184,173,255,0.55) 352deg,transparent 360deg);z-index:-1;opacity:0;transition:opacity 0.2s ease;pointer-events:none}
+.home-cta-btn.btn-active::before{opacity:1}
+.home-cta-btn:hover{background:var(--purple-bright);transform:translateY(-2px)}
+.home-cta-btn.secondary{background:transparent;color:var(--text);border:1px solid var(--border2);font-size:13px;padding:12px 24px}
+.home-cta-btn.secondary::before{display:none}
+.home-cta-btn.secondary:hover{border-color:var(--purple-border);color:var(--purple-bright);background:var(--purple-dim);transform:translateY(-2px)}
 .home-pack-preview{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
 .prev-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px 20px 18px;transition:border-color 0.28s,background 0.28s,transform 0.28s,box-shadow 0.28s;position:relative;overflow:hidden;display:flex;flex-direction:column}
 .prev-card.is-live{border-color:var(--purple-border);background:linear-gradient(145deg,rgba(155,140,255,0.06) 0%,transparent 65%)}
@@ -1945,6 +1945,37 @@ function navigate(page, skipPush) {
   const activeBtn = document.querySelector(`#site-nav [data-page="${page}"]`);
   if (activeBtn) activeBtn.classList.add('active');
 }
+
+// Spinning border on buttons
+(function() {
+  const SPEED = 3.8;
+  function init(btn) {
+    let angle = 0, dir = 0, raf = null;
+    btn.addEventListener('mouseenter', () => {
+      dir = 1;
+      btn.classList.add('btn-active');
+      if (!raf) loop();
+    });
+    btn.addEventListener('mouseleave', () => { dir = -1; });
+    function loop() {
+      if (dir === 1) {
+        angle = (angle + SPEED) % 360;
+      } else {
+        angle -= SPEED;
+        if (angle <= 0) {
+          angle = 0;
+          btn.style.setProperty('--spin-angle', '0deg');
+          btn.classList.remove('btn-active');
+          raf = null;
+          return;
+        }
+      }
+      btn.style.setProperty('--spin-angle', angle + 'deg');
+      raf = requestAnimationFrame(loop);
+    }
+  }
+  document.querySelectorAll('.home-cta-btn:not(.secondary), .dl-btn:not(.disabled)').forEach(init);
+})();
 
 </script>
 </body>
