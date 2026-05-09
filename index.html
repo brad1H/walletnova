@@ -258,14 +258,14 @@ footer p{font-size:11px;color:var(--muted)}
 .home-cat-text{text-align:center;display:flex;flex-direction:column;align-items:center}
 .home-cat-h2{font-family:'Inter',sans-serif;font-size:clamp(42px,6vw,72px);font-weight:800;letter-spacing:-2.5px;line-height:1.03;margin-bottom:16px}
 .home-cat-sub{font-size:15px;color:var(--muted);max-width:440px;line-height:1.85;margin-bottom:36px;text-align:center}
-.cat-demo{background:var(--surface);border:1px solid var(--purple-border);border-radius:20px;padding:24px 24px 20px;position:relative;overflow:hidden;width:100%}
+.cat-demo{background:var(--surface);border:1px solid var(--purple-border);border-radius:20px;padding:24px 24px 20px;position:relative;overflow:hidden;width:100%;height:360px;display:flex;flex-direction:column}
 .cat-demo::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--purple) 30%,var(--purple-bright) 70%,transparent)}
 .cat-demo-bar{display:flex;align-items:center;gap:12px;background:var(--surface2);border:1px solid var(--border2);border-radius:10px;padding:13px 18px;margin-bottom:16px;transition:border-color 0.2s}
 .cat-demo-bar.typing{border-color:var(--purple-border)}
 .cat-demo-bar svg{width:16px;height:16px;stroke:var(--muted);flex-shrink:0}
 .cat-demo-input{font-size:15px;color:var(--text);font-family:'DM Sans',sans-serif;flex:1}
 .cat-demo-cursor{display:inline-block;width:2px;height:16px;background:var(--purple-bright);margin-left:2px;vertical-align:middle;animation:blink 1s infinite}
-.cat-demo-cards{display:flex;flex-direction:column;gap:9px;height:216px;overflow:hidden}
+.cat-demo-cards{display:flex;flex-direction:column;gap:9px;flex:1;overflow:hidden}
 .cat-demo-card{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:14px 18px;display:flex;align-items:center;gap:14px;opacity:0;transform:translateY(8px);transition:opacity 0.3s ease,transform 0.3s ease}
 .cat-demo-card.show{opacity:1;transform:translateY(0)}
 .cat-demo-card.primary{border-color:rgba(255,255,255,0.35);background:rgba(255,255,255,0.04);box-shadow:0 0 0 1px rgba(255,255,255,0.06)}
