@@ -111,9 +111,7 @@ h1 .hl{color:var(--purple-bright)}
 .meta-val{font-family:'Syne',sans-serif;font-size:16px;font-weight:800;color:var(--text)}
 .meta-lbl{font-size:10px;color:var(--muted);letter-spacing:0.5px}
 
-.dl-btn{display:flex;align-items:center;justify-content:center;gap:9px;background:var(--purple);color:#080808;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;border:none;border-radius:7px;padding:13px 20px;cursor:pointer;transition:background 0.2s,transform 0.15s;width:100%;position:relative;isolation:isolate}
-.dl-btn::before{content:'';position:absolute;inset:-2px;border-radius:9px;background:conic-gradient(from var(--spin-angle,0deg),transparent 0deg,transparent 295deg,rgba(155,140,255,0.5) 318deg,rgba(255,255,255,0.95) 340deg,rgba(184,173,255,0.55) 352deg,transparent 360deg);z-index:-1;opacity:0;transition:opacity 0.2s ease;pointer-events:none}
-.dl-btn.btn-active::before{opacity:1}
+.dl-btn{display:flex;align-items:center;justify-content:center;gap:9px;background:var(--purple);color:#080808;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;border:none;border-radius:7px;padding:13px 20px;cursor:pointer;transition:background 0.2s,transform 0.15s;width:100%;position:relative}
 .dl-btn:hover{background:var(--purple-bright)}
 .dl-btn:active{transform:scale(0.99)}
 .dl-btn svg{width:15px;height:15px;flex-shrink:0}
@@ -213,13 +211,9 @@ footer p{font-size:11px;color:var(--muted)}
 .home-sec-tag{font-family:'Inter',sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--purple);margin-bottom:22px}
 .home-sec-h2{font-family:'Inter',sans-serif;font-size:clamp(38px,5.5vw,68px);font-weight:800;letter-spacing:-2.5px;line-height:1.04;margin-bottom:20px}
 .home-sec-sub{font-family:'Inter',sans-serif;font-size:15px;color:var(--muted);max-width:460px;line-height:1.85;margin-bottom:44px}
-@property --spin-angle{syntax:'<angle>';initial-value:0deg;inherits:false}
-.home-cta-btn{display:inline-flex;align-items:center;gap:10px;background:var(--purple);color:#080808;font-family:'Inter',sans-serif;font-size:14px;font-weight:600;border:none;border-radius:8px;padding:15px 30px;cursor:pointer;transition:background 0.2s,transform 0.2s;position:relative;isolation:isolate}
-.home-cta-btn::before{content:'';position:absolute;inset:-2px;border-radius:10px;background:conic-gradient(from var(--spin-angle,0deg),transparent 0deg,transparent 295deg,rgba(155,140,255,0.5) 318deg,rgba(255,255,255,0.95) 340deg,rgba(184,173,255,0.55) 352deg,transparent 360deg);z-index:-1;opacity:0;transition:opacity 0.2s ease;pointer-events:none}
-.home-cta-btn.btn-active::before{opacity:1}
+.home-cta-btn{display:inline-flex;align-items:center;gap:10px;background:var(--purple);color:#080808;font-family:'Inter',sans-serif;font-size:14px;font-weight:600;border:none;border-radius:8px;padding:15px 30px;cursor:pointer;transition:background 0.2s,transform 0.2s;position:relative}
 .home-cta-btn:hover{background:var(--purple-bright);transform:translateY(-2px)}
 .home-cta-btn.secondary{background:transparent;color:var(--text);border:1px solid var(--border2);font-size:13px;padding:12px 24px}
-.home-cta-btn.secondary::before{display:none}
 .home-cta-btn.secondary:hover{border-color:var(--purple-border);color:var(--purple-bright);background:var(--purple-dim);transform:translateY(-2px)}
 .home-pack-preview{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
 .prev-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px 20px 18px;transition:border-color 0.28s,background 0.28s,transform 0.28s,box-shadow 0.28s;position:relative;overflow:hidden;display:flex;flex-direction:column}
@@ -1946,34 +1940,80 @@ function navigate(page, skipPush) {
   if (activeBtn) activeBtn.classList.add('active');
 }
 
-// Spinning border on buttons
+// Traveling border outline on buttons
 (function() {
-  const SPEED = 3.8;
+  const SPEED = 16; // px per frame
+
   function init(btn) {
-    let angle = 0, dir = 0, raf = null;
+    const ns = 'http://www.w3.org/2000/svg';
+    const svg = document.createElementNS(ns, 'svg');
+    svg.style.cssText = 'position:absolute;inset:-2px;overflow:visible;pointer-events:none;z-index:1';
+    svg.setAttribute('fill', 'none');
+
+    const rect = document.createElementNS(ns, 'rect');
+    const br = parseFloat(getComputedStyle(btn).borderRadius) + 2;
+    rect.setAttribute('rx', br);
+    rect.setAttribute('ry', br);
+    rect.setAttribute('x', '1.5');
+    rect.setAttribute('y', '1.5');
+    rect.setAttribute('stroke', 'rgba(255,255,255,0.9)');
+    rect.setAttribute('stroke-width', '1.5');
+    rect.setAttribute('stroke-linecap', 'round');
+
+    svg.appendChild(rect);
+    btn.appendChild(svg);
+
+    let p = 0, offset = 0, dir = 0, raf = null;
+
+    function measure() {
+      const w = btn.offsetWidth + 4;
+      const h = btn.offsetHeight + 4;
+      svg.setAttribute('width', w);
+      svg.setAttribute('height', h);
+      rect.setAttribute('width', w - 3);
+      rect.setAttribute('height', h - 3);
+      p = 2 * ((w - 3) + (h - 3));
+      offset = p;
+      rect.setAttribute('stroke-dasharray', p);
+      rect.setAttribute('stroke-dashoffset', p);
+    }
+
+    measure();
+    window.addEventListener('resize', measure);
+
     btn.addEventListener('mouseenter', () => {
       dir = 1;
-      btn.classList.add('btn-active');
-      if (!raf) loop();
+      if (!raf) raf = requestAnimationFrame(loop);
     });
-    btn.addEventListener('mouseleave', () => { dir = -1; });
+
+    btn.addEventListener('mouseleave', () => {
+      dir = -1;
+      if (!raf) raf = requestAnimationFrame(loop);
+    });
+
     function loop() {
       if (dir === 1) {
-        angle = (angle + SPEED) % 360;
+        offset -= SPEED;
+        if (offset <= 0) {
+          offset = 0;
+          rect.setAttribute('stroke-dashoffset', 0);
+          raf = null;
+          return;
+        }
       } else {
-        angle -= SPEED;
-        if (angle <= 0) {
-          angle = 0;
-          btn.style.setProperty('--spin-angle', '0deg');
-          btn.classList.remove('btn-active');
+        offset += SPEED;
+        if (offset >= p) {
+          offset = p;
+          rect.setAttribute('stroke-dashoffset', p);
           raf = null;
           return;
         }
       }
-      btn.style.setProperty('--spin-angle', angle + 'deg');
+      rect.setAttribute('stroke-dashoffset', offset);
       raf = requestAnimationFrame(loop);
     }
   }
+
   document.querySelectorAll('.home-cta-btn:not(.secondary), .dl-btn:not(.disabled)').forEach(init);
 })();
 
