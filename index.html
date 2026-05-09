@@ -249,29 +249,30 @@ footer p{font-size:11px;color:var(--muted)}
 .lb-stat-lbl{font-size:11px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-top:3px}
 
 /* CATALOG SHOWCASE */
-.home-cat-sec{padding:90px 44px 80px;position:relative;z-index:2;border-top:1px solid var(--border);overflow:hidden}
-.home-cat-sec::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 55% 90% at 75% 50%,rgba(155,140,255,0.08) 0%,transparent 70%);pointer-events:none}
-.home-cat-inner{max-width:1060px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center}
-.home-cat-h2{font-family:'Inter',sans-serif;font-size:clamp(36px,5vw,62px);font-weight:800;letter-spacing:-2.5px;line-height:1.04;margin-bottom:16px}
-.home-cat-sub{font-size:15px;color:var(--muted);max-width:380px;line-height:1.85;margin-bottom:36px}
-.cat-demo{background:var(--surface);border:1px solid var(--purple-border);border-radius:16px;padding:20px 20px 18px;position:relative;overflow:hidden}
+.home-cat-sec{padding:100px 44px 100px;position:relative;z-index:2;border-top:1px solid var(--border);overflow:hidden}
+.home-cat-sec::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 50% 70%,rgba(155,140,255,0.08) 0%,transparent 70%);pointer-events:none}
+.home-cat-inner{max-width:680px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:48px}
+.home-cat-text{text-align:center;display:flex;flex-direction:column;align-items:center}
+.home-cat-h2{font-family:'Inter',sans-serif;font-size:clamp(42px,6vw,72px);font-weight:800;letter-spacing:-2.5px;line-height:1.03;margin-bottom:16px}
+.home-cat-sub{font-size:15px;color:var(--muted);max-width:440px;line-height:1.85;margin-bottom:36px;text-align:center}
+.cat-demo{background:var(--surface);border:1px solid var(--purple-border);border-radius:20px;padding:24px 24px 20px;position:relative;overflow:hidden;width:100%}
 .cat-demo::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--purple) 30%,var(--purple-bright) 70%,transparent)}
-.cat-demo-bar{display:flex;align-items:center;gap:10px;background:var(--surface2);border:1px solid var(--border2);border-radius:8px;padding:10px 14px;margin-bottom:14px;transition:border-color 0.2s}
+.cat-demo-bar{display:flex;align-items:center;gap:12px;background:var(--surface2);border:1px solid var(--border2);border-radius:10px;padding:13px 18px;margin-bottom:16px;transition:border-color 0.2s}
 .cat-demo-bar.typing{border-color:var(--purple-border)}
-.cat-demo-bar svg{width:14px;height:14px;stroke:var(--muted);flex-shrink:0}
-.cat-demo-input{font-size:13px;color:var(--text);font-family:'DM Sans',sans-serif;flex:1}
-.cat-demo-cursor{display:inline-block;width:2px;height:14px;background:var(--purple-bright);margin-left:1px;vertical-align:middle;animation:blink 1s infinite}
-.cat-demo-cards{display:flex;flex-direction:column;gap:7px;min-height:170px}
-.cat-demo-card{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:11px 14px;display:flex;align-items:center;gap:11px;opacity:0;transform:translateY(8px);transition:opacity 0.3s ease,transform 0.3s ease}
+.cat-demo-bar svg{width:16px;height:16px;stroke:var(--muted);flex-shrink:0}
+.cat-demo-input{font-size:15px;color:var(--text);font-family:'DM Sans',sans-serif;flex:1}
+.cat-demo-cursor{display:inline-block;width:2px;height:16px;background:var(--purple-bright);margin-left:2px;vertical-align:middle;animation:blink 1s infinite}
+.cat-demo-cards{display:flex;flex-direction:column;gap:9px;min-height:216px}
+.cat-demo-card{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:14px 18px;display:flex;align-items:center;gap:14px;opacity:0;transform:translateY(8px);transition:opacity 0.3s ease,transform 0.3s ease}
 .cat-demo-card.show{opacity:1;transform:translateY(0)}
 .cat-demo-card.primary{border-color:rgba(255,255,255,0.35);background:rgba(255,255,255,0.04);box-shadow:0 0 0 1px rgba(255,255,255,0.06)}
 .cat-demo-card:not(.primary).show{opacity:0.55}
-.cat-demo-av{width:34px;height:34px;border-radius:50%;background:var(--surface);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;position:relative;overflow:hidden}
+.cat-demo-av{width:42px;height:42px;border-radius:50%;background:var(--surface);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;position:relative;overflow:hidden}
 .cat-demo-av img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:50%}
 .cat-demo-info{flex:1;min-width:0}
-.cat-demo-name{font-size:12px;font-weight:600;margin-bottom:2px}
-.cat-demo-addr{font-size:10px;color:var(--muted);font-family:monospace}
-.cat-demo-copybtn{font-size:10px;color:var(--muted);border:1px solid var(--border);border-radius:4px;padding:3px 9px;flex-shrink:0;white-space:nowrap}
+.cat-demo-name{font-size:14px;font-weight:600;margin-bottom:3px}
+.cat-demo-addr{font-size:11px;color:var(--muted);font-family:monospace}
+.cat-demo-copybtn{font-size:11px;color:var(--muted);border:1px solid var(--border);border-radius:5px;padding:5px 12px;flex-shrink:0;white-space:nowrap}
 
 /* TICKER */
 .ticker-wrap{overflow:hidden;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:rgba(155,140,255,0.025);position:relative;z-index:2}
@@ -376,14 +377,12 @@ footer p{font-size:11px;color:var(--muted)}
           Browse Catalog
         </button>
       </div>
-      <div>
-        <div class="cat-demo">
-          <div class="cat-demo-bar" id="cat-demo-bar">
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-            <span class="cat-demo-input" id="cat-demo-input"></span><span class="cat-demo-cursor"></span>
-          </div>
-          <div class="cat-demo-cards" id="cat-demo-cards"></div>
+      <div class="cat-demo">
+        <div class="cat-demo-bar" id="cat-demo-bar">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          <span class="cat-demo-input" id="cat-demo-input"></span><span class="cat-demo-cursor"></span>
         </div>
+        <div class="cat-demo-cards" id="cat-demo-cards"></div>
       </div>
     </div>
   </section>
