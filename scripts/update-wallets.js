@@ -99,15 +99,32 @@ async function scrapeLeaderboard() {
       const searchRoot = row || link;
       const rowText = (searchRoot.innerText || searchRoot.textContent || '').replace(/\s+/g, ' ');
 
-      // Grab Twitter handle from any X/Twitter link in the row
+      // Grab Twitter handle — check parent links of the twitter logo img first
       let twitter = null;
-      const twitterLinks = searchRoot.querySelectorAll('a[href*="twitter.com"], a[href*="x.com"]');
-      for (const a of twitterLinks) {
-        const h = a.getAttribute('href') || '';
-        const m = h.match(/(?:twitter\.com|x\.com)\/([^/?#\s]+)/i);
-        if (m && m[1] && !['i', 'intent', 'home', 'share', 'hashtag'].includes(m[1].toLowerCase())) {
-          twitter = m[1];
-          break;
+      const twitterLogoImg = searchRoot.querySelector('img[alt*="twitter"], img[alt*="Twitter"]');
+      if (twitterLogoImg) {
+        let el = twitterLogoImg.parentElement;
+        for (let j = 0; j < 5; j++) {
+          if (!el) break;
+          const h = el.getAttribute('href') || '';
+          const m = h.match(/(?:twitter\.com|x\.com)\/@?([^/?#\s]+)/i);
+          if (m && m[1] && !['i','intent','home','share','hashtag','search'].includes(m[1].toLowerCase())) {
+            twitter = m[1].replace(/^@/,'');
+            break;
+          }
+          el = el.parentElement;
+        }
+      }
+      // Also scan all anchors in the row
+      if (!twitter) {
+        const allAs = searchRoot.querySelectorAll('a[href]');
+        for (const a of allAs) {
+          const h = a.getAttribute('href') || '';
+          const m = h.match(/(?:twitter\.com|x\.com)\/@?([^/?#\s]+)/i);
+          if (m && m[1] && !['i','intent','home','share','hashtag','search'].includes(m[1].toLowerCase())) {
+            twitter = m[1].replace(/^@/,'');
+            break;
+          }
         }
       }
 
@@ -163,25 +180,41 @@ async function scrapeLeaderboard() {
           let twitter = null;
           let pfp = null;
 
-          // Check all anchors on the page for any twitter/x.com link
-          const allLinks = Array.from(document.querySelectorAll('a[href]'));
-          for (const a of allLinks) {
-            const h = a.getAttribute('href') || '';
-            const m = h.match(/(?:twitter\.com|x\.com)\/@?([^/?#\s]+)/i);
-            if (m && m[1] && !['i', 'intent', 'home', 'share', 'hashtag', 'search'].includes(m[1].toLowerCase())) {
-              twitter = m[1].replace(/^@/, '');
-              break;
-            }
+          // Check __NEXT_DATA__ JSON blob for twitter handle
+          const nextDataEl = document.getElementById('__NEXT_DATA__');
+          if (nextDataEl) {
+            try {
+              const raw = nextDataEl.textContent;
+              const patterns = [
+                /(?:twitter\.com|x\.com)\\?\/@?([A-Za-z0-9_]{1,50})/g,
+                /"twitter"\s*:\s*"([^"]+)"/g,
+                /"twitterHandle"\s*:\s*"([^"]+)"/g,
+                /"twitter_handle"\s*:\s*"([^"]+)"/g,
+                /"twitterUsername"\s*:\s*"([^"]+)"/g,
+              ];
+              const skip = ['i','intent','home','share','hashtag','search','kolscan'];
+              for (const re of patterns) {
+                let m;
+                while ((m = re.exec(raw)) !== null) {
+                  const handle = m[1].replace(/^@/,'');
+                  if (handle && !skip.includes(handle.toLowerCase())) {
+                    twitter = handle;
+                    break;
+                  }
+                }
+                if (twitter) break;
+              }
+            } catch(e) {}
           }
 
-          // Also check all elements for href or data attributes containing twitter/x.com
+          // Also check all anchors
           if (!twitter) {
-            const allEls = Array.from(document.querySelectorAll('[href],[data-href],[data-url]'));
-            for (const el of allEls) {
-              const val = el.getAttribute('href') || el.getAttribute('data-href') || el.getAttribute('data-url') || '';
-              const m = val.match(/(?:twitter\.com|x\.com)\/@?([^/?#\s]+)/i);
-              if (m && m[1] && !['i', 'intent', 'home', 'share', 'hashtag', 'search'].includes(m[1].toLowerCase())) {
-                twitter = m[1].replace(/^@/, '');
+            const allLinks = Array.from(document.querySelectorAll('a[href]'));
+            for (const a of allLinks) {
+              const h = a.getAttribute('href') || '';
+              const m = h.match(/(?:twitter\.com|x\.com)\/@?([^/?#\s]+)/i);
+              if (m && m[1] && !['i','intent','home','share','hashtag','search'].includes(m[1].toLowerCase())) {
+                twitter = m[1].replace(/^@/,'');
                 break;
               }
             }
@@ -196,14 +229,17 @@ async function scrapeLeaderboard() {
             }
           }
 
-          // Debug: log all links from first account page
-          const debugLinks = isFirst ? allLinks.slice(0, 30).map(a => a.getAttribute('href')) : [];
+          const debugInfo = isFirst ? {
+            hasNextData: !!document.getElementById('__NEXT_DATA__'),
+            nextDataSnippet: document.getElementById('__NEXT_DATA__') ? document.getElementById('__NEXT_DATA__').textContent.slice(0, 500) : ''
+          } : null;
 
-          return { twitter, pfp, debugLinks };
+          return { twitter, pfp, debugInfo };
         }, firstPage);
 
-        if (firstPage) {
-          console.log('DEBUG account page links:', JSON.stringify(result.debugLinks));
+        if (firstPage && result.debugInfo) {
+          console.log('DEBUG account page __NEXT_DATA__ exists:', result.debugInfo.hasNextData);
+          console.log('DEBUG __NEXT_DATA__ snippet:', result.debugInfo.nextDataSnippet);
           firstPage = false;
         }
 
