@@ -181,8 +181,9 @@ h1 .hl{color:var(--purple-bright)}
 .wactions{display:flex;gap:5px;align-items:center}
 .abtn{background:transparent;border:1px solid var(--border);border-radius:5px;padding:5px 10px;font-family:'DM Sans',sans-serif;font-size:11px;color:var(--muted);cursor:pointer;transition:all 0.15s;text-decoration:none;display:inline-block;white-space:nowrap}
 .abtn:hover{border-color:var(--purple-border);color:var(--purple-bright)}
-.xbtn{display:flex;align-items:center;justify-content:center;padding:5px 8px}
-.xbtn svg{width:11px;height:11px;fill:currentColor}
+.xlink{display:inline-flex;align-items:center;justify-content:center;width:17px;height:17px;background:#000;border-radius:4px;flex-shrink:0;text-decoration:none;transition:transform 0.15s ease;margin-left:2px}
+.xlink svg{width:10px;height:10px;fill:#fff}
+.xlink:hover{transform:scale(1.2)}
 
 footer{border-top:1px solid var(--border);padding:20px 44px;display:flex;justify-content:space-between;align-items:center;margin-top:20px}
 .foot-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:14px;letter-spacing:-0.3px}
@@ -814,7 +815,7 @@ function render(data) {
     <div class="wrow">
       <div class="wrank ${w.rank <= 3 ? 'top' : ''}">${w.rank}</div>
       <div class="winfo">
-        <div class="wname">${(w.pfp || w.twitter) ? `<img class="wpfp" src="${w.pfp || `https://unavatar.io/twitter/${w.twitter}`}" onerror="this.style.display='none'">` : w.emoji} ${w.name}</div>
+        <div class="wname">${(w.pfp || w.twitter) ? `<img class="wpfp" src="${w.pfp || `https://unavatar.io/twitter/${w.twitter}`}" onerror="this.style.display='none'">` : w.emoji} ${w.name}${w.twitter ? `<a class="xlink" href="https://x.com/${w.twitter}" target="_blank"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>` : ''}</div>
         <div class="waddr-row">
           <span class="waddr">${fmt(w.address)}</span>
           <button class="cbtn" onclick="copyAddr('${w.address}')" title="Copy address">
@@ -825,7 +826,6 @@ function render(data) {
       <div class="wpnl ${w.pnl === null ? 'na' : w.pnl >= 0 ? 'pos' : 'neg'}">${w.pnl === null ? '—' : (w.pnl >= 0 ? '+' : '') + '$' + w.pnl.toLocaleString()}</div>
       <div class="wwr ${w.wr === null ? 'na' : ''}">${w.wr === null ? '—' : w.wr + '%'}</div>
       <div class="wactions">
-        ${w.twitter ? `<a class="abtn xbtn" href="https://x.com/${w.twitter}" target="_blank" title="${w.name} on X"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>` : ''}
         <button class="abtn" onclick="copyAddr('${w.address}')">Copy</button>
       </div>
     </div>
