@@ -207,7 +207,8 @@ footer p{font-size:11px;color:var(--muted)}
 .page{display:none;min-height:100vh}.page.active{display:block}
 #page-import,#page-leaderboard{padding-top:80px;font-family:'Inter',sans-serif}
 .home-sec{padding:110px 44px 80px;position:relative;z-index:2}
-.home-sec-inner{max-width:900px;margin:0 auto}
+.home-sec-inner{max-width:1060px;margin:0 auto}
+.home-sec-split{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center}
 .home-sec-tag{font-family:'Inter',sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--purple);margin-bottom:22px}
 .home-sec-h2{font-family:'Inter',sans-serif;font-size:clamp(38px,5.5vw,68px);font-weight:800;letter-spacing:-2.5px;line-height:1.04;margin-bottom:20px}
 .home-sec-sub{font-family:'Inter',sans-serif;font-size:15px;color:var(--muted);max-width:460px;line-height:1.85;margin-bottom:44px}
@@ -215,13 +216,30 @@ footer p{font-size:11px;color:var(--muted)}
 .home-cta-btn:hover{background:var(--purple-bright);transform:translateY(-2px)}
 .home-cta-btn.secondary{background:transparent;color:var(--text);border:1px solid var(--border2);font-size:13px;padding:12px 24px}
 .home-cta-btn.secondary:hover{border-color:var(--purple-border);color:var(--purple-bright);background:var(--purple-dim)}
-.home-pack-preview{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:44px}
-.prev-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:22px 18px;transition:border-color 0.15s,transform 0.15s}
-.prev-card.is-live{border-color:var(--purple-border)}
-.prev-card:hover{transform:translateY(-3px);border-color:var(--purple-border)}
-.prev-card-icon{font-size:26px;margin-bottom:12px}
-.prev-card-name{font-family:'Inter',sans-serif;font-size:14px;font-weight:800;margin-bottom:5px}
-.prev-card-meta{font-family:'Inter',sans-serif;font-size:11px;color:var(--muted)}
+.home-pack-preview{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.prev-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px 20px 18px;transition:border-color 0.28s,background 0.28s,transform 0.28s,box-shadow 0.28s;position:relative;overflow:hidden;display:flex;flex-direction:column}
+.prev-card.is-live{border-color:var(--purple-border);background:linear-gradient(145deg,rgba(155,140,255,0.06) 0%,transparent 65%)}
+.prev-card.is-live::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--purple) 30%,var(--purple-bright) 70%,transparent)}
+@keyframes cardscan{0%{transform:translateX(-140%)}100%{transform:translateX(280%)}}
+.prev-card.is-live::after{content:'';position:absolute;top:0;left:0;width:35%;height:100%;background:linear-gradient(90deg,transparent,rgba(155,140,255,0.06),transparent);animation:cardscan 4.5s ease-in-out infinite;pointer-events:none}
+.prev-card.is-soon{opacity:0.48;pointer-events:none}
+.prev-card:not(.is-soon):hover{transform:translateY(-4px);box-shadow:0 18px 52px rgba(155,140,255,0.16);border-color:rgba(155,140,255,0.5)}
+.prev-card-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px}
+.prev-card-icon{font-size:24px;line-height:1}
+.prev-card-badge{font-size:9px;font-weight:700;letter-spacing:1.5px;padding:3px 8px;border-radius:100px;border:1px solid}
+.prev-card-badge.live{background:var(--green-dim);color:var(--green);border-color:var(--green-border)}
+.prev-card-badge.soon{background:var(--surface2);color:var(--muted);border-color:var(--border)}
+.prev-card-name{font-family:'Inter',sans-serif;font-size:13px;font-weight:800;margin-bottom:3px;letter-spacing:-0.3px}
+.prev-card-meta{font-size:11px;color:var(--muted);margin-bottom:12px}
+.pcw-divider{border:none;border-top:1px solid var(--border);margin:0 0 10px}
+.pcw-list{display:flex;flex-direction:column;gap:6px;flex:1}
+.pcw-row{display:flex;align-items:center;justify-content:space-between;font-size:11px}
+.pcw-left{display:flex;align-items:center;gap:5px;color:var(--muted)}
+.pcw-rank{font-family:'Syne',sans-serif;font-size:9px;font-weight:700;color:rgba(155,140,255,0.5);min-width:16px}
+.pcw-pnl{font-size:10px;font-weight:700;color:var(--green)}
+.pcw-more{font-size:10px;color:rgba(155,140,255,0.4);margin-top:4px}
+.pcw-feature{display:flex;align-items:center;gap:7px;font-size:11px;color:var(--muted)}
+.pcw-feature::before{content:'';width:4px;height:4px;border-radius:50%;background:rgba(155,140,255,0.4);flex-shrink:0}
 .home-lb-sec{padding:60px 44px 100px;position:relative;z-index:2;border-top:1px solid var(--border)}
 .home-lb-inner{max-width:900px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:48px}
 .home-lb-text .home-sec-tag{margin-bottom:16px}
@@ -294,35 +312,61 @@ footer p{font-size:11px;color:var(--muted)}
   <!-- Import Wallets Feature -->
   <section class="home-sec">
     <div class="home-sec-inner">
-      <div class="home-sec-tag">Wallet Packs</div>
-      <h2 class="home-sec-h2">Import the wallets<br>that <span class="hl">actually win.</span></h2>
-      <p class="home-sec-sub">One-click import packs for Axiom. KOL Top 50, insiders — all named, ranked, and ready to paste in seconds.</p>
-      <div class="home-pack-preview">
-        <div class="prev-card is-live">
-          <div class="prev-card-icon">🏆</div>
-          <div class="prev-card-name">KOL Top 50</div>
-          <div class="prev-card-meta">50 wallets · Daily</div>
+      <div class="home-sec-split">
+        <div class="home-sec-left">
+          <div class="home-sec-tag">Wallet Packs</div>
+          <h2 class="home-sec-h2">Import the wallets<br>that <span class="hl">actually win.</span></h2>
+          <p class="home-sec-sub">One-click import packs for Axiom. KOL Top 50, insiders — all named, ranked, and ready to paste in seconds.</p>
+          <button class="home-cta-btn" onclick="navigate('import')">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+            Import Wallets
+          </button>
         </div>
-        <div class="prev-card is-live">
-          <div class="prev-card-icon">🕵️</div>
-          <div class="prev-card-name">Top Insiders</div>
-          <div class="prev-card-meta">10 wallets · Weekly</div>
-        </div>
-        <div class="prev-card">
-          <div class="prev-card-icon">🎯</div>
-          <div class="prev-card-name">Top Snipers</div>
-          <div class="prev-card-meta">~25 wallets · Soon</div>
-        </div>
-        <div class="prev-card">
-          <div class="prev-card-icon">💬</div>
-          <div class="prev-card-name">Discord Alpha</div>
-          <div class="prev-card-meta">~40 wallets · Soon</div>
+        <div class="home-sec-right">
+          <div class="home-pack-preview">
+            <div class="prev-card is-live">
+              <div class="prev-card-top">
+                <span class="prev-card-icon">🏆</span>
+                <span class="prev-card-badge live">LIVE</span>
+              </div>
+              <div class="prev-card-name">KOL Top 50</div>
+              <div class="prev-card-meta">50 wallets · Daily</div>
+              <hr class="pcw-divider">
+              <div class="pcw-list" id="pcw-kol"></div>
+            </div>
+            <div class="prev-card is-live">
+              <div class="prev-card-top">
+                <span class="prev-card-icon">🕵️</span>
+                <span class="prev-card-badge live">LIVE</span>
+              </div>
+              <div class="prev-card-name">Top Insiders</div>
+              <div class="prev-card-meta">10 wallets · Weekly</div>
+              <hr class="pcw-divider">
+              <div class="pcw-list">
+                <div class="pcw-feature">Private wallets</div>
+                <div class="pcw-feature">On-chain signals</div>
+                <div class="pcw-feature">Not publicly ranked</div>
+              </div>
+            </div>
+            <div class="prev-card is-soon">
+              <div class="prev-card-top">
+                <span class="prev-card-icon">🎯</span>
+                <span class="prev-card-badge soon">SOON</span>
+              </div>
+              <div class="prev-card-name">Top Snipers</div>
+              <div class="prev-card-meta">~25 wallets · Coming soon</div>
+            </div>
+            <div class="prev-card is-soon">
+              <div class="prev-card-top">
+                <span class="prev-card-icon">💬</span>
+                <span class="prev-card-badge soon">SOON</span>
+              </div>
+              <div class="prev-card-name">Discord Alpha</div>
+              <div class="prev-card-meta">~40 wallets · Coming soon</div>
+            </div>
+          </div>
         </div>
       </div>
-      <button class="home-cta-btn" onclick="navigate('import')">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
-        Import Wallets
-      </button>
     </div>
   </section>
 
@@ -1066,6 +1110,16 @@ gsap.from('.home-lb-stats .lb-stat', {
   scrollTrigger: { trigger: '.home-lb-sec', start: 'top 85%' },
   y: 24, opacity: 0, duration: 0.6, ease: 'power2.out', stagger: 0.12, delay: 0.2
 });
+
+// KOL preview card — live top 3
+(function() {
+  const list = document.getElementById('pcw-kol');
+  if (!list) return;
+  const top3 = wallets.filter(w => w.pnl !== null).slice(0, 3);
+  list.innerHTML = top3.map(w =>
+    `<div class="pcw-row"><span class="pcw-left"><span class="pcw-rank">#${w.rank}</span><span>${w.emoji} ${w.name}</span></span><span class="pcw-pnl">+$${w.pnl.toLocaleString()}</span></div>`
+  ).join('') + `<div class="pcw-more">+${wallets.length - 3} more wallets</div>`;
+})();
 
 // Wallet ticker
 (function() {
