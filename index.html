@@ -162,26 +162,62 @@ h1 .hl{color:var(--purple-bright)}
 #search:focus{border-color:var(--purple-border)}
 .rcount{font-size:12px;color:var(--muted);margin-left:auto}
 
-.col-hdr{display:grid;grid-template-columns:40px 1fr 90px 90px 130px;gap:12px;padding:0 16px 10px;font-size:10px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;border-bottom:1px solid var(--border);margin-bottom:4px}
-.wallets{display:flex;flex-direction:column;gap:2px}
-.wrow{display:grid;grid-template-columns:40px 1fr 90px 90px 130px;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:11px 16px;transition:border-color 0.15s,background 0.15s}
-.wrow:hover{border-color:var(--purple-border);background:var(--surface2)}
-.wrank{font-size:12px;color:var(--muted);text-align:center;font-family:'Syne',sans-serif;font-weight:700}
+/* LEADERBOARD PAGE */
+.lb-page-wrap{max-width:1060px;margin:0 auto;padding:60px 44px 100px}
+.lb-hdr{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:52px;flex-wrap:wrap}
+.lb-title{font-family:'Inter',sans-serif;font-size:clamp(30px,4vw,50px);font-weight:800;letter-spacing:-2px;line-height:1.05;margin-bottom:8px}
+.lb-sub{font-size:14px;color:var(--muted)}
+.lb-quick-stats{display:flex;gap:10px;flex-shrink:0}
+.lb-qs{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px 22px;text-align:center}
+.lb-qs-val{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:var(--text);line-height:1}
+.lb-qs-lbl{font-size:10px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-top:5px}
+/* PODIUM */
+.lb-podium{display:grid;grid-template-columns:1fr 1.07fr 1fr;gap:12px;margin-bottom:40px;align-items:end}
+.pod-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:32px 20px 24px;display:flex;flex-direction:column;align-items:center;text-align:center;position:relative;overflow:hidden;transition:transform 0.25s,box-shadow 0.25s}
+.pod-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.pod-card.r1{border-color:rgba(245,200,66,0.3);background:linear-gradient(160deg,rgba(245,200,66,0.06) 0%,transparent 55%)}
+.pod-card.r2{border-color:rgba(184,186,200,0.2)}
+.pod-card.r3{border-color:rgba(198,139,74,0.2)}
+.pod-card.r1::before{background:linear-gradient(90deg,transparent,#F5C842,transparent)}
+.pod-card.r2::before{background:linear-gradient(90deg,transparent,#B8BAC8,transparent)}
+.pod-card.r3::before{background:linear-gradient(90deg,transparent,#C68B4A,transparent)}
+.pod-card:hover{transform:translateY(-5px);box-shadow:0 20px 56px rgba(0,0,0,0.35)}
+.pod-medal{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:18px;padding:4px 12px;border-radius:100px;border:1px solid}
+.pod-medal.r1{color:#F5C842;border-color:rgba(245,200,66,0.35);background:rgba(245,200,66,0.09)}
+.pod-medal.r2{color:#B8BAC8;border-color:rgba(184,186,200,0.25);background:rgba(184,186,200,0.07)}
+.pod-medal.r3{color:#C68B4A;border-color:rgba(198,139,74,0.25);background:rgba(198,139,74,0.07)}
+.pod-av{width:68px;height:68px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;background:var(--surface2);margin-bottom:14px;border:2px solid rgba(255,255,255,0.08);position:relative;overflow:hidden;flex-shrink:0}
+.pod-av img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:50%}
+.pod-name{font-size:16px;font-weight:700;font-family:'Inter',sans-serif;margin-bottom:4px;display:flex;align-items:center;gap:6px;justify-content:center}
+.pod-addr{font-size:10px;color:var(--muted);font-family:monospace;margin-bottom:14px}
+.pod-pnl{font-size:26px;font-weight:800;font-family:'Syne',sans-serif;margin-bottom:4px}
+.pod-wr{font-size:12px;color:var(--muted);margin-bottom:20px}
+.pod-copy{background:none;border:1px solid var(--border2);border-radius:6px;padding:8px 20px;font-family:'DM Sans',sans-serif;font-size:12px;color:var(--muted);cursor:pointer;transition:all 0.15s}
+.pod-copy:hover{border-color:var(--purple-border);color:var(--purple-bright)}
+/* LIST */
+.lb-list-hdr{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.wallets{display:flex;flex-direction:column;gap:3px}
+.wrow{display:grid;grid-template-columns:52px 1fr 120px 180px 80px;align-items:center;gap:14px;background:var(--surface);border:1px solid var(--border);border-left:3px solid transparent;border-radius:10px;padding:13px 20px;transition:border-color 0.15s,background 0.15s,border-left-color 0.2s}
+.wrow:hover{border-color:var(--border2);background:var(--surface2);border-left-color:var(--purple)}
+.wrank{font-size:13px;font-weight:700;color:var(--muted);text-align:center;font-family:'Syne',sans-serif}
 .wrank.top{color:var(--purple-bright)}
-.winfo .wname{font-size:13px;font-weight:500;color:var(--text);margin-bottom:2px;display:flex;align-items:center;gap:7px}
-.wpfp{width:26px;height:26px;border-radius:50%;object-fit:cover;flex-shrink:0}
+.winfo .wname{font-size:13px;font-weight:600;color:var(--text);margin-bottom:3px;display:flex;align-items:center;gap:6px}
+.wpfp{width:34px;height:34px;border-radius:50%;object-fit:cover;flex-shrink:0}
 .waddr-row{display:flex;align-items:center;gap:5px}
-.waddr{font-size:11px;color:var(--muted);font-family:monospace}
-.cbtn{background:none;border:none;cursor:pointer;padding:2px;opacity:0.35;transition:opacity 0.15s;display:flex;align-items:center}
+.waddr{font-size:10px;color:var(--muted);font-family:monospace}
+.cbtn{background:none;border:none;cursor:pointer;padding:2px;opacity:0.3;transition:opacity 0.15s;display:flex;align-items:center}
 .cbtn:hover{opacity:1}
 .cbtn svg{width:11px;height:11px;stroke:var(--purple-bright)}
-.wpnl{font-size:13px;font-weight:500}
+.wpnl{font-size:13px;font-weight:700}
 .pos{color:var(--green)}
 .neg{color:var(--red)}
 .na{color:var(--muted);font-size:12px}
-.wwr{font-size:13px}
-.wactions{display:flex;gap:5px;align-items:center}
-.abtn{background:transparent;border:1px solid var(--border);border-radius:5px;padding:5px 10px;font-family:'DM Sans',sans-serif;font-size:11px;color:var(--muted);cursor:pointer;transition:all 0.15s;text-decoration:none;display:inline-block;white-space:nowrap}
+.wr-wrap{display:flex;align-items:center;gap:8px}
+.wr-bar{flex:1;height:4px;background:rgba(255,255,255,0.07);border-radius:2px;overflow:hidden}
+.wr-fill{height:100%;border-radius:2px}
+.wr-lbl{font-size:12px;font-weight:600;min-width:34px;text-align:right}
+.wactions{display:flex;align-items:center}
+.abtn{background:transparent;border:1px solid var(--border);border-radius:5px;padding:5px 12px;font-family:'DM Sans',sans-serif;font-size:11px;color:var(--muted);cursor:pointer;transition:all 0.15s;white-space:nowrap}
 .abtn:hover{border-color:var(--purple-border);color:var(--purple-bright)}
 .xlink{display:inline-flex;align-items:center;justify-content:center;width:17px;height:17px;background:#000;border-radius:4px;flex-shrink:0;text-decoration:none;transition:transform 0.15s ease;margin-left:2px}
 .xlink svg{width:10px;height:10px;fill:#fff}
@@ -579,24 +615,33 @@ footer p{font-size:11px;color:var(--muted)}
 </div>
 
 <div id="page-leaderboard" class="page">
-<div class="section" id="browse">
-  <div class="sec-hdr">
-    <span class="sec-title">Browse Wallets</span>
-    <span class="sec-sub">All wallets across every pack</span>
+<div class="lb-page-wrap">
+
+  <div class="lb-hdr">
+    <div>
+      <div class="home-sec-tag">KOL Leaderboard</div>
+      <h1 class="lb-title">Today's Top 50</h1>
+      <p class="lb-sub">Real-time KOL rankings · Updated hourly</p>
+    </div>
+    <div class="lb-quick-stats">
+      <div class="lb-qs"><div class="lb-qs-val" id="lb-total-pnl">—</div><div class="lb-qs-lbl">Total PnL</div></div>
+      <div class="lb-qs"><div class="lb-qs-val" id="lb-avg-wr">—</div><div class="lb-qs-lbl">Avg Win Rate</div></div>
+      <div class="lb-qs"><div class="lb-qs-val">50</div><div class="lb-qs-lbl">Wallets</div></div>
+    </div>
   </div>
-  <div class="controls">
+
+  <div class="lb-podium" id="lb-podium"></div>
+
+  <div class="lb-list-hdr">
     <div class="search-wrap">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
       <input id="search" type="text" placeholder="Search name or address…">
     </div>
-    <div class="rcount" id="rcount">50 wallets</div>
-  </div>
-  <div class="col-hdr">
-    <span>#</span><span>Wallet</span><span>Daily PnL</span><span>Win Rate</span><span></span>
+    <div class="rcount" id="rcount"></div>
   </div>
   <div class="wallets" id="wallet-list"></div>
-</div>
 
+</div>
 <footer>
   <div class="foot-logo"><img src="Novawalletlogo.png" alt="" style="height:26px;width:auto;">Nova Wallet</div>
   <p>Not financial advice · DYOR</p>
@@ -1502,35 +1547,92 @@ function importSingle(address, name, emoji, groupName) {
 
 function fmt(addr) { return addr.slice(0,5) + '...' + addr.slice(-4); }
 
-function render(data) {
-  document.getElementById('rcount').textContent = data.length + ' wallet' + (data.length !== 1 ? 's' : '');
-  document.getElementById('wallet-list').innerHTML = data.map(w => `
-    <div class="wrow">
-      <div class="wrank ${w.rank <= 3 ? 'top' : ''}">${w.rank}</div>
-      <div class="winfo">
-        <div class="wname">${(w.pfp || w.twitter) ? `<img class="wpfp" src="${w.pfp || `https://unavatar.io/twitter/${w.twitter}`}" onerror="this.style.display='none'">` : w.emoji} ${w.name}${w.twitter ? `<a class="xlink" href="https://x.com/${w.twitter}" target="_blank"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>` : ''}</div>
-        <div class="waddr-row">
-          <span class="waddr">${fmt(w.address)}</span>
-          <button class="cbtn" onclick="copyAddr('${w.address}')" title="Copy address">
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke="currentColor"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
-          </button>
-        </div>
-      </div>
-      <div class="wpnl ${w.pnl === null ? 'na' : w.pnl >= 0 ? 'pos' : 'neg'}">${w.pnl === null ? '—' : (w.pnl >= 0 ? '+' : '') + '$' + w.pnl.toLocaleString()}</div>
-      <div class="wwr ${w.wr === null ? 'na' : ''}">${w.wr === null ? '—' : w.wr + '%'}</div>
-      <div class="wactions">
-        <button class="abtn" onclick="copyAddr('${w.address}')">Copy</button>
+const xSvg = `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>`;
+
+function wrColor(wr) {
+  if (wr >= 55) return 'var(--green)';
+  if (wr >= 38) return '#f59e0b';
+  return 'var(--red)';
+}
+
+function renderRow(w) {
+  const pfp = w.pfp ? `<img class="wpfp" src="${w.pfp}" onerror="this.style.display='none'" alt="">` : `<span style="font-size:20px;line-height:1">${w.emoji}</span>`;
+  const xLink = w.twitter ? `<a class="xlink" href="https://x.com/${w.twitter}" target="_blank">${xSvg}</a>` : '';
+  const pnlStr = w.pnl === null ? '—' : (w.pnl >= 0 ? '+' : '') + '$' + Math.abs(w.pnl).toLocaleString();
+  const pnlCls = w.pnl === null ? 'na' : w.pnl >= 0 ? 'pos' : 'neg';
+  const wrHtml = w.wr === null
+    ? `<span class="na">—</span>`
+    : `<div class="wr-bar"><div class="wr-fill" style="width:${w.wr}%;background:${wrColor(w.wr)}"></div></div><span class="wr-lbl" style="color:${wrColor(w.wr)}">${w.wr}%</span>`;
+  return `<div class="wrow">
+    <div class="wrank ${w.rank <= 5 ? 'top' : ''}">${w.rank}</div>
+    <div class="winfo">
+      <div class="wname">${pfp} ${w.name}${xLink}</div>
+      <div class="waddr-row"><span class="waddr">${fmt(w.address)}</span>
+        <button class="cbtn" onclick="copyAddr('${w.address}')" title="Copy"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke="currentColor"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg></button>
       </div>
     </div>
-  `).join('');
+    <div class="wpnl ${pnlCls}">${pnlStr}</div>
+    <div class="wr-wrap">${wrHtml}</div>
+    <div class="wactions"><button class="abtn" onclick="copyAddr('${w.address}')">Copy</button></div>
+  </div>`;
 }
+
+function renderPodium() {
+  const order = [1, 0, 2];
+  const medals = ['#2', '#1', '#3'];
+  const cls = ['r2', 'r1', 'r3'];
+  document.getElementById('lb-podium').innerHTML = order.map((idx, pos) => {
+    const w = wallets[idx];
+    if (!w) return '';
+    const pnlStr = w.pnl !== null ? (w.pnl >= 0 ? '+' : '') + '$' + Math.abs(w.pnl).toLocaleString() : '—';
+    const pnlCls = w.pnl !== null && w.pnl >= 0 ? 'pos' : 'neg';
+    const xLink = w.twitter ? `<a class="xlink" href="https://x.com/${w.twitter}" target="_blank">${xSvg}</a>` : '';
+    return `<div class="pod-card ${cls[pos]}">
+      <div class="pod-medal ${cls[pos]}">${medals[pos]}</div>
+      <div class="pod-av">${w.emoji || '👛'}${w.pfp ? `<img src="${w.pfp}" onerror="this.style.display='none'" alt="">` : ''}</div>
+      <div class="pod-name">${w.name}${xLink}</div>
+      <div class="pod-addr">${fmt(w.address)}</div>
+      <div class="pod-pnl ${pnlCls}">${pnlStr}</div>
+      <div class="pod-wr">${w.wr !== null ? w.wr + '% win rate' : ''}</div>
+      <button class="pod-copy" onclick="copyAddr('${w.address}')">Copy Address</button>
+    </div>`;
+  }).join('');
+}
+
+function render(data, isSearch) {
+  const podium = document.getElementById('lb-podium');
+  if (isSearch) {
+    podium.style.display = 'none';
+    document.getElementById('rcount').textContent = data.length + ' result' + (data.length !== 1 ? 's' : '');
+    document.getElementById('wallet-list').innerHTML = data.map(w => renderRow(w)).join('');
+  } else {
+    podium.style.display = 'grid';
+    renderPodium();
+    document.getElementById('rcount').textContent = '47 wallets';
+    document.getElementById('wallet-list').innerHTML = wallets.slice(3).map(w => renderRow(w)).join('');
+  }
+}
+
+// Leaderboard quick stats
+(function() {
+  const totalPnl = wallets.filter(w => w.pnl !== null).reduce((s, w) => s + w.pnl, 0);
+  const wrs = wallets.filter(w => w.wr !== null);
+  const avgWr = Math.round(wrs.reduce((s, w) => s + w.wr, 0) / wrs.length);
+  const pnlK = Math.round(totalPnl / 1000);
+  document.getElementById('lb-total-pnl').textContent = '$' + pnlK + 'K';
+  document.getElementById('lb-avg-wr').textContent = avgWr + '%';
+})();
 
 document.getElementById('search').addEventListener('input', function() {
   const q = this.value.toLowerCase().trim();
-  render(q ? wallets.filter(w => w.name.toLowerCase().includes(q) || w.address.toLowerCase().includes(q)) : wallets);
+  if (q) {
+    render(wallets.filter(w => w.name.toLowerCase().includes(q) || w.address.toLowerCase().includes(q)), true);
+  } else {
+    render(wallets, false);
+  }
 });
 
-render(wallets);
+render(wallets, false);
 
 // Catalog
 const catalogData = kolCatalogWallets.map(w => ({...w, pack:"KOL Scan", packKey:"kol", emoji:"👛"}));
@@ -1939,8 +2041,9 @@ function navigate(page, skipPush) {
       gsap.from('.sec-hdr', { x: -20, opacity: 0, duration: 0.5, ease: 'power2.out', delay: 0.05 });
     }
     if (page === 'leaderboard') {
-      gsap.from('.wrow', { y: 14, opacity: 0, duration: 0.35, ease: 'power2.out', stagger: 0.018, delay: 0.1 });
-      gsap.from('#browse .sec-hdr', { x: -20, opacity: 0, duration: 0.5, ease: 'power2.out', delay: 0.05 });
+      gsap.from('.lb-hdr > *', { y: 20, opacity: 0, duration: 0.55, ease: 'power2.out', stagger: 0.1, delay: 0.05 });
+      gsap.from('.pod-card', { y: 28, opacity: 0, duration: 0.5, ease: 'power2.out', stagger: 0.08, delay: 0.2 });
+      gsap.from('.wrow', { y: 12, opacity: 0, duration: 0.3, ease: 'power2.out', stagger: 0.014, delay: 0.4 });
     }
     if (page === 'catalog') {
       gsap.from('.cat-card', { y: 12, opacity: 0, duration: 0.25, ease: 'power2.out', stagger: 0.005, delay: 0.05 });
