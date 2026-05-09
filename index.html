@@ -1493,7 +1493,6 @@ function renderCatalog() {
       <div class="cat-avatar">${w.emoji || '👛'}${img}</div>
       <div class="cat-info">
         <div class="cat-name">${w.name}${xLink}</div>
-        <div class="cat-pack" style="color:${packColors[w.packKey]}">${w.pack}</div>
         <div class="cat-addr">${fmt(w.address)}</div>
       </div>
       <button class="cat-copy" onclick="copyAddr('${w.address}')">Copy</button>
