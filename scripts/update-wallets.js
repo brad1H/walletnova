@@ -10,6 +10,27 @@ async function scrapeLeaderboard() {
   const page = await browser.newPage();
   await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120.0.0.0 Safari/537.36');
 
+  // Intercept API responses to find twitter handles
+  const twitterFromApi = {};
+  page.on('response', async res => {
+    try {
+      const ct = res.headers()['content-type'] || '';
+      if (!ct.includes('json')) return;
+      const url = res.url();
+      if (url.includes('_next/static') || url.includes('analytics')) return;
+      const text = await res.text();
+      if (!text.includes('twitter') && !text.includes('Twitter')) return;
+      console.log('API with twitter data:', url.slice(0, 120));
+      console.log('Snippet:', text.slice(0, 600));
+      // Try to extract address->twitter mappings
+      const re = /"address"\s*:\s*"([A-Za-z0-9]{32,})"[^}]*"twitter"\s*:\s*"([^"]+)"/g;
+      const re2 = /"twitter"\s*:\s*"([^"]+)"[^}]*"address"\s*:\s*"([A-Za-z0-9]{32,})"/g;
+      let m;
+      while ((m = re.exec(text)) !== null)  twitterFromApi[m[1]] = m[2].replace(/^@/,'');
+      while ((m = re2.exec(text)) !== null) twitterFromApi[m[2]] = m[1].replace(/^@/,'');
+    } catch(e) {}
+  });
+
   console.log('Navigating to KOL Scan leaderboard...');
   await page.goto('https://kolscan.io/leaderboard', { waitUntil: 'networkidle2', timeout: 45000 });
 
@@ -165,6 +186,15 @@ async function scrapeLeaderboard() {
     });
 
     return results.slice(0, 50);
+  });
+
+  // Apply any twitter handles found via API interception
+  console.log(`API interception found ${Object.keys(twitterFromApi).length} twitter handles`);
+  wallets.forEach(w => {
+    if (!w.twitter && twitterFromApi[w.address]) {
+      w.twitter = twitterFromApi[w.address];
+      console.log(`  ${w.name} → @${w.twitter} (from API)`);
+    }
   });
 
   // For wallets still missing a Twitter handle, visit their account page as fallback
