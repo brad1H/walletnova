@@ -196,6 +196,7 @@ h1 .hl{color:var(--purple-bright)}
 .pod-copy:hover{border-color:var(--purple-border);color:var(--purple-bright)}
 /* LIST */
 .lb-list-hdr{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.col-hdr{display:grid;grid-template-columns:52px 1fr 120px 180px 80px;gap:14px;padding:0 20px 8px;font-size:10px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;border-bottom:1px solid var(--border);margin-bottom:6px}
 .wallets{display:flex;flex-direction:column;gap:3px}
 .wrow{display:grid;grid-template-columns:52px 1fr 120px 180px 80px;align-items:center;gap:14px;background:var(--surface);border:1px solid var(--border);border-left:3px solid transparent;border-radius:10px;padding:13px 20px;transition:border-color 0.15s,background 0.15s,border-left-color 0.2s}
 .wrow:hover{border-color:var(--border2);background:var(--surface2);border-left-color:var(--purple)}
@@ -638,6 +639,9 @@ footer p{font-size:11px;color:var(--muted)}
       <input id="search" type="text" placeholder="Search name or address…">
     </div>
     <div class="rcount" id="rcount"></div>
+  </div>
+  <div class="col-hdr">
+    <span>#</span><span>Wallet</span><span>Daily PnL</span><span>Win Rate</span><span></span>
   </div>
   <div class="wallets" id="wallet-list"></div>
 
