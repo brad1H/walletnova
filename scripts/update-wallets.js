@@ -22,7 +22,6 @@ async function scrapeLeaderboard() {
     const first = links[0];
     if (!first) return { error: 'no links found' };
 
-    // Walk up to find row container with meaningful text content
     let row = first.parentElement;
     for (let i = 0; i < 8; i++) {
       if (!row) break;
@@ -100,10 +99,32 @@ async function scrapeLeaderboard() {
       const searchRoot = row || link;
       const rowText = (searchRoot.innerText || searchRoot.textContent || '').replace(/\s+/g, ' ');
 
+      // Grab Twitter handle from any X/Twitter link in the row
+      let twitter = null;
+      const twitterLinks = searchRoot.querySelectorAll('a[href*="twitter.com"], a[href*="x.com"]');
+      for (const a of twitterLinks) {
+        const h = a.getAttribute('href') || '';
+        const m = h.match(/(?:twitter\.com|x\.com)\/([^/?#\s]+)/i);
+        if (m && m[1] && !['i', 'intent', 'home', 'share', 'hashtag'].includes(m[1].toLowerCase())) {
+          twitter = m[1];
+          break;
+        }
+      }
+
+      // Grab profile picture — first img in the row that looks like an avatar
+      let pfp = null;
+      const imgs = searchRoot.querySelectorAll('img');
+      for (const img of imgs) {
+        const src = img.getAttribute('src') || '';
+        if (src && src.startsWith('http') && !src.includes('logo') && !src.includes('icon') && !src.includes('coin')) {
+          pfp = src;
+          break;
+        }
+      }
+
       let pnl = null;
       let wr = null;
 
-      // Win rate: parse W / L pattern
       const wrMatch = rowText.match(/(\d+)\s*\/\s*(\d+)/);
       if (wrMatch) {
         const w = parseInt(wrMatch[1]);
@@ -113,7 +134,6 @@ async function scrapeLeaderboard() {
         }
       }
 
-      // PnL: use Sol +/- for sign, USD amount for value
       const solSignMatch = rowText.match(/([+-])([\d.]+)\s*Sol/i);
       const usdMatch = rowText.match(/\$[\d,]+\.?\d*/);
       if (usdMatch) {
@@ -124,15 +144,62 @@ async function scrapeLeaderboard() {
         }
       }
 
-      results.push({ address, name, pnl, wr });
+      results.push({ address, name, pnl, wr, twitter, pfp });
     });
 
     return results.slice(0, 50);
   });
 
+  // For wallets still missing a Twitter handle, visit their account page as fallback
+  const needsTwitter = wallets.filter(w => !w.twitter);
+  if (needsTwitter.length > 0) {
+    console.log(`Leaderboard missing Twitter for ${needsTwitter.length} wallets — checking account pages...`);
+    for (const w of needsTwitter) {
+      try {
+        await page.goto(`https://kolscan.io/account/${w.address}`, { waitUntil: 'networkidle2', timeout: 20000 });
+        await new Promise(r => setTimeout(r, 800));
+        const result = await page.evaluate(() => {
+          let twitter = null;
+          let pfp = null;
+
+          const twitterLinks = document.querySelectorAll('a[href*="twitter.com"], a[href*="x.com"]');
+          for (const a of twitterLinks) {
+            const h = a.getAttribute('href') || '';
+            const m = h.match(/(?:twitter\.com|x\.com)\/([^/?#\s]+)/i);
+            if (m && m[1] && !['i', 'intent', 'home', 'share', 'hashtag'].includes(m[1].toLowerCase())) {
+              twitter = m[1];
+              break;
+            }
+          }
+
+          const imgs = document.querySelectorAll('img');
+          for (const img of imgs) {
+            const src = img.getAttribute('src') || '';
+            if (src && src.startsWith('http') && !src.includes('logo') && !src.includes('icon') && !src.includes('coin')) {
+              pfp = src;
+              break;
+            }
+          }
+
+          return { twitter, pfp };
+        });
+
+        if (result.twitter) {
+          w.twitter = result.twitter;
+          console.log(`  ${w.name} → @${result.twitter}`);
+        } else {
+          console.log(`  ${w.name} → no Twitter found`);
+        }
+        if (result.pfp && !w.pfp) w.pfp = result.pfp;
+      } catch (e) {
+        console.log(`  ${w.name} → failed (${e.message})`);
+      }
+    }
+  }
+
   await browser.close();
   console.log(`Scraped ${wallets.length} wallets`);
-  wallets.forEach((w, i) => console.log(`  ${i+1}. ${w.name} | pnl:${w.pnl} wr:${w.wr}`));
+  wallets.forEach((w, i) => console.log(`  ${i+1}. ${w.name} | pnl:${w.pnl} wr:${w.wr} twitter:${w.twitter || ''}`));
   return wallets;
 }
 
@@ -144,21 +211,28 @@ async function updateHtml(scraped) {
 
   const content = fs.readFileSync('index.html', 'utf8');
 
-  const emojiMap = {};
-  const existingRegex = /\{\s*rank:\d+,\s*name:"[^"]*",\s*emoji:"([^"]*)",\s*address:"([^"]*)"/g;
+  // Preserve existing emoji, twitter, pfp across runs
+  const emojiMap   = {};
+  const twitterMap = {};
+  const pfpMap     = {};
+  const existingRegex = /\{\s*rank:\d+,\s*name:"[^"]*",\s*emoji:"([^"]*)",\s*twitter:"([^"]*)",\s*pfp:"([^"]*)",\s*address:"([^"]*)"/g;
   let em;
   while ((em = existingRegex.exec(content)) !== null) {
-    emojiMap[em[2]] = em[1];
+    emojiMap  [em[4]] = em[1];
+    twitterMap[em[4]] = em[2];
+    pfpMap    [em[4]] = em[3];
   }
 
   const defaultEmojis = ['⭐','🌟','💫','✨','🎯','🔥','💎','🚀','⚡','🌊','🎪','🏅','🎲','🃏','🧠','👁️','🌀','🎨','🎭','🎬'];
   let emojiIdx = 0;
 
   const lines = scraped.map((w, i) => {
-    const emoji = emojiMap[w.address] || defaultEmojis[emojiIdx++ % defaultEmojis.length];
+    const emoji   = emojiMap[w.address]   || defaultEmojis[emojiIdx++ % defaultEmojis.length];
+    const twitter = w.twitter             || twitterMap[w.address] || '';
+    const pfp     = w.pfp                 || pfpMap[w.address]     || '';
     const pnl = w.pnl !== null ? w.pnl : 'null';
     const wr  = w.wr  !== null ? w.wr  : 'null';
-    return `  { rank:${String(i+1).padEnd(2)}, name:"${w.name}", emoji:"${emoji}", address:"${w.address}", pnl:${pnl}, wr:${wr} }`;
+    return `  { rank:${String(i+1).padEnd(2)}, name:"${w.name}", emoji:"${emoji}", twitter:"${twitter}", pfp:"${pfp}", address:"${w.address}", pnl:${pnl}, wr:${wr} }`;
   });
 
   const newArray = `const wallets = [\n${lines.join(',\n')},\n];`;
@@ -166,7 +240,7 @@ async function updateHtml(scraped) {
   const start = content.indexOf('const wallets = [');
   const end   = content.indexOf('\nconst insiderWallets');
   if (start === -1 || end === -1) {
-    console.error('Could not find wallets array in websitewalletnova.html');
+    console.error('Could not find wallets array in index.html');
     process.exit(1);
   }
 
