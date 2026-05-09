@@ -1690,7 +1690,7 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal()
 (function() {
   const textWrap = document.getElementById('logo-text-wrap');
   const logoText = document.getElementById('hero-logo-text');
-  const targetW  = textWrap.offsetWidth;
+  const targetW  = textWrap.scrollWidth;
 
   gsap.set('#center-logo', { opacity: 1 });
   gsap.set(textWrap, { width: 0 });
