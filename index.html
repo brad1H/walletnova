@@ -378,21 +378,19 @@ footer p{font-size:11px;color:var(--muted)}
                 <div class="pcw-feature">Not publicly ranked</div>
               </div>
             </div>
-            <div class="prev-card is-soon">
+            <div class="prev-card is-live">
               <div class="prev-card-top">
-                <span class="prev-card-icon">🎯</span>
-                <span class="prev-card-badge soon">SOON</span>
+                <span class="prev-card-icon">🐐</span>
+                <span class="prev-card-badge live">LIVE</span>
               </div>
-              <div class="prev-card-name">Top Snipers</div>
-              <div class="prev-card-meta">~25 wallets · Coming soon</div>
-            </div>
-            <div class="prev-card is-soon">
-              <div class="prev-card-top">
-                <span class="prev-card-icon">💬</span>
-                <span class="prev-card-badge soon">SOON</span>
+              <div class="prev-card-name">The Goats</div>
+              <div class="prev-card-meta">11 wallets · Curated</div>
+              <hr class="pcw-divider">
+              <div class="pcw-list">
+                <div class="pcw-feature">Hand-picked top performers</div>
+                <div class="pcw-feature">Cented, Decu, DV & more</div>
+                <div class="pcw-feature">Curated by Nova Wallet</div>
               </div>
-              <div class="prev-card-name">Discord Alpha</div>
-              <div class="prev-card-meta">~40 wallets · Coming soon</div>
             </div>
           </div>
         </div>
@@ -494,36 +492,25 @@ footer p{font-size:11px;color:var(--muted)}
       <button class="view-btn" onclick="openModal('potion')">View 318 wallets →</button>
     </div>
 
-    <!-- PACK 3: Top Snipers -->
-    <div class="pack-card soon">
+    <!-- PACK: The Goats -->
+    <div class="pack-card live">
       <div class="pack-top">
-        <div class="pack-icon">🎯</div>
-        <span class="pack-status status-soon">SOON</span>
+        <div class="pack-icon">🐐</div>
+        <span class="pack-status status-live">LIVE</span>
       </div>
-      <div class="pack-name">Top Snipers</div>
-      <p class="pack-desc">High win rate, low trade count. Wallets that only enter when they're confident — filtered from multiple leaderboards.</p>
+      <div class="pack-name">The Goats</div>
+      <p class="pack-desc">Hand-picked top performers — Cented, Decu, DV, Casino and more. The wallets worth watching no matter the market.</p>
       <div class="pack-meta">
-        <div class="pack-meta-item"><div class="meta-val">~25</div><div class="meta-lbl">WALLETS</div></div>
-        <div class="pack-meta-item"><div class="meta-val">Multi</div><div class="meta-lbl">SOURCE</div></div>
-        <div class="pack-meta-item"><div class="meta-val">Weekly</div><div class="meta-lbl">UPDATED</div></div>
+        <div class="pack-meta-item"><div class="meta-val">11</div><div class="meta-lbl">WALLETS</div></div>
+        <div class="pack-meta-item"><div class="meta-val">Curated</div><div class="meta-lbl">SOURCE</div></div>
+        <div class="pack-meta-item"><div class="meta-val">Manual</div><div class="meta-lbl">UPDATED</div></div>
       </div>
-      <button class="dl-btn disabled">Coming Soon</button>
-    </div>
-
-    <!-- PACK 4: Discord Alpha -->
-    <div class="pack-card soon">
-      <div class="pack-top">
-        <div class="pack-icon">💬</div>
-        <span class="pack-status status-soon">SOON</span>
-      </div>
-      <div class="pack-name">Discord Alpha</div>
-      <p class="pack-desc">Named wallets surfaced from top Solana alpha groups — the ones people keep posting in DMs so you don't have to dig.</p>
-      <div class="pack-meta">
-        <div class="pack-meta-item"><div class="meta-val">~40</div><div class="meta-lbl">WALLETS</div></div>
-        <div class="pack-meta-item"><div class="meta-val">Discord</div><div class="meta-lbl">SOURCE</div></div>
-        <div class="pack-meta-item"><div class="meta-val">Ongoing</div><div class="meta-lbl">UPDATED</div></div>
-      </div>
-      <button class="dl-btn disabled">Coming Soon</button>
+      <button class="dl-btn" id="copy-goats" onclick="copyPack('goats')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+        Copy to Clipboard
+      </button>
+      <p class="dl-note">Paste straight into Axiom — all 11 wallets imported instantly</p>
+      <button class="view-btn" onclick="openModal('goats')">View 11 wallets →</button>
     </div>
 
   </div>
@@ -664,6 +651,20 @@ const wallets = [
   { rank:49, name:"Zemrics", emoji:"🌀", twitter:"Zemrics", pfp:"https://cdn.kolscan.io/profiles/EP5mvfhGv6x1XR33Fd8eioiYjtRXAawafPmkz9xBpDvG.png", address:"EP5mvfhGv6x1XR33Fd8eioiYjtRXAawafPmkz9xBpDvG", pnl:271, wr:50 },
   { rank:50, name:"asta", emoji:"🎨", twitter:"astaso1", pfp:"https://cdn.kolscan.io/profiles/AstaWuJuQiAS3AfqmM3xZxrJhkkZNXtW4VyaGQfqV6JL.png", address:"AstaWuJuQiAS3AfqmM3xZxrJhkkZNXtW4VyaGQfqV6JL", pnl:258, wr:67 },
 ];
+const goatsWallets = [
+  { rank:1,  name:"Cented",     emoji:"🤪", twitter:"Cented7",         pfp:"https://cdn.kolscan.io/profiles/CyaE1VxvBrahnPWkqm5VsdCvyS2QmNht2UFrKJHga54o.png", address:"CyaE1VxvBrahnPWkqm5VsdCvyS2QmNht2UFrKJHga54o", pnl:null, wr:null },
+  { rank:2,  name:"Decu",       emoji:"💎", twitter:"notdecu",          pfp:"https://cdn.kolscan.io/profiles/4vw54BmAogeRV3vPKWyFet5yf8DTLcREzdSzx4rw9Ud9.png", address:"4vw54BmAogeRV3vPKWyFet5yf8DTLcREzdSzx4rw9Ud9", pnl:null, wr:null },
+  { rank:3,  name:"DV",         emoji:"🦄", twitter:"vibed333",         pfp:"https://cdn.kolscan.io/profiles/BCagckXeMChUKrHEd6fKFA1uiWDtcmCXMsqaheLiUPJd.png", address:"BCagckXeMChUKrHEd6fKFA1uiWDtcmCXMsqaheLiUPJd", pnl:null, wr:null },
+  { rank:4,  name:"Casino",     emoji:"🌟", twitter:"MonarchBTC",       pfp:"https://cdn.kolscan.io/profiles/8rvAsDKeAcEjEkiZMug9k8v1y8mW6gQQiMobd89Uy7qR.png", address:"8rvAsDKeAcEjEkiZMug9k8v1y8mW6gQQiMobd89Uy7qR", pnl:null, wr:null },
+  { rank:5,  name:"Orangie",    emoji:"🍊", twitter:"orangie",          pfp:"https://cdn.kolscan.io/profiles/DuQabFqdC9eeBULVa7TTdZYxe8vK8ct5DZr4Xcf7docy.png", address:"DuQabFqdC9eeBULVa7TTdZYxe8vK8ct5DZr4Xcf7docy", pnl:null, wr:null },
+  { rank:6,  name:"Jack Duval", emoji:"🌊", twitter:"jackduvalstocks",  pfp:"https://cdn.kolscan.io/profiles/BAr5csYtpWoNpwhUjixX7ZPHXkUciFZzjBp9uNxZXJPh.png", address:"BAr5csYtpWoNpwhUjixX7ZPHXkUciFZzjBp9uNxZXJPh", pnl:null, wr:null },
+  { rank:7,  name:"AlxCooks",   emoji:"👨‍🍳", twitter:"AlxCooks_off",    pfp:"https://cdn.kolscan.io/profiles/89HbgWduLwoxcofWpmn1EiF9wEdpgkNDEyPjzZ72mkDi.png", address:"89HbgWduLwoxcofWpmn1EiF9wEdpgkNDEyPjzZ72mkDi", pnl:null, wr:null },
+  { rank:8,  name:"Scharo",     emoji:"⚡", twitter:"ihateoop",         pfp:"https://cdn.kolscan.io/profiles/4sAUSQFdvWRBxR8UoLBYbw8CcXuwXWxnN8pXa4mtm5nU.png", address:"4sAUSQFdvWRBxR8UoLBYbw8CcXuwXWxnN8pXa4mtm5nU", pnl:null, wr:null },
+  { rank:9,  name:"Sheep",      emoji:"🐑", twitter:"imsheepsol",       pfp:"https://cdn.kolscan.io/profiles/78N177fzNJpp8pG49xDv1efYcTMSzo9tPTKEA9mAVkh2.png", address:"78N177fzNJpp8pG49xDv1efYcTMSzo9tPTKEA9mAVkh2", pnl:null, wr:null },
+  { rank:10, name:"Leens",      emoji:"❇️", twitter:"Bancrypto__",      pfp:"https://cdn.kolscan.io/profiles/LeenseyyUU3ccdBPCFCrrZ8oKU2B3T2uToGGZ7eVABY.png",    address:"LeenseyyUU3ccdBPCFCrrZ8oKU2B3T2uToGGZ7eVABY",    pnl:null, wr:null },
+  { rank:11, name:"Cupsey",     emoji:"🐐", twitter:"DamianProsa",      pfp:"https://cdn.kolscan.io/profiles/2fg5QD1eD7rzNNCsvnhmXFm5hqNgwTTG8p7kQ6f3rx6f.png", address:"2fg5QD1eD7rzNNCsvnhmXFm5hqNgwTTG8p7kQ6f3rx6f", pnl:null, wr:null },
+];
+
 const insiderWallets = [
   { rank:1,  name:"Insider 1",  emoji:"👻", twitter:"", pfp:"", address:"6u9jyRaT1UEWeZR7CLe9CZ5NgX96n1Txmu9Thb9nHmy5", pnl:null, wr:null },
   { rank:2,  name:"Insider 2",  emoji:"👻", twitter:"", pfp:"", address:"CxLqd89BRrFBSvfxiFmTDgx3yRCoWvxbKLFvoeiBLwU1",  pnl:null, wr:null },
@@ -1364,6 +1365,10 @@ const packs = {
   insiders: {
     groupName: "Insiders",
     wallets: insiderWallets
+  },
+  goats: {
+    groupName: "The Goats",
+    wallets: goatsWallets
   },
   potion: {
     groupName: "Potion Alpha Wallets",
