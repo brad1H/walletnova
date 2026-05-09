@@ -1821,10 +1821,11 @@ gsap.from('.home-lb-stats .lb-stat', {
       cardsEl.innerHTML = wallets.slice(0, 3).map((w, i) => {
         const nameHl = w.name.replace(re, m => `<span style="color:var(--purple-bright);font-weight:700">${m}</span>`);
         const img = w.pfp ? `<img src="${w.pfp}" loading="lazy" onerror="this.style.display='none'" alt="">` : '';
+        const xLink = w.twitter ? `<a class="xlink" href="https://x.com/${w.twitter}" target="_blank"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>` : '';
         return `<div class="cat-demo-card${i === 0 ? ' primary' : ''}" style="transition-delay:${i * 40}ms">
           <div class="cat-demo-av">${w.emoji || '👛'}${img}</div>
           <div class="cat-demo-info">
-            <div class="cat-demo-name">${nameHl}</div>
+            <div class="cat-demo-name">${nameHl}${xLink}</div>
             <div class="cat-demo-addr">${w.address.slice(0,5)}...${w.address.slice(-4)}</div>
           </div>
           <div class="cat-demo-copybtn">Copy</div>
