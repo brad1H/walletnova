@@ -370,27 +370,29 @@ footer p{font-size:11px;color:var(--muted)}
 .catalog-hdr{margin-bottom:44px;text-align:center}
 .catalog-h1{font-family:'Inter',sans-serif;font-size:clamp(36px,5vw,64px);font-weight:800;letter-spacing:-2.5px;line-height:1.04;margin-bottom:12px}
 .catalog-sub{font-size:15px;color:var(--muted);max-width:420px;margin:0 auto;line-height:1.8}
-.catalog-controls{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:24px}
-.catalog-search-wrap{position:relative;max-width:300px;flex:1}
-.catalog-search-wrap svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:14px;height:14px;opacity:0.3;pointer-events:none}
-#cat-search{width:100%;background:var(--surface);border:1px solid var(--border2);border-radius:6px;padding:9px 12px 9px 34px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text);outline:none;transition:border-color 0.15s}
+.catalog-controls{display:flex;flex-direction:column;align-items:center;gap:12px;margin-bottom:36px}
+.catalog-search-wrap{position:relative;width:100%;max-width:560px}
+.catalog-search-wrap svg{position:absolute;left:15px;top:50%;transform:translateY(-50%);width:15px;height:15px;opacity:0.35;pointer-events:none}
+#cat-search{width:100%;background:var(--surface);border:1px solid var(--border2);border-radius:10px;padding:13px 16px 13px 44px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text);outline:none;transition:border-color 0.2s,box-shadow 0.2s}
 #cat-search::placeholder{color:var(--muted)}
-#cat-search:focus{border-color:var(--purple-border)}
-.cat-filters{display:flex;gap:6px;flex-wrap:wrap}
-.cat-filter{background:none;border:1px solid var(--border);border-radius:100px;padding:5px 14px;font-family:'DM Sans',sans-serif;font-size:12px;color:var(--muted);cursor:pointer;transition:all 0.15s}
+#cat-search:focus{border-color:var(--purple-border);box-shadow:0 0 0 3px rgba(155,140,255,0.1),0 0 24px rgba(155,140,255,0.06)}
+.cat-filters{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+.cat-filter{background:none;border:1px solid var(--border);border-radius:100px;padding:5px 16px;font-family:'DM Sans',sans-serif;font-size:12px;color:var(--muted);cursor:pointer;transition:all 0.15s}
 .cat-filter:hover{border-color:var(--purple-border);color:var(--text)}
 .cat-filter.active{border-color:var(--purple-border);color:var(--purple-bright);background:var(--purple-dim)}
-.cat-count{font-size:12px;color:var(--muted);margin-left:auto}
-.cat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:8px}
-.cat-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:12px;transition:border-color 0.15s,background 0.15s,transform 0.15s}
-.cat-card:hover{border-color:var(--purple-border);background:var(--surface2);transform:translateY(-2px)}
-.cat-card.exact{border-color:rgba(255,255,255,0.4);background:rgba(255,255,255,0.03);box-shadow:0 0 0 1px rgba(255,255,255,0.08)}
-.cat-avatar{width:40px;height:40px;border-radius:50%;background:var(--surface2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;position:relative;overflow:hidden}
+.cat-count{font-size:12px;color:var(--muted)}
+.cat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px}
+.cat-card{background:radial-gradient(260px circle at var(--mx,-100px) var(--my,-100px),rgba(155,140,255,0.09),transparent 40%),var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:12px;transition:border-color 0.2s,transform 0.2s,box-shadow 0.2s}
+.cat-card:hover{border-color:rgba(155,140,255,0.42);background:radial-gradient(260px circle at var(--mx,-100px) var(--my,-100px),rgba(155,140,255,0.13),transparent 40%),var(--surface2);transform:translateY(-3px);box-shadow:0 8px 28px rgba(155,140,255,0.11)}
+.cat-card.exact{border-color:rgba(255,255,255,0.4);box-shadow:0 0 0 1px rgba(255,255,255,0.08)}
+.cat-avatar{width:44px;height:44px;border-radius:50%;background:var(--surface2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;position:relative;overflow:hidden}
 .cat-avatar img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:50%}
 .cat-info{flex:1;min-width:0}
 .cat-name{font-size:13px;font-weight:600;color:var(--text);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:flex;align-items:center;gap:5px}
 .cat-pack{font-size:10px;font-weight:600;letter-spacing:0.3px;margin-bottom:2px}
 .cat-addr{font-size:10px;color:var(--muted);font-family:monospace}
+.cat-rank{font-family:'Inter',sans-serif;font-size:10px;font-weight:800;color:rgba(155,140,255,0.35);min-width:26px;text-align:right;flex-shrink:0}
+.cat-rank.gold{color:#F5C842}.cat-rank.silver{color:#C8CAD8}.cat-rank.bronze{color:#D4924E}
 .cat-copy{background:none;border:1px solid var(--border);border-radius:5px;padding:5px 10px;font-family:'DM Sans',sans-serif;font-size:11px;color:var(--muted);cursor:pointer;transition:all 0.15s;flex-shrink:0;white-space:nowrap}
 .cat-copy:hover{border-color:var(--purple-border);color:var(--purple-bright)}
 </style>
@@ -1677,12 +1679,14 @@ function renderCatalog() {
     const isExact = exactQ && w.name.toLowerCase() === exactQ;
     const xLink = w.twitter ? `<a class="xlink" href="https://x.com/${w.twitter}" target="_blank"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>` : '';
     const img = w.pfp ? `<img src="${w.pfp}" loading="lazy" onerror="this.style.display='none'" alt="">` : '';
+    const rankCls = w.rank === 1 ? 'gold' : w.rank === 2 ? 'silver' : w.rank === 3 ? 'bronze' : '';
     return `<div class="cat-card${isExact ? ' exact' : ''}">
       <div class="cat-avatar">${w.emoji || '👛'}${img}</div>
       <div class="cat-info">
         <div class="cat-name">${w.name}${xLink}</div>
         <div class="cat-addr">${fmt(w.address)}</div>
       </div>
+      <span class="cat-rank ${rankCls}">#${w.rank}</span>
       <button class="cat-copy" onclick="copyAddr('${w.address}')">Copy</button>
     </div>`;
   }).join('');
@@ -2108,7 +2112,9 @@ function navigate(page, skipPush) {
       gsap.from('.wrow', { y: 12, opacity: 0, duration: 0.3, ease: 'power2.out', stagger: 0.014, delay: 0.4 });
     }
     if (page === 'catalog') {
-      gsap.from('.cat-card', { y: 12, opacity: 0, duration: 0.25, ease: 'power2.out', stagger: 0.005, delay: 0.05 });
+      gsap.from('#page-catalog .catalog-hdr > *', { y: 22, opacity: 0, duration: 0.55, ease: 'power3.out', stagger: 0.1 });
+      gsap.from('#page-catalog .catalog-controls', { y: 16, opacity: 0, duration: 0.45, ease: 'power2.out', delay: 0.2 });
+      gsap.from('.cat-card', { y: 20, opacity: 0, duration: 0.38, ease: 'power2.out', stagger: { amount: 0.7, from: 'start' }, delay: 0.15 });
     }
   }
 
@@ -2116,6 +2122,48 @@ function navigate(page, skipPush) {
   const activeBtn = document.querySelector(`#site-nav [data-page="${page}"]`);
   if (activeBtn) activeBtn.classList.add('active');
 }
+
+// Catalog: mouse glow + copy particles (delegated)
+(function() {
+  var grid = document.getElementById('cat-grid');
+  if (!grid) return;
+
+  grid.addEventListener('mousemove', function(e) {
+    var card = e.target.closest('.cat-card');
+    if (!card) return;
+    var r = card.getBoundingClientRect();
+    card.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+    card.style.setProperty('--my', (e.clientY - r.top) + 'px');
+  });
+
+  grid.addEventListener('mouseout', function(e) {
+    var card = e.target.closest('.cat-card');
+    if (card && !card.contains(e.relatedTarget)) {
+      card.style.setProperty('--mx', '-100px');
+      card.style.setProperty('--my', '-100px');
+    }
+  });
+
+  grid.addEventListener('click', function(e) {
+    var btn = e.target.closest('.cat-copy');
+    if (!btn) return;
+    var r = btn.getBoundingClientRect();
+    var cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+    for (var i = 0; i < 8; i++) {
+      var p = document.createElement('div');
+      p.style.cssText = 'position:fixed;width:4px;height:4px;border-radius:50%;pointer-events:none;z-index:9999;left:' + cx + 'px;top:' + cy + 'px;transform:translate(-50%,-50%);background:var(--purple-bright)';
+      document.body.appendChild(p);
+      var angle = (i / 8) * Math.PI * 2;
+      var dist = 18 + Math.random() * 22;
+      gsap.to(p, {
+        x: Math.cos(angle) * dist, y: Math.sin(angle) * dist - 10,
+        opacity: 0, scale: Math.random() * 1.2 + 0.3,
+        duration: 0.4 + Math.random() * 0.2, ease: 'power2.out',
+        onComplete: function() { this.targets()[0].remove(); }
+      });
+    }
+  });
+})();
 
 // Import page: card 3D tilt + mouse glow + particle burst
 (function() {
