@@ -243,7 +243,8 @@ footer p{font-size:11px;color:var(--muted)}
 #scroll-dark{position:absolute;inset:0;background:#000;opacity:0;pointer-events:none;z-index:2}
 .page{display:none;min-height:100vh}.page.active{display:block}
 #page-import,#page-leaderboard{padding-top:80px;font-family:'Inter',sans-serif}
-.home-sec{padding:110px 44px 80px;position:relative;z-index:2}
+.home-sec{padding:110px 44px 80px;position:relative;z-index:2;overflow:hidden}
+.home-sec::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 75% 90% at 78% 50%,rgba(155,140,255,0.08) 0%,transparent 65%);pointer-events:none}
 .home-sec-inner{max-width:1060px;margin:0 auto}
 .home-sec-split{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center}
 .home-sec-tag{font-family:'Inter',sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--purple);margin-bottom:22px}
@@ -255,6 +256,7 @@ footer p{font-size:11px;color:var(--muted)}
 .home-cta-btn.secondary:hover{border-color:var(--purple-border);color:var(--purple-bright);background:var(--purple-dim);transform:translateY(-2px);box-shadow:0 0 24px rgba(155,140,255,0.15)}
 .btn-glint{position:absolute;top:-50%;left:0;width:38%;height:200%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.22),transparent);pointer-events:none}
 .home-pack-preview{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.home-pack-preview .prev-card:first-child{grid-column:1/-1}
 .prev-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px 20px 18px;transition:border-color 0.28s,background 0.28s,transform 0.28s,box-shadow 0.28s;position:relative;overflow:hidden;display:flex;flex-direction:column}
 .prev-card.is-live{border-color:var(--purple-border);background:linear-gradient(145deg,rgba(155,140,255,0.06) 0%,transparent 65%)}
 .prev-card.is-live::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--purple) 30%,var(--purple-bright) 70%,transparent)}
@@ -278,14 +280,33 @@ footer p{font-size:11px;color:var(--muted)}
 .pcw-more{font-size:10px;color:rgba(155,140,255,0.4);margin-top:4px}
 .pcw-feature{display:flex;align-items:center;gap:7px;font-size:11px;color:var(--muted)}
 .pcw-feature::before{content:'';width:4px;height:4px;border-radius:50%;background:rgba(155,140,255,0.4);flex-shrink:0}
-.home-lb-sec{padding:60px 44px 100px;position:relative;z-index:2;border-top:1px solid var(--border)}
-.home-lb-inner{max-width:900px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:48px}
-.home-lb-text .home-sec-tag{margin-bottom:16px}
-.home-lb-text h3{font-family:'Inter',sans-serif;font-size:clamp(26px,3.5vw,42px);font-weight:800;letter-spacing:-1.5px;line-height:1.1;margin-bottom:14px}
-.home-lb-text p{font-family:'Inter',sans-serif;font-size:14px;color:var(--muted);max-width:380px;line-height:1.75}
-.home-lb-stats{display:flex;gap:36px;flex-shrink:0}
-.lb-stat-val{font-family:'Inter',sans-serif;font-size:32px;font-weight:800;color:var(--purple-bright)}
-.lb-stat-lbl{font-size:11px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-top:3px}
+.home-lb-sec{padding:100px 44px;position:relative;z-index:2;border-top:1px solid var(--border);overflow:hidden}
+.home-lb-sec::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 80% at 20% 50%,rgba(155,140,255,0.07) 0%,transparent 65%);pointer-events:none}
+.home-lb-inner{max-width:1060px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center}
+.home-lb-left .home-sec-tag{margin-bottom:18px}
+.home-lb-h2{font-family:'Inter',sans-serif;font-size:clamp(36px,5vw,62px);font-weight:800;letter-spacing:-2.5px;line-height:1.04;margin-bottom:18px}
+.home-lb-sub{font-family:'Inter',sans-serif;font-size:15px;color:var(--muted);max-width:400px;line-height:1.85}
+.home-lb-stats{display:flex;gap:28px;margin-top:36px}
+.lb-stat-val{font-family:'Inter',sans-serif;font-size:30px;font-weight:800;color:var(--purple-bright)}
+.lb-stat-lbl{font-size:10px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-top:4px}
+.home-lb-terminal{background:var(--surface);border:1px solid var(--purple-border);border-radius:16px;overflow:hidden;position:relative}
+.home-lb-terminal::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--purple) 30%,var(--purple-bright) 70%,transparent)}
+.lb-terminal-hdr{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:1px solid var(--border);background:rgba(155,140,255,0.03)}
+.lb-terminal-title{font-family:'Inter',sans-serif;font-size:12px;font-weight:700;color:var(--text)}
+.lb-terminal-live{display:flex;align-items:center;gap:6px;font-family:'Inter',sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;color:var(--green)}
+.lb-live-dot{width:6px;height:6px;border-radius:50%;background:var(--green);flex-shrink:0;animation:lbDot 2s ease-in-out infinite}
+@keyframes lbDot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.3;transform:scale(0.7)}}
+.lb-terminal-rows{padding:6px 0}
+.lb-terminal-row{display:grid;grid-template-columns:32px 1fr auto auto;align-items:center;gap:10px;padding:10px 20px;cursor:pointer;transition:background 0.15s;opacity:0;transform:translateX(24px)}
+.lb-terminal-row.in{opacity:1;transform:translateX(0);transition:opacity 0.45s ease,transform 0.45s ease}
+.lb-terminal-row:hover{background:rgba(155,140,255,0.05)}
+.lb-tr-rank{font-family:'Inter',sans-serif;font-size:11px;font-weight:800;color:rgba(155,140,255,0.45);text-align:right}
+.lb-tr-rank.gold{color:#F5C842}.lb-tr-rank.silver{color:#C8CAD8}.lb-tr-rank.bronze{color:#D4924E}
+.lb-tr-name{font-size:13px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lb-tr-pnl{font-family:'Inter',sans-serif;font-size:12px;font-weight:700;color:var(--green);white-space:nowrap}
+.lb-tr-wr{font-size:11px;color:var(--muted);white-space:nowrap}
+.lb-terminal-ftr{padding:13px 20px;border-top:1px solid var(--border);font-family:'Inter',sans-serif;font-size:12px;font-weight:600;color:var(--purple-bright);cursor:pointer;transition:background 0.15s,color 0.15s;text-align:center}
+.lb-terminal-ftr:hover{background:rgba(155,140,255,0.06);color:#fff}
 
 /* CATALOG SHOWCASE */
 .home-cat-sec{padding:100px 44px 100px;position:relative;z-index:2;border-top:1px solid var(--border);overflow:hidden}
@@ -493,16 +514,27 @@ footer p{font-size:11px;color:var(--muted)}
   <!-- Leaderboard Feature -->
   <section class="home-lb-sec">
     <div class="home-lb-inner">
-      <div class="home-lb-text">
+      <div class="home-lb-left">
         <div class="home-sec-tag">Leaderboard</div>
-        <h3>Browse all<br>tracked wallets.</h3>
-        <p>Search by name or address. Copy any wallet — 50 wallets ranked by daily performance.</p>
-        <button class="home-cta-btn secondary" style="margin-top:28px" onclick="navigate('leaderboard')">View Leaderboard →</button>
+        <h2 class="home-lb-h2">Track the Top<br><span class="hl">Daily Winners.</span></h2>
+        <p class="home-lb-sub">50 wallets ranked by daily PnL. Search by name or address, copy any wallet in one click — updated every hour.</p>
+        <div class="home-lb-stats">
+          <div class="lb-stat"><div class="lb-stat-val" id="stat-wallets">—</div><div class="lb-stat-lbl">Wallets</div></div>
+          <div class="lb-stat"><div class="lb-stat-val" id="stat-pnl">—</div><div class="lb-stat-lbl">Top PnL</div></div>
+          <div class="lb-stat"><div class="lb-stat-val" id="stat-wr">—</div><div class="lb-stat-lbl">Avg Win Rate</div></div>
+        </div>
+        <button class="home-cta-btn" style="margin-top:36px" onclick="navigate('leaderboard')">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          View Leaderboard
+        </button>
       </div>
-      <div class="home-lb-stats">
-        <div class="lb-stat"><div class="lb-stat-val" id="stat-wallets">—</div><div class="lb-stat-lbl">Wallets</div></div>
-        <div class="lb-stat"><div class="lb-stat-val" id="stat-pnl">—</div><div class="lb-stat-lbl">Daily PnL</div></div>
-        <div class="lb-stat"><div class="lb-stat-val" id="stat-wr">—</div><div class="lb-stat-lbl">Avg Win Rate</div></div>
+      <div class="home-lb-terminal">
+        <div class="lb-terminal-hdr">
+          <span class="lb-terminal-title">Live Rankings</span>
+          <span class="lb-terminal-live"><span class="lb-live-dot"></span>LIVE</span>
+        </div>
+        <div class="lb-terminal-rows" id="home-lb-rows"></div>
+        <div class="lb-terminal-ftr" onclick="navigate('leaderboard')">View all 50 wallets →</div>
       </div>
     </div>
   </section>
@@ -1856,21 +1888,31 @@ gsap.from('.home-sec .home-sec-tag, .home-sec .home-sec-h2, .home-sec .home-sec-
   scrollTrigger: { trigger: '.home-sec', start: 'top 82%' },
   y: 30, opacity: 0, duration: 0.7, ease: 'power2.out', stagger: 0.12
 });
-gsap.from('.prev-card', {
-  scrollTrigger: { trigger: '.home-pack-preview', start: 'top 85%' },
-  y: 28, opacity: 0, duration: 0.55, ease: 'power2.out', stagger: 0.09
+ScrollTrigger.create({
+  trigger: '.home-pack-preview', start: 'top 86%', once: true,
+  onEnter: function() {
+    gsap.from('.home-pack-preview .prev-card', {
+      y: 56, opacity: 0, scale: 0.94, duration: 0.72, ease: 'back.out(1.4)', stagger: 0.14
+    });
+    setTimeout(function() {
+      var cards = document.querySelectorAll('.home-pack-preview .prev-card');
+      var cfg = [[0,6.5],[1.1,7.8],[2.2,9]];
+      cfg.forEach(function(c,i){ if(cards[i]) gsap.to(cards[i],{y:-11,duration:c[1]/2,ease:'sine.inOut',repeat:-1,yoyo:true,delay:c[0]}); });
+    }, 850);
+  }
 });
 gsap.from('.home-sec .home-cta-btn', {
   scrollTrigger: { trigger: '.home-sec .home-cta-btn', start: 'top 90%' },
   y: 16, opacity: 0, duration: 0.5, ease: 'power2.out'
 });
-gsap.from('.home-lb-text > *', {
-  scrollTrigger: { trigger: '.home-lb-sec', start: 'top 85%' },
-  y: 24, opacity: 0, duration: 0.6, ease: 'power2.out', stagger: 0.1
-});
-gsap.from('.home-lb-stats .lb-stat', {
-  scrollTrigger: { trigger: '.home-lb-sec', start: 'top 85%' },
-  y: 24, opacity: 0, duration: 0.6, ease: 'power2.out', stagger: 0.12, delay: 0.2
+ScrollTrigger.create({
+  trigger: '.home-lb-sec', start: 'top 82%', once: true,
+  onEnter: function() {
+    gsap.from('.home-lb-left > *', { y: 30, opacity: 0, duration: 0.65, ease: 'power2.out', stagger: 0.1 });
+    gsap.from('.home-lb-terminal', { x: 48, opacity: 0, duration: 0.85, ease: 'power3.out', delay: 0.18 });
+    var rows = document.querySelectorAll('.lb-terminal-row');
+    rows.forEach(function(row, i) { setTimeout(function(){ row.classList.add('in'); }, 380 + i * 110); });
+  }
 });
 
 // Catalog showcase demo
@@ -1956,6 +1998,22 @@ gsap.from('.home-lb-stats .lb-stat', {
   list.innerHTML = top3.map(w =>
     `<div class="pcw-row"><span class="pcw-left"><span class="pcw-rank">#${w.rank}</span><span>${w.emoji} ${w.name}</span></span><span class="pcw-pnl">+$${w.pnl.toLocaleString()}</span></div>`
   ).join('') + `<div class="pcw-more">+${wallets.length - 3} more wallets</div>`;
+})();
+
+// Leaderboard terminal rows
+(function() {
+  const container = document.getElementById('home-lb-rows');
+  if (!container) return;
+  const rankClass = r => r === 1 ? 'gold' : r === 2 ? 'silver' : r === 3 ? 'bronze' : '';
+  const top = wallets.filter(w => w.pnl !== null).slice(0, 7);
+  container.innerHTML = top.map(w =>
+    `<div class="lb-terminal-row" onclick="navigate('leaderboard')">
+      <span class="lb-tr-rank ${rankClass(w.rank)}">#${w.rank}</span>
+      <span class="lb-tr-name">${w.emoji} ${w.name}</span>
+      <span class="lb-tr-pnl">+$${w.pnl.toLocaleString()}</span>
+      <span class="lb-tr-wr">${w.wr}%</span>
+    </div>`
+  ).join('');
 })();
 
 // Wallet ticker
