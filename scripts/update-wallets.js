@@ -162,7 +162,7 @@ async function updateHtml(scraped) {
 
   const newArray = `const wallets = [\n${lines.join(',\n')},\n];`;
   const start = content.indexOf('const wallets = [');
-  const end   = content.indexOf('\nconst insiderWallets');
+  const end   = content.indexOf('\nconst goatsWallets');
   if (start === -1 || end === -1) { console.error('Could not find wallets array'); process.exit(1); }
 
   fs.writeFileSync('index.html', content.slice(0, start) + newArray + content.slice(end), 'utf8');
