@@ -1880,7 +1880,7 @@ gsap.to('#scroll-cue', { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out', de
 window.addEventListener('popstate', e => navigate(e.state && e.state.page ? e.state.page : 'home', true));
 (function() {
   const hash = location.hash.replace('#', '');
-  if (hash === 'import' || hash === 'leaderboard') navigate(hash, true);
+  if (hash === 'import' || hash === 'leaderboard' || hash === 'catalog') navigate(hash, true);
   else history.replaceState({ page: 'home' }, '', location.href);
 })();
 
