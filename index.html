@@ -699,7 +699,6 @@ footer p{font-size:11px;color:var(--muted)}
     </div>
     <div class="cat-filters" id="cat-filters">
       <button class="cat-filter active" data-pack="all">All</button>
-      <button class="cat-filter" data-pack="kol">KOL Scan</button>
     </div>
     <div class="cat-count" id="cat-count"></div>
   </div>
@@ -1679,14 +1678,12 @@ function renderCatalog() {
     const isExact = exactQ && w.name.toLowerCase() === exactQ;
     const xLink = w.twitter ? `<a class="xlink" href="https://x.com/${w.twitter}" target="_blank"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>` : '';
     const img = w.pfp ? `<img src="${w.pfp}" loading="lazy" onerror="this.style.display='none'" alt="">` : '';
-    const rankCls = w.rank === 1 ? 'gold' : w.rank === 2 ? 'silver' : w.rank === 3 ? 'bronze' : '';
     return `<div class="cat-card${isExact ? ' exact' : ''}">
       <div class="cat-avatar">${w.emoji || '👛'}${img}</div>
       <div class="cat-info">
         <div class="cat-name">${w.name}${xLink}</div>
         <div class="cat-addr">${fmt(w.address)}</div>
       </div>
-      <span class="cat-rank ${rankCls}">#${w.rank}</span>
       <button class="cat-copy" onclick="copyAddr('${w.address}')">Copy</button>
     </div>`;
   }).join('');
