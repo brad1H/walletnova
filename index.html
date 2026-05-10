@@ -47,10 +47,13 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:10px 4
 .logo-text{font-family:'Inter',sans-serif;font-weight:800;font-size:17px;letter-spacing:-0.3px}
 .logo-text .w{color:var(--text)}
 .logo-text .n{color:var(--purple-bright)}
-.nav-links{display:flex;gap:6px}
-.nav-link{background:none;border:none;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--muted);cursor:pointer;padding:8px 12px;border-radius:6px;transition:color 0.15s}
-.nav-link:hover{color:var(--text)}
-.nav-link.active{color:var(--text);background:var(--surface)}
+.nav-links{display:flex;gap:2px;position:absolute;left:50%;transform:translateX(-50%)}
+.nav-link{background:none;border:none;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--muted);cursor:pointer;padding:8px 14px;border-radius:6px;transition:color 0.18s,transform 0.18s;position:relative}
+.nav-link:hover{color:var(--text);transform:translateY(-1px)}
+.nav-link.active{color:var(--text)}
+.nav-link.active::after{content:'';position:absolute;bottom:2px;left:50%;transform:translateX(-50%);width:4px;height:4px;border-radius:50%;background:var(--purple-bright)}
+.nav-cta{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(180deg,rgba(255,255,255,0.07) 0%,transparent 100%),var(--purple);color:#080808;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;border:1px solid rgba(255,255,255,0.15);border-radius:100px;padding:8px 18px;cursor:pointer;transition:background 0.2s,transform 0.2s,box-shadow 0.2s;white-space:nowrap;flex-shrink:0}
+.nav-cta:hover{background:linear-gradient(180deg,rgba(255,255,255,0.13) 0%,transparent 100%),var(--purple-bright);transform:translateY(-1px);box-shadow:0 0 14px rgba(155,140,255,0.4)}
 
 /* HERO */
 .landing{min-height:100vh;display:flex;flex-direction:column;padding:36px 44px 48px;box-sizing:border-box;position:relative;overflow:hidden;border-bottom:1px solid transparent;border-image:linear-gradient(90deg,transparent,rgba(255,255,255,0.18) 25%,rgba(255,255,255,0.18) 75%,transparent) 1}
@@ -237,7 +240,7 @@ footer p{font-size:11px;color:var(--muted)}
 
 .toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(20px);background:#1a1a2e;border:1px solid var(--purple-border);border-radius:8px;padding:10px 20px;font-size:13px;color:var(--purple-bright);opacity:0;transition:all 0.2s;pointer-events:none;z-index:999}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-#site-nav{position:fixed;top:14px;left:20px;right:20px;z-index:500;display:flex;align-items:center;justify-content:space-between;padding:0 28px;height:50px;background:rgba(110,70,200,0.08);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);border:1px solid rgba(155,140,255,0.28);border-radius:100px;transition:background 0.35s ease,border-color 0.35s ease}
+#site-nav{position:fixed;top:14px;left:20px;right:20px;z-index:500;display:flex;align-items:center;justify-content:space-between;padding:0 20px 0 24px;height:56px;background:rgba(110,70,200,0.08);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);border:1px solid rgba(155,140,255,0.28);border-radius:100px;transition:background 0.35s ease,border-color 0.35s ease}
 #site-nav .logo img{border-radius:8px;outline:1.5px solid transparent;outline-offset:3px;transition:transform 0.25s ease,outline-color 0.2s ease}
 #site-nav .logo:hover img{transform:scale(1.09);outline-color:rgba(255,255,255,0.75)}
 #scroll-dark{position:absolute;inset:0;background:#000;opacity:0;pointer-events:none;z-index:2}
@@ -397,12 +400,17 @@ footer p{font-size:11px;color:var(--muted)}
 <header id="site-nav">
   <div class="logo" style="cursor:pointer" onclick="navigate('home')">
     <img src="Novawalletlogo.png" alt="Nova Wallet" style="height:28px;width:auto;">
+    <span class="logo-text"><span class="w">Nova</span><span class="n"> Wallet</span></span>
   </div>
   <div class="nav-links">
     <button class="nav-link" data-page="import" onclick="navigate('import')">Import Wallets</button>
     <button class="nav-link" data-page="leaderboard" onclick="navigate('leaderboard')">Leaderboard</button>
     <button class="nav-link" data-page="catalog" onclick="navigate('catalog')">Catalog</button>
   </div>
+  <button class="nav-cta" onclick="navigate('import')">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+    Import Wallets
+  </button>
 </header>
 
 <div id="page-home" class="page active">
