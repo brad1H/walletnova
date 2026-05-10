@@ -459,7 +459,7 @@ footer p{font-size:11px;color:var(--muted)}
         <div class="home-sec-left">
           <div class="home-sec-tag">Wallet Packs</div>
           <h2 class="home-sec-h2">Import the wallets<br>that <span class="hl">actually win.</span></h2>
-          <p class="home-sec-sub">One-click import packs for Axiom. KOL Top 50, insiders — all named, ranked, and ready to paste in seconds.</p>
+          <p class="home-sec-sub">One-click import packs for any wallet tracker. KOL Top 50, insiders — all named, ranked, and ready to paste in seconds.</p>
           <button class="home-cta-btn" onclick="navigate('import')">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
             Import Wallets
@@ -546,9 +546,9 @@ footer p{font-size:11px;color:var(--muted)}
   <div class="import-hdr">
     <div class="import-eyebrow">Wallet Packs</div>
     <h1 class="import-h1">Import wallets that <span class="hl">actually win</span></h1>
-    <p class="import-sub">Pick a pack, copy to clipboard, paste straight into Axiom. All wallets are named and ready to track.</p>
+    <p class="import-sub">Pick a pack, copy to clipboard, paste straight into your trading platform. All wallets are named and ready to track.</p>
     <div class="import-pill">
-      <b>1 · Pick a pack</b><span class="arr">→</span><b>2 · Copy</b><span class="arr">→</span><b>3 · Paste into Axiom</b>
+      <b>1 · Pick a pack</b><span class="arr">→</span><b>2 · Copy</b><span class="arr">→</span><b>3 · Paste into your platform</b>
     </div>
   </div>
   <div class="packs-grid">
@@ -570,7 +570,7 @@ footer p{font-size:11px;color:var(--muted)}
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
         Copy to Clipboard
       </button>
-      <p class="dl-note">Paste straight into Axiom — all 50 wallets imported instantly</p>
+      <p class="dl-note">Paste straight into your platform — all 50 wallets imported instantly</p>
       <button class="view-btn" onclick="openModal('kol50')">View 50 wallets →</button>
     </div>
 
@@ -591,7 +591,7 @@ footer p{font-size:11px;color:var(--muted)}
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
         Copy to Clipboard
       </button>
-      <p class="dl-note">Paste straight into Axiom — all 10 wallets imported instantly</p>
+      <p class="dl-note">Paste straight into your platform — all 10 wallets imported instantly</p>
       <button class="view-btn" onclick="openModal('insiders')">View 10 wallets →</button>
     </div>
 
@@ -602,7 +602,7 @@ footer p{font-size:11px;color:var(--muted)}
         <span class="pack-status status-live">LIVE</span>
       </div>
       <div class="pack-name">Potion Alpha Wallets</div>
-      <p class="pack-desc">Curated alpha wallets from Potion — hand-picked performers ready to track in Axiom.</p>
+      <p class="pack-desc">Curated alpha wallets from Potion — hand-picked performers ready to track in any trading platform.</p>
       <div class="pack-meta">
         <div class="pack-meta-item"><div class="meta-val">318</div><div class="meta-lbl">WALLETS</div></div>
         <div class="pack-meta-item"><div class="meta-val">Potion</div><div class="meta-lbl">SOURCE</div></div>
@@ -612,7 +612,7 @@ footer p{font-size:11px;color:var(--muted)}
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
         Copy to Clipboard
       </button>
-      <p class="dl-note">Paste straight into Axiom — all 318 wallets imported instantly</p>
+      <p class="dl-note">Paste straight into your platform — all 318 wallets imported instantly</p>
       <button class="view-btn" onclick="openModal('potion')">View 318 wallets →</button>
     </div>
 
@@ -633,7 +633,7 @@ footer p{font-size:11px;color:var(--muted)}
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
         Copy to Clipboard
       </button>
-      <p class="dl-note">Paste straight into Axiom — all 11 wallets imported instantly</p>
+      <p class="dl-note">Paste straight into your platform — all 11 wallets imported instantly</p>
       <button class="view-btn" onclick="openModal('goats')">View 11 wallets →</button>
     </div>
 
@@ -1541,7 +1541,7 @@ function copyPack(packId, btnOverride) {
     btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Copied!';
     btn.style.background = 'var(--green)';
     setTimeout(() => { btn.innerHTML = orig; btn.style.background = ''; }, 2000);
-    showToast(pack.wallets.length + ' wallets copied — paste into Axiom');
+    showToast(pack.wallets.length + ' wallets copied — paste into your platform');
   });
 }
 
@@ -1568,7 +1568,7 @@ function importSingle(address, name, emoji, groupName) {
     groupNames: [groupName],
     sound: ""
   }];
-  writeClipboard(JSON.stringify(data), () => showToast(name + ' copied — paste into Axiom'));
+  writeClipboard(JSON.stringify(data), () => showToast(name + ' copied — paste into your platform'));
 }
 
 function fmt(addr) { return addr.slice(0,5) + '...' + addr.slice(-4); }
