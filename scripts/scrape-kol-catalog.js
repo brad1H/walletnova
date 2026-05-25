@@ -36,20 +36,40 @@ const path = require('path');
 
   console.log(`Done scrolling. Total: ${prevCount}`);
 
-  // Scrape all wallet addresses + names
+  // Scrape wallets + Twitter by finding each wallet's own Twitter icon in its row
+  console.log('Scraping wallets and pairing Twitter handles by row...');
   const wallets = await page.evaluate(() => {
     const results = [];
     const seen = new Set();
-    const links = document.querySelectorAll('a[href*="/account/"]');
+    const clickedImgs = new WeakSet();
 
-    links.forEach(link => {
+    // Override window.open — capture the URL synchronously per click
+    window._lastTwitterUrl = null;
+    window.open = function(url) {
+      window._lastTwitterUrl = url || '';
+      return null;
+    };
+
+    const SKIP = new Set(['i', 'intent', 'home', 'share', 'hashtag', 'search']);
+
+    function extractHandle(url) {
+      if (!url) return '';
+      const m = url.match(/(?:twitter\.com|x\.com)\/@?([^/?#\s]+)/i);
+      if (m && m[1] && !SKIP.has(m[1].toLowerCase())) return m[1].replace(/^@/, '');
+      return '';
+    }
+
+    const links = Array.from(document.querySelectorAll('a[href*="/account/"]'));
+
+    for (const link of links) {
       const href = link.getAttribute('href') || '';
       const match = href.match(/\/account\/([A-Za-z0-9]{32,})/);
-      if (!match) return;
+      if (!match) continue;
       const address = match[1];
-      if (seen.has(address)) return;
+      if (seen.has(address)) continue;
       seen.add(address);
 
+      // Extract name
       let name = null;
       const heading = link.querySelector('h1,h2,h3,h4,h5,h6');
       if (heading && heading.textContent.trim()) {
@@ -60,56 +80,43 @@ const path = require('path');
           if (t && t.length > 1 && !/^[\d$+\-%.,()KMk\s]+$/.test(t)) { name = t; break; }
         }
       }
-      if (!name) return;
-      results.push({ address, name });
-    });
+      if (!name) continue;
+
+      // Walk up the DOM from this link to find a container that holds a Twitter icon
+      // Stop before we get too broad (body/html) or before we'd grab a sibling wallet's icon
+      let twitterHandle = '';
+      let container = link.parentElement;
+      let depth = 0;
+      while (container && container !== document.body && depth < 8) {
+        const twitterImg = container.querySelector('img[alt="twitter logo"]');
+        if (twitterImg && !clickedImgs.has(twitterImg)) {
+          window._lastTwitterUrl = null;
+          twitterImg.click();
+          clickedImgs.add(twitterImg);
+          twitterHandle = extractHandle(window._lastTwitterUrl);
+          break;
+        }
+        container = container.parentElement;
+        depth++;
+      }
+
+      results.push({ address, name, twitter: twitterHandle });
+    }
 
     return results;
   });
 
-  console.log(`Scraped ${wallets.length} wallets`);
-
-  // Intercept window.open to capture Twitter URLs
-  console.log('Setting up Twitter capture...');
-  await page.evaluate(() => {
-    window._twitterCaptures = [];
-    window.open = function(url) {
-      window._twitterCaptures.push(url || '');
-      return null;
-    };
-  });
-
-  // Click all twitter logos
-  const clickCount = await page.evaluate(() => {
-    const imgs = Array.from(document.querySelectorAll('img[alt="twitter logo"]'));
-    imgs.forEach(img => img.click());
-    return imgs.length;
-  });
-  console.log(`Clicked ${clickCount} twitter logos`);
-  await new Promise(r => setTimeout(r, 1500));
-
-  const twitterUrls = await page.evaluate(() => window._twitterCaptures);
-  console.log(`Captured ${twitterUrls.length} Twitter URLs`);
-
-  // Map Twitter handles to wallets by index
-  twitterUrls.forEach((url, i) => {
-    if (i < wallets.length && url) {
-      const m = url.match(/(?:twitter\.com|x\.com)\/@?([^/?#\s]+)/i);
-      if (m && m[1] && !['i','intent','home','share','hashtag','search'].includes(m[1].toLowerCase())) {
-        wallets[i].twitter = m[1].replace(/^@/, '');
-      }
-    }
-  });
-
   await browser.close();
 
-  // Derive pfp and fill defaults
+  // Derive pfp, rank, and fill defaults
   wallets.forEach((w, i) => {
     w.rank = i + 1;
     w.pfp = `https://cdn.kolscan.io/profiles/${w.address}.png`;
     if (!w.twitter) w.twitter = '';
   });
 
+  const withTwitter = wallets.filter(w => w.twitter).length;
+  console.log(`Scraped ${wallets.length} wallets — ${withTwitter} with Twitter handles`);
   console.log('\nSample:');
   wallets.slice(0, 5).forEach(w => console.log(`  ${w.rank}. ${w.name} | ${w.twitter || '—'} | ${w.address.slice(0,8)}...`));
 
