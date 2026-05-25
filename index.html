@@ -283,6 +283,30 @@ footer p{font-size:11px;color:var(--muted)}
 .pcw-more{font-size:10px;color:rgba(155,140,255,0.4);margin-top:4px}
 .pcw-feature{display:flex;align-items:center;gap:7px;font-size:11px;color:var(--muted)}
 .pcw-feature::before{content:'';width:4px;height:4px;border-radius:50%;background:rgba(155,140,255,0.4);flex-shrink:0}
+/* COMMUNITY HOME SECTION */
+.home-community-sec{padding:100px 44px;position:relative;z-index:2;border-top:1px solid var(--border);overflow:hidden}
+.home-community-sec::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 80% at 78% 50%,rgba(155,140,255,0.09) 0%,transparent 65%);pointer-events:none}
+.home-community-inner{max-width:1060px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center}
+.home-community-h2{font-family:'Inter',sans-serif;font-size:clamp(36px,5vw,62px);font-weight:800;letter-spacing:-2.5px;line-height:1.04;margin-bottom:18px}
+.home-community-sub{font-family:'Inter',sans-serif;font-size:15px;color:var(--muted);max-width:400px;line-height:1.85;margin-bottom:36px}
+.home-community-btns{display:flex;gap:12px;flex-wrap:wrap}
+.comm-stack{position:relative;height:340px}
+.comm-card{position:absolute;width:290px;background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:22px 24px;opacity:0;transform:translateX(60px)}
+.comm-card.c1{top:20px;left:50%;margin-left:-145px;border-color:var(--purple-border);background:linear-gradient(145deg,rgba(155,140,255,0.06) 0%,transparent 60%),var(--surface);box-shadow:0 0 32px rgba(155,140,255,0.12);z-index:3}
+.comm-card.c1::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--purple) 30%,var(--purple-bright) 70%,transparent)}
+.comm-card.c2{top:50px;left:50%;margin-left:-125px;z-index:2;opacity:0;transform:translateX(60px) rotate(3deg)}
+.comm-card.c3{top:80px;left:50%;margin-left:-105px;z-index:1;opacity:0;transform:translateX(60px) rotate(6deg)}
+.comm-card-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.comm-card-icon{font-size:26px}
+.comm-card-badge{font-size:9px;font-weight:700;letter-spacing:1.5px;padding:3px 9px;border-radius:100px;background:var(--purple-dim);color:var(--purple-bright);border:1px solid var(--purple-border)}
+.comm-card-name{font-family:'Inter',sans-serif;font-size:16px;font-weight:800;letter-spacing:-0.4px;margin-bottom:4px}
+.comm-card-by{font-size:11px;color:var(--muted);margin-bottom:14px}
+.comm-card-wallets{display:flex;flex-direction:column;gap:7px}
+.comm-card-row{display:flex;align-items:center;gap:9px;font-size:12px;color:var(--muted)}
+.comm-card-row-emoji{font-size:14px;width:20px;text-align:center}
+.comm-card-row-name{flex:1;color:var(--text);font-weight:500}
+.comm-card-more{font-size:11px;color:rgba(155,140,255,0.45);margin-top:6px}
+
 .home-lb-sec{padding:100px 44px;position:relative;z-index:2;border-top:1px solid var(--border);overflow:hidden}
 .home-lb-sec::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 80% at 20% 50%,rgba(155,140,255,0.07) 0%,transparent 65%);pointer-events:none}
 .home-lb-inner{max-width:1060px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center}
@@ -592,6 +616,51 @@ footer p{font-size:11px;color:var(--muted)}
               </div>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Community Feature -->
+  <section class="home-community-sec">
+    <div class="home-community-inner">
+      <div>
+        <div class="home-sec-tag">Community</div>
+        <h2 class="home-community-h2">Your pack.<br><span class="hl">Their edge.</span></h2>
+        <p class="home-community-sub">Build and share your own curated wallet pack. Submit it, get it listed, and let the whole community import it in one click.</p>
+        <div class="home-community-btns">
+          <button class="home-cta-btn" onclick="navigate('community')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="8 12 12 16 16 12"/><line x1="12" y1="8" x2="12" y2="16"/></svg>
+            Browse Community
+          </button>
+          <button class="home-cta-btn secondary" onclick="navigate('community');setTimeout(openBuilder,350)">Submit a Pack</button>
+        </div>
+      </div>
+      <div class="comm-stack" id="comm-stack">
+        <div class="comm-card c3">
+          <div class="comm-card-top"><span class="comm-card-icon">🌊</span><span class="comm-card-badge">COMMUNITY</span></div>
+          <div class="comm-card-name">Silent Whales</div>
+          <div class="comm-card-by">by @whale_watcher · 18 wallets</div>
+        </div>
+        <div class="comm-card c2">
+          <div class="comm-card-top"><span class="comm-card-icon">🎯</span><span class="comm-card-badge">COMMUNITY</span></div>
+          <div class="comm-card-name">Memecoin Killers</div>
+          <div class="comm-card-by">by @degen_alpha · 9 wallets</div>
+          <div class="comm-card-wallets">
+            <div class="comm-card-row"><span class="comm-card-row-emoji">🔥</span><span class="comm-card-row-name">SolSniper</span></div>
+            <div class="comm-card-row"><span class="comm-card-row-emoji">⚡</span><span class="comm-card-row-name">FastFingers</span></div>
+          </div>
+        </div>
+        <div class="comm-card c1">
+          <div class="comm-card-top"><span class="comm-card-icon">🏹</span><span class="comm-card-badge">COMMUNITY</span></div>
+          <div class="comm-card-name">Alpha Snipers</div>
+          <div class="comm-card-by">by @tradoor · 12 wallets</div>
+          <div class="comm-card-wallets">
+            <div class="comm-card-row"><span class="comm-card-row-emoji">💎</span><span class="comm-card-row-name">DiamondHands</span></div>
+            <div class="comm-card-row"><span class="comm-card-row-emoji">🚀</span><span class="comm-card-row-name">MoonShoter</span></div>
+            <div class="comm-card-row"><span class="comm-card-row-emoji">🎯</span><span class="comm-card-row-name">PrecisionTrade</span></div>
+          </div>
+          <div class="comm-card-more">+9 more wallets</div>
         </div>
       </div>
     </div>
@@ -2397,6 +2466,21 @@ function navigate(page, skipPush) {
     });
   });
 })();
+
+// Community section scroll animation
+ScrollTrigger.create({
+  trigger: '.home-community-sec',
+  start: 'top 75%',
+  once: true,
+  onEnter() {
+    gsap.from('.home-community-sec .home-sec-tag, .home-community-h2, .home-community-sub, .home-community-btns', {
+      y: 24, opacity: 0, duration: 0.6, ease: 'power2.out', stagger: 0.1
+    });
+    gsap.to('.comm-card.c3', { opacity: 0.3, x: 0, rotation: 6, duration: 0.7, ease: 'power3.out', delay: 0.2 });
+    gsap.to('.comm-card.c2', { opacity: 0.55, x: 0, rotation: 3, duration: 0.7, ease: 'power3.out', delay: 0.35 });
+    gsap.to('.comm-card.c1', { opacity: 1, x: 0, rotation: 0, duration: 0.8, ease: 'power3.out', delay: 0.5 });
+  }
+});
 
 // ── Supabase + Community Packs ──────────────────────────────────────────
 const SUPABASE_URL = 'https://zslgaensifehhnjyfxkp.supabase.co';
