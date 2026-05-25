@@ -70,10 +70,10 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:10px 4
 #logo-text-wrap{overflow:hidden;width:0}
 #hero-logo-text{font-family:'Inter',sans-serif;font-weight:800;font-size:clamp(52px,7vw,84px);letter-spacing:-2px;white-space:nowrap;line-height:1;color:#fff}
 #scroll-cue{position:absolute;bottom:36px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:9px;opacity:0;z-index:4;pointer-events:none}
-.scroll-mouse{width:24px;height:38px;border:1.5px solid rgba(255,255,255,0.22);border-radius:12px;display:flex;justify-content:center;padding-top:7px;transition:border-color 0.3s}
-.scroll-dot{width:3px;height:7px;background:rgba(255,255,255,0.55);border-radius:3px;animation:sdot 2.2s cubic-bezier(0.45,0,0.55,1) infinite}
+.scroll-mouse{width:24px;height:38px;border:1.5px solid rgba(155,140,255,0.55);border-radius:12px;display:flex;justify-content:center;padding-top:7px;transition:border-color 0.3s;box-shadow:0 0 12px rgba(155,140,255,0.18)}
+.scroll-dot{width:3px;height:7px;background:var(--purple-bright);border-radius:3px;animation:sdot 2.2s cubic-bezier(0.45,0,0.55,1) infinite}
 @keyframes sdot{0%{transform:translateY(0);opacity:0.9}55%{transform:translateY(11px);opacity:0}80%{transform:translateY(11px);opacity:0}100%{transform:translateY(0);opacity:0.9}}
-.scroll-label{font-size:9px;color:rgba(255,255,255,0.22);letter-spacing:2.5px;text-transform:uppercase;font-family:'Inter',sans-serif;font-weight:500}
+.scroll-label{font-size:9px;color:rgba(155,140,255,0.7);letter-spacing:2.5px;text-transform:uppercase;font-family:'Inter',sans-serif;font-weight:600}
 @keyframes fadeInLogo{0%{opacity:0;transform:scale(0.96)}100%{opacity:1;transform:scale(1)}}
 #emoji-bg{position:fixed;inset:0;pointer-events:none;z-index:1;transition:opacity 0.3s ease}
 .be{position:absolute;user-select:none;will-change:transform;line-height:1}
@@ -94,7 +94,7 @@ h1 .hl{color:var(--purple-bright)}
 .sec-title{font-family:'Inter',sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--purple)}
 .sec-sub{font-size:12px;color:var(--muted)}
 
-.packs-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.packs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
 
 .pack-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:32px;display:flex;flex-direction:column;gap:0;transition:border-color 0.2s;position:relative;overflow:hidden;isolation:isolate;will-change:transform}
 .pack-card.live{border-color:var(--purple-border);background:radial-gradient(500px circle at var(--mx,-200px) var(--my,-200px),rgba(155,140,255,0.13),transparent 45%),linear-gradient(135deg,rgba(155,140,255,0.04) 0%,transparent 60%),var(--surface)}
@@ -354,7 +354,7 @@ footer p{font-size:11px;color:var(--muted)}
 
 /* IMPORT PAGE */
 #page-import{background-image:radial-gradient(circle,rgba(155,140,255,0.1) 1px,transparent 1px);background-size:36px 36px}
-.import-wrap{max-width:880px;margin:0 auto;padding:80px 40px 100px}
+.import-wrap{max-width:1280px;margin:0 auto;padding:80px 40px 100px}
 .import-hdr{text-align:center;margin-bottom:60px}
 .import-eyebrow{font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--purple);margin-bottom:20px}
 .import-h1{font-family:'Inter',sans-serif;font-size:clamp(32px,4.5vw,52px);font-weight:800;letter-spacing:-2.5px;line-height:1.04;margin-bottom:14px}
@@ -366,7 +366,7 @@ footer p{font-size:11px;color:var(--muted)}
 
 /* CATALOG */
 #page-catalog{padding-top:80px;font-family:'Inter',sans-serif}
-.catalog-wrap{max-width:1100px;margin:0 auto;padding:60px 44px 100px}
+.catalog-wrap{max-width:1440px;margin:0 auto;padding:60px 44px 100px}
 .catalog-hdr{margin-bottom:44px;text-align:center}
 .catalog-h1{font-family:'Inter',sans-serif;font-size:clamp(36px,5vw,64px);font-weight:800;letter-spacing:-2.5px;line-height:1.04;margin-bottom:12px}
 .catalog-sub{font-size:15px;color:var(--muted);max-width:420px;margin:0 auto;line-height:1.8}
@@ -381,8 +381,8 @@ footer p{font-size:11px;color:var(--muted)}
 .cat-filter:hover{border-color:var(--purple-border);color:var(--text)}
 .cat-filter.active{border-color:var(--purple-border);color:var(--purple-bright);background:var(--purple-dim)}
 .cat-count{font-size:12px;color:var(--muted)}
-.cat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px}
-.cat-card{background:radial-gradient(260px circle at var(--mx,-100px) var(--my,-100px),rgba(155,140,255,0.09),transparent 40%),var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:12px;transition:border-color 0.2s,transform 0.2s,box-shadow 0.2s}
+.cat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:12px}
+.cat-card{background:radial-gradient(260px circle at var(--mx,-100px) var(--my,-100px),rgba(155,140,255,0.09),transparent 40%),var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px 18px;display:flex;align-items:center;gap:14px;transition:border-color 0.2s,transform 0.2s,box-shadow 0.2s}
 .cat-card:hover{border-color:rgba(155,140,255,0.42);background:radial-gradient(260px circle at var(--mx,-100px) var(--my,-100px),rgba(155,140,255,0.13),transparent 40%),var(--surface2);transform:translateY(-3px);box-shadow:0 8px 28px rgba(155,140,255,0.11)}
 .cat-card.exact{border-color:rgba(255,255,255,0.4);box-shadow:0 0 0 1px rgba(255,255,255,0.08)}
 .cat-avatar{width:44px;height:44px;border-radius:50%;background:var(--surface2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;position:relative;overflow:hidden}
@@ -395,6 +395,82 @@ footer p{font-size:11px;color:var(--muted)}
 .cat-rank.gold{color:#F5C842}.cat-rank.silver{color:#C8CAD8}.cat-rank.bronze{color:#D4924E}
 .cat-copy{background:none;border:1px solid var(--border);border-radius:5px;padding:5px 10px;font-family:'DM Sans',sans-serif;font-size:11px;color:var(--muted);cursor:pointer;transition:all 0.15s;flex-shrink:0;white-space:nowrap}
 .cat-copy:hover{border-color:var(--purple-border);color:var(--purple-bright)}
+
+/* COMMUNITY PAGE */
+#page-community{padding-top:80px;font-family:'Inter',sans-serif}
+.community-wrap{max-width:1280px;margin:0 auto;padding:80px 40px 100px}
+.community-hdr{text-align:center;margin-bottom:52px}
+.community-eyebrow{font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--purple);margin-bottom:20px}
+.community-h1{font-family:'Inter',sans-serif;font-size:clamp(32px,4.5vw,52px);font-weight:800;letter-spacing:-2.5px;line-height:1.04;margin-bottom:14px}
+.community-h1 .hl{color:var(--purple-bright)}
+.community-sub{font-size:14px;color:var(--muted);line-height:1.85;max-width:440px;margin:0 auto 28px}
+.community-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.community-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:28px;display:flex;flex-direction:column;transition:border-color 0.2s,transform 0.2s;position:relative;overflow:hidden}
+.community-card:hover{border-color:var(--purple-border);transform:translateY(-3px)}
+.community-card-by{font-size:11px;color:var(--muted);margin-bottom:6px;letter-spacing:0.3px}
+.community-card-name{font-family:'Inter',sans-serif;font-size:18px;font-weight:800;letter-spacing:-0.5px;margin-bottom:8px}
+.community-card-desc{font-size:13px;color:var(--muted);line-height:1.75;flex:1;margin-bottom:20px}
+.community-card-meta{display:flex;gap:16px;padding-bottom:18px;margin-bottom:18px;border-bottom:1px solid var(--border)}
+.community-card-stat .meta-val{font-family:'Inter',sans-serif;font-size:15px;font-weight:800;color:var(--text)}
+.community-card-stat .meta-lbl{font-size:10px;color:var(--muted);letter-spacing:0.5px}
+.community-empty{text-align:center;padding:80px 20px;grid-column:1/-1}
+.community-empty-icon{font-size:40px;margin-bottom:16px}
+.community-empty h3{font-family:'Inter',sans-serif;font-size:20px;font-weight:700;color:var(--text);margin-bottom:8px}
+.community-empty p{font-size:13px;color:var(--muted)}
+
+/* PACK BUILDER */
+.builder-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(4px);z-index:300;opacity:0;pointer-events:none;transition:opacity 0.2s}
+.builder-overlay.open{opacity:1;pointer-events:all}
+.builder-modal{position:fixed;top:50%;left:50%;transform:translate(-50%,-48%);width:min(660px,94vw);max-height:88vh;background:#0f0f0f;border:1px solid var(--border2);border-radius:14px;z-index:301;display:flex;flex-direction:column;opacity:0;pointer-events:none;transition:opacity 0.2s,transform 0.2s;overflow:hidden}
+.builder-modal.open{opacity:1;pointer-events:all;transform:translate(-50%,-50%)}
+.builder-hdr{display:flex;align-items:center;justify-content:space-between;padding:20px 24px;border-bottom:1px solid var(--border);flex-shrink:0}
+.builder-title{font-family:'Inter',sans-serif;font-size:16px;font-weight:800;letter-spacing:-0.3px}
+.builder-body{overflow-y:auto;padding:24px;flex:1;display:flex;flex-direction:column;gap:18px}
+.builder-body::-webkit-scrollbar{width:4px}
+.builder-body::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+.builder-field{display:flex;flex-direction:column;gap:7px}
+.builder-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted)}
+.builder-input{width:100%;background:var(--surface);border:1px solid var(--border2);border-radius:8px;padding:11px 14px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text);outline:none;transition:border-color 0.15s}
+.builder-input::placeholder{color:var(--muted)}
+.builder-input:focus{border-color:var(--purple-border)}
+.builder-wallets-list{display:flex;flex-direction:column;gap:7px}
+.builder-wallet-row{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 14px}
+.builder-wallet-emoji{font-size:18px;width:26px;text-align:center;flex-shrink:0}
+.builder-wallet-info{flex:1;min-width:0}
+.builder-wallet-name{font-size:13px;font-weight:600;color:var(--text)}
+.builder-wallet-addr{font-size:10px;color:var(--muted);font-family:monospace}
+.builder-wallet-remove{background:none;border:none;cursor:pointer;color:var(--muted);font-size:14px;padding:4px 8px;border-radius:4px;transition:color 0.15s;flex-shrink:0}
+.builder-wallet-remove:hover{color:var(--red)}
+.builder-add-row{display:grid;grid-template-columns:56px 1fr 1fr auto;gap:8px;align-items:end}
+.builder-emoji-input{text-align:center;font-size:18px;padding:11px 8px}
+.builder-add-btn{background:var(--purple-dim);border:1px solid var(--purple-border);border-radius:8px;padding:11px 14px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--purple-bright);cursor:pointer;transition:all 0.15s;white-space:nowrap}
+.builder-add-btn:hover{background:rgba(155,140,255,0.18)}
+.builder-footer{padding:16px 24px;border-top:1px solid var(--border);display:flex;gap:10px;flex-shrink:0}
+.builder-submit{flex:1;background:linear-gradient(180deg,rgba(255,255,255,0.07) 0%,transparent 100%),var(--purple);color:#080808;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;border:1px solid rgba(255,255,255,0.15);border-radius:8px;padding:13px;cursor:pointer;transition:background 0.2s,transform 0.2s}
+.builder-submit:hover{background:linear-gradient(180deg,rgba(255,255,255,0.13) 0%,transparent 100%),var(--purple-bright);transform:translateY(-1px)}
+.builder-cancel{background:transparent;border:1px solid var(--border2);border-radius:8px;padding:13px 20px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--muted);cursor:pointer;transition:all 0.15s}
+.builder-cancel:hover{color:var(--text)}
+
+/* ADMIN PAGE */
+#page-admin{padding-top:80px;font-family:'Inter',sans-serif}
+.admin-wrap{max-width:860px;margin:0 auto;padding:60px 40px 100px}
+.admin-hdr{margin-bottom:36px}
+.admin-h1{font-family:'Inter',sans-serif;font-size:28px;font-weight:800;letter-spacing:-1px;margin-bottom:6px}
+.admin-sub{font-size:13px;color:var(--muted)}
+.admin-pack{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:22px;margin-bottom:10px}
+.admin-pack-name{font-family:'Inter',sans-serif;font-size:16px;font-weight:800;margin-bottom:3px}
+.admin-pack-by{font-size:11px;color:var(--purple-bright);margin-bottom:8px}
+.admin-pack-desc{font-size:13px;color:var(--muted);margin-bottom:10px}
+.admin-pack-wallets{font-size:12px;color:var(--muted);margin-bottom:14px;line-height:1.7}
+.admin-pack-actions{display:flex;gap:10px}
+.admin-approve{background:var(--green-dim);border:1px solid var(--green-border);border-radius:6px;padding:8px 20px;font-size:13px;color:var(--green);cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:600;transition:all 0.15s}
+.admin-approve:hover{background:rgba(62,207,160,0.2)}
+.admin-reject{background:rgba(255,107,107,0.1);border:1px solid rgba(255,107,107,0.25);border-radius:6px;padding:8px 20px;font-size:13px;color:var(--red);cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:600;transition:all 0.15s}
+.admin-reject:hover{background:rgba(255,107,107,0.18)}
+.admin-empty{text-align:center;padding:60px;color:var(--muted);font-size:14px}
+.admin-gate{text-align:center;padding:80px 20px}
+.admin-gate h2{font-family:'Inter',sans-serif;font-size:22px;font-weight:800;margin-bottom:20px}
+.admin-gate-row{display:flex;gap:10px;max-width:340px;margin:0 auto}
 </style>
 </head>
 <body>
@@ -407,6 +483,7 @@ footer p{font-size:11px;color:var(--muted)}
     <button class="nav-link" data-page="catalog" onclick="navigate('catalog')">Catalog</button>
     <button class="nav-link" data-page="import" onclick="navigate('import')">Import Wallets</button>
     <button class="nav-link" data-page="leaderboard" onclick="navigate('leaderboard')">Leaderboard</button>
+    <button class="nav-link" data-page="community" onclick="navigate('community')">Community</button>
   </div>
   <button class="nav-cta" onclick="navigate('import')">
     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
@@ -573,7 +650,6 @@ footer p{font-size:11px;color:var(--muted)}
       <div class="pack-meta">
         <div class="pack-meta-item"><div class="meta-val">50</div><div class="meta-lbl">WALLETS</div></div>
         <div class="pack-meta-item"><div class="meta-val">Live</div><div class="meta-lbl">SOURCE</div></div>
-        <div class="pack-meta-item"><div class="meta-val">Daily</div><div class="meta-lbl">UPDATED</div></div>
       </div>
       <button class="dl-btn" id="copy-kol50" onclick="copyPack('kol50')">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
@@ -594,7 +670,6 @@ footer p{font-size:11px;color:var(--muted)}
       <div class="pack-meta">
         <div class="pack-meta-item"><div class="meta-val">10</div><div class="meta-lbl">WALLETS</div></div>
         <div class="pack-meta-item"><div class="meta-val">Curated</div><div class="meta-lbl">SOURCE</div></div>
-        <div class="pack-meta-item"><div class="meta-val">Weekly</div><div class="meta-lbl">UPDATED</div></div>
       </div>
       <button class="dl-btn" id="copy-insiders" onclick="copyPack('insiders')">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
@@ -615,7 +690,6 @@ footer p{font-size:11px;color:var(--muted)}
       <div class="pack-meta">
         <div class="pack-meta-item"><div class="meta-val">318</div><div class="meta-lbl">WALLETS</div></div>
         <div class="pack-meta-item"><div class="meta-val">Potion</div><div class="meta-lbl">SOURCE</div></div>
-        <div class="pack-meta-item"><div class="meta-val">Curated</div><div class="meta-lbl">UPDATED</div></div>
       </div>
       <button class="dl-btn" id="copy-potion" onclick="copyPack('potion')">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
@@ -636,7 +710,6 @@ footer p{font-size:11px;color:var(--muted)}
       <div class="pack-meta">
         <div class="pack-meta-item"><div class="meta-val">11</div><div class="meta-lbl">WALLETS</div></div>
         <div class="pack-meta-item"><div class="meta-val">Curated</div><div class="meta-lbl">SOURCE</div></div>
-        <div class="pack-meta-item"><div class="meta-val">Manual</div><div class="meta-lbl">UPDATED</div></div>
       </div>
       <button class="dl-btn" id="copy-goats" onclick="copyPack('goats')">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
@@ -644,6 +717,26 @@ footer p{font-size:11px;color:var(--muted)}
       </button>
       <p class="dl-note">Paste straight into your platform — all 11 wallets imported instantly</p>
       <button class="view-btn" onclick="openModal('goats')">View 11 wallets →</button>
+    </div>
+
+    <!-- PACK: Dev Wallets -->
+    <div class="pack-card live">
+      <div class="pack-top">
+        <div class="pack-icon">🔫</div>
+        <span class="pack-status status-live">LIVE</span>
+      </div>
+      <div class="pack-name">Dev Wallets</div>
+      <p class="pack-desc">Known dev wallets worth tracking — early entries, stealth launches, and on-chain alpha before it hits CT.</p>
+      <div class="pack-meta">
+        <div class="pack-meta-item"><div class="meta-val">6</div><div class="meta-lbl">WALLETS</div></div>
+        <div class="pack-meta-item"><div class="meta-val">Curated</div><div class="meta-lbl">SOURCE</div></div>
+      </div>
+      <button class="dl-btn" id="copy-devs" onclick="copyPack('devs')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+        Copy to Clipboard
+      </button>
+      <p class="dl-note">Paste straight into your platform — all 6 wallets imported instantly</p>
+      <button class="view-btn" onclick="openModal('devs')">View 6 wallets →</button>
     </div>
 
   </div>
@@ -711,6 +804,89 @@ footer p{font-size:11px;color:var(--muted)}
 </footer>
 </div>
 
+<!-- COMMUNITY PAGE -->
+<div id="page-community" class="page">
+<div class="community-wrap">
+  <div class="community-hdr">
+    <div class="community-eyebrow">Community</div>
+    <h1 class="community-h1">Community <span class="hl">Packs</span></h1>
+    <p class="community-sub">Wallet packs built and shared by the community. Submit your own and get it listed.</p>
+    <button class="home-cta-btn" onclick="openBuilder()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      Submit a Pack
+    </button>
+  </div>
+  <div class="community-grid" id="community-grid">
+    <div class="community-empty">
+      <div class="community-empty-icon">📦</div>
+      <h3>Loading packs...</h3>
+      <p>Fetching community submissions</p>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ADMIN PAGE -->
+<div id="page-admin" class="page">
+<div class="admin-wrap">
+  <div id="admin-gate" class="admin-gate">
+    <h2>Admin Access</h2>
+    <div class="admin-gate-row">
+      <input class="builder-input" type="password" id="admin-pw-input" placeholder="Password" onkeydown="if(event.key==='Enter')checkAdminPw()">
+      <button class="builder-add-btn" onclick="checkAdminPw()">Enter</button>
+    </div>
+  </div>
+  <div id="admin-content" style="display:none">
+    <div class="admin-hdr">
+      <div class="admin-h1">Pending Submissions</div>
+      <div class="admin-sub" id="admin-sub">Loading...</div>
+    </div>
+    <div id="admin-list"></div>
+  </div>
+</div>
+</div>
+
+<!-- PACK BUILDER MODAL -->
+<div class="builder-overlay" id="builder-overlay" onclick="closeBuilder()"></div>
+<div class="builder-modal" id="builder-modal">
+  <div class="builder-hdr">
+    <div class="builder-title">Submit a Community Pack</div>
+    <button class="modal-close" onclick="closeBuilder()">✕</button>
+  </div>
+  <div class="builder-body">
+    <div class="builder-field">
+      <div class="builder-label">Pack Name *</div>
+      <input class="builder-input" id="b-name" placeholder="e.g. Top Memecoin Traders">
+    </div>
+    <div class="builder-field">
+      <div class="builder-label">Description</div>
+      <input class="builder-input" id="b-desc" placeholder="What makes these wallets worth tracking?">
+    </div>
+    <div class="builder-field">
+      <div class="builder-label">Your Name / Handle</div>
+      <input class="builder-input" id="b-by" placeholder="e.g. @yourhandle (optional)">
+    </div>
+    <div class="builder-field">
+      <div class="builder-label" style="display:flex;align-items:center;justify-content:space-between"><span>Wallets <span id="b-wallet-count" style="color:var(--purple-bright);font-weight:800">0</span></span><button class="builder-add-btn" style="font-size:11px;padding:5px 12px" onclick="toggleImportArea()">Import</button></div>
+      <div id="b-import-area" style="display:none;flex-direction:column;gap:8px">
+        <textarea class="builder-input" id="b-import-text" rows="4" placeholder="Paste your exported wallet JSON here..." style="resize:vertical;font-family:monospace;font-size:12px"></textarea>
+        <button class="builder-add-btn" style="width:100%" onclick="builderImportJSON()">Add Wallets</button>
+      </div>
+      <div class="builder-wallets-list" id="b-wallets-list"></div>
+      <div class="builder-add-row">
+        <input class="builder-input builder-emoji-input" id="b-emoji" placeholder="🔥" maxlength="2">
+        <input class="builder-input" id="b-wallet-name" placeholder="Name">
+        <input class="builder-input" id="b-wallet-addr" placeholder="Wallet address">
+        <button class="builder-add-btn" onclick="builderAddWallet()">Add</button>
+      </div>
+    </div>
+  </div>
+  <div class="builder-footer">
+    <button class="builder-cancel" onclick="closeBuilder()">Cancel</button>
+    <button class="builder-submit" onclick="builderSubmit()">Submit Pack for Review</button>
+  </div>
+</div>
+
 <div class="toast" id="toast">Copied to clipboard</div>
 
 <div class="overlay" id="overlay" onclick="closeModal()"></div>
@@ -733,6 +909,7 @@ footer p{font-size:11px;color:var(--muted)}
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script>
 const wallets = [
   { rank:1 , name:"Cented", emoji:"🤪", twitter:"Cented7", pfp:"https://cdn.kolscan.io/profiles/CyaE1VxvBrahnPWkqm5VsdCvyS2QmNht2UFrKJHga54o.png", address:"CyaE1VxvBrahnPWkqm5VsdCvyS2QmNht2UFrKJHga54o", pnl:18943, wr:56 },
@@ -1491,6 +1668,15 @@ const kolCatalogWallets = [
   { rank:510, name:"Nach", twitter:"XScharo", pfp:"https://cdn.kolscan.io/profiles/9jyqFiLnruggwNn4EQwBNFXwpbLM9hrA4hV59ytyAVVz.png", address:"9jyqFiLnruggwNn4EQwBNFXwpbLM9hrA4hV59ytyAVVz" }
 ];
 
+const devWallets = [
+  { name:"JAM", emoji:"🍓", address:"7moqFjvm2MwAiMtCZoqYoTAPzRBxxMRT2ddyHThQuWjr" },
+  { name:"PENGUIN DEV", emoji:"🐧", address:"FVZRwUp6E4m9jV4VumF8q7m8q3mF9fpikRrJSCCfFAdP" },
+  { name:"67 DEV", emoji:"🔫", address:"CfkaAru9ArJ2tAStYHvbAyRBJL3EhDzsWYV2KYg9shxB" },
+  { name:"02ZERO", emoji:"🌀", address:"2PSasNHg8JMsksdNzdQUAU6GpBSJRfBNySo36LEKMJXb" },
+  { name:"Ascension", emoji:"🚀", address:"H5Wh4EDvWQT4mShH746V5VDqxHQkaQZyPWfuhy1PRVBg" },
+  { name:"Meechie", emoji:"💎", address:"9iaawVBEsFG35PSwd4PahwT8fYNQe9XYuRdWm872dUqY" }
+];
+
 const packs = {
   kol50: {
     groupName: "Top Traders",
@@ -1507,6 +1693,10 @@ const packs = {
   potion: {
     groupName: "Potion Alpha Wallets",
     wallets: potionWallets
+  },
+  devs: {
+    groupName: "Dev Wallets",
+    wallets: devWallets
   }
 };
 
@@ -1704,9 +1894,9 @@ function openModal(packId) {
   const pack = packs[packId];
   document.getElementById('modal-title').textContent = pack.groupName;
   document.getElementById('modal-meta').textContent = pack.wallets.length + ' wallets · Updated daily';
-  document.getElementById('modal-body').innerHTML = pack.wallets.map(w => `
+  document.getElementById('modal-body').innerHTML = pack.wallets.map((w, i) => `
     <div class="mrow">
-      <div class="mrank ${w.rank <= 3 ? 'top' : ''}">${w.rank}</div>
+      <div class="mrank ${(w.rank || i+1) <= 3 ? 'top' : ''}">${w.rank || i+1}</div>
       <div class="memoji">${w.emoji}</div>
       <div class="minfo">
         <div class="mname">${w.name}</div>
@@ -1881,7 +2071,7 @@ gsap.to('#scroll-cue', { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out', de
 window.addEventListener('popstate', e => navigate(e.state && e.state.page ? e.state.page : 'home', true));
 (function() {
   const hash = location.hash.replace('#', '');
-  if (hash === 'import' || hash === 'leaderboard' || hash === 'catalog') navigate(hash, true);
+  if (hash === 'import' || hash === 'leaderboard' || hash === 'catalog' || hash === 'community' || hash === 'admin') navigate(hash, true);
   else history.replaceState({ page: 'home' }, '', location.href);
 })();
 
@@ -2113,6 +2303,10 @@ function navigate(page, skipPush) {
       gsap.from('#page-catalog .catalog-controls', { y: 16, opacity: 0, duration: 0.45, ease: 'power2.out', delay: 0.2 });
       gsap.from('.cat-card', { y: 20, opacity: 0, duration: 0.38, ease: 'power2.out', stagger: { amount: 0.7, from: 'start' }, delay: 0.15 });
     }
+    if (page === 'community') {
+      gsap.from('#page-community .community-hdr > *', { y: 20, opacity: 0, duration: 0.5, ease: 'power2.out', stagger: 0.1 });
+      loadCommunityPacks();
+    }
   }
 
   document.querySelectorAll('#site-nav .nav-link').forEach(b => b.classList.remove('active'));
@@ -2203,6 +2397,204 @@ function navigate(page, skipPush) {
     });
   });
 })();
+
+// ── Supabase + Community Packs ──────────────────────────────────────────
+const SUPABASE_URL = 'https://zslgaensifehhnjyfxkp.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_vfUJGDWs5LQxT6_O10eQRA_K5SsuTlV';
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+const ADMIN_PASSWORD = 'nova_admin';
+
+// Community pack builder state
+let builderWallets = [];
+
+function openBuilder() {
+  builderWallets = [];
+  document.getElementById('b-name').value = '';
+  document.getElementById('b-desc').value = '';
+  document.getElementById('b-by').value = '';
+  document.getElementById('b-emoji').value = '';
+  document.getElementById('b-wallet-name').value = '';
+  document.getElementById('b-wallet-addr').value = '';
+  renderBuilderList();
+  document.getElementById('builder-overlay').classList.add('open');
+  document.getElementById('builder-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeBuilder() {
+  document.getElementById('builder-overlay').classList.remove('open');
+  document.getElementById('builder-modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function renderBuilderList() {
+  document.getElementById('b-wallet-count').textContent = builderWallets.length;
+  document.getElementById('b-wallets-list').innerHTML = builderWallets.map((w, i) => `
+    <div class="builder-wallet-row">
+      <span class="builder-wallet-emoji">${w.emoji || '👛'}</span>
+      <div class="builder-wallet-info">
+        <div class="builder-wallet-name">${w.name}</div>
+        <div class="builder-wallet-addr">${fmt(w.address)}</div>
+      </div>
+      <button class="builder-wallet-remove" onclick="builderRemoveWallet(${i})">✕</button>
+    </div>
+  `).join('');
+}
+
+function toggleImportArea() {
+  const area = document.getElementById('b-import-area');
+  const isOpen = area.style.display === 'flex';
+  area.style.display = isOpen ? 'none' : 'flex';
+  if (!isOpen) document.getElementById('b-import-text').focus();
+}
+
+function builderImportJSON() {
+  const text = document.getElementById('b-import-text').value.trim();
+  if (!text) { showToast('Paste your wallet JSON first'); return; }
+  try {
+    const data = JSON.parse(text);
+    const arr = Array.isArray(data) ? data : [];
+    let added = 0;
+    arr.forEach(w => {
+      const addr = w.trackedWalletAddress || w.address;
+      const name = w.name;
+      if (!addr || !name) return;
+      if (builderWallets.find(x => x.address === addr)) return;
+      builderWallets.push({ address: addr, name, emoji: w.emoji || '👛' });
+      added++;
+    });
+    renderBuilderList();
+    document.getElementById('b-import-text').value = '';
+    document.getElementById('b-import-area').style.display = 'none';
+    showToast(added + ' wallet' + (added !== 1 ? 's' : '') + ' added');
+  } catch { showToast('Invalid JSON — check the format'); }
+}
+
+function builderAddWallet() {
+  const addr = document.getElementById('b-wallet-addr').value.trim();
+  const name = document.getElementById('b-wallet-name').value.trim();
+  const emoji = document.getElementById('b-emoji').value.trim() || '👛';
+  if (!addr || !name) { showToast('Enter a name and address'); return; }
+  if (builderWallets.find(w => w.address === addr)) { showToast('Already added'); return; }
+  builderWallets.push({ address: addr, name, emoji });
+  document.getElementById('b-wallet-addr').value = '';
+  document.getElementById('b-wallet-name').value = '';
+  document.getElementById('b-emoji').value = '';
+  renderBuilderList();
+}
+
+function builderRemoveWallet(i) {
+  builderWallets.splice(i, 1);
+  renderBuilderList();
+}
+
+async function builderSubmit() {
+  const name = document.getElementById('b-name').value.trim();
+  const desc = document.getElementById('b-desc').value.trim();
+  const by = document.getElementById('b-by').value.trim();
+  if (!name) { showToast('Pack needs a name'); return; }
+  if (builderWallets.length < 1) { showToast('Add at least one wallet'); return; }
+  const btn = document.querySelector('.builder-submit');
+  btn.textContent = 'Submitting...';
+  btn.disabled = true;
+  const { error } = await sb.from('community_packs').insert({
+    name, description: desc || null, submitted_by: by || null, wallets: builderWallets, status: 'pending'
+  });
+  btn.disabled = false;
+  if (error) { btn.textContent = 'Submit Pack for Review'; showToast('Error — try again'); return; }
+  btn.textContent = 'Submit Pack for Review';
+  closeBuilder();
+  showToast('Pack submitted! We\'ll review it soon.');
+}
+
+async function loadCommunityPacks() {
+  const grid = document.getElementById('community-grid');
+  const { data, error } = await sb.from('community_packs').select('*').eq('status', 'approved').order('created_at', { ascending: false });
+  if (error || !data || data.length === 0) {
+    grid.innerHTML = `<div class="community-empty"><div class="community-empty-icon">📦</div><h3>No packs yet</h3><p>Be the first to submit a community pack.</p></div>`;
+    return;
+  }
+  grid.innerHTML = data.map(p => `
+    <div class="community-card">
+      ${p.submitted_by ? `<div class="community-card-by">by ${p.submitted_by}</div>` : ''}
+      <div class="community-card-name">${p.name}</div>
+      <div class="community-card-desc">${p.description || 'Community curated wallet pack.'}</div>
+      <div class="community-card-meta">
+        <div class="community-card-stat"><div class="meta-val">${p.wallets.length}</div><div class="meta-lbl">WALLETS</div></div>
+        <div class="community-card-stat"><div class="meta-val">Community</div><div class="meta-lbl">SOURCE</div></div>
+      </div>
+      <button class="dl-btn" onclick="importCommunityPack(${JSON.stringify(p.wallets).replace(/"/g,'&quot;')}, '${p.name.replace(/'/g,"\\'")}', this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+        Copy to Clipboard
+      </button>
+    </div>
+  `).join('');
+}
+
+function importCommunityPack(wallets, groupName, btn) {
+  const now = new Date().toISOString();
+  const data = wallets.map(w => ({
+    trackedWalletAddress: w.address, name: w.name, emoji: w.emoji || '👛',
+    createdAt: now, alertsOnToast: true, alertsOnBubble: true, alertsOnFeed: true,
+    groupNames: [groupName], sound: ''
+  }));
+  writeClipboard(JSON.stringify(data), () => {
+    const orig = btn.innerHTML;
+    btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Copied!';
+    btn.style.background = 'var(--green)';
+    setTimeout(() => { btn.innerHTML = orig; btn.style.background = ''; }, 2000);
+  });
+}
+
+// Admin
+function checkAdminPw() {
+  const pw = document.getElementById('admin-pw-input').value;
+  if (pw === ADMIN_PASSWORD) {
+    document.getElementById('admin-gate').style.display = 'none';
+    document.getElementById('admin-content').style.display = 'block';
+    loadAdminPacks();
+  } else {
+    showToast('Wrong password');
+  }
+}
+
+async function loadAdminPacks() {
+  const { data, error } = await sb.from('community_packs').select('*').eq('status', 'pending').order('created_at', { ascending: true });
+  const sub = document.getElementById('admin-sub');
+  const list = document.getElementById('admin-list');
+  if (error || !data || data.length === 0) {
+    sub.textContent = 'No pending submissions';
+    list.innerHTML = '<div class="admin-empty">All clear — nothing to review.</div>';
+    return;
+  }
+  sub.textContent = data.length + ' pending submission' + (data.length !== 1 ? 's' : '');
+  list.innerHTML = data.map(p => `
+    <div class="admin-pack" id="ap-${p.id}">
+      <div class="admin-pack-name">${p.name}</div>
+      ${p.submitted_by ? `<div class="admin-pack-by">${p.submitted_by}</div>` : ''}
+      ${p.description ? `<div class="admin-pack-desc">${p.description}</div>` : ''}
+      <div class="admin-pack-wallets">${p.wallets.map(w => `${w.emoji || '👛'} ${w.name} — ${w.address}`).join('<br>')}</div>
+      <div class="admin-pack-actions">
+        <button class="admin-approve" onclick="adminAction('${p.id}','approved')">Approve</button>
+        <button class="admin-reject" onclick="adminAction('${p.id}','rejected')">Reject</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+async function adminAction(id, status) {
+  await sb.from('community_packs').update({ status }).eq('id', id);
+  document.getElementById('ap-' + id).remove();
+  showToast(status === 'approved' ? 'Pack approved!' : 'Pack rejected');
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2200);
+}
 
 // Button glint on hover
 (function() {
