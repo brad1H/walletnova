@@ -429,18 +429,25 @@ footer p{font-size:11px;color:var(--muted)}
 .community-h1 .hl{color:var(--purple-bright)}
 .community-sub{font-size:14px;color:var(--muted);line-height:1.85;max-width:440px;margin:0 auto 28px}
 .community-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-.community-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:28px;display:flex;flex-direction:column;transition:border-color 0.2s,transform 0.2s;position:relative;overflow:hidden}
-.community-card:hover{border-color:var(--purple-border);transform:translateY(-3px)}
-.community-card-by{font-size:11px;color:var(--muted);margin-bottom:6px;letter-spacing:0.3px}
-.community-card-name{font-family:'Inter',sans-serif;font-size:18px;font-weight:800;letter-spacing:-0.5px;margin-bottom:8px}
-.community-card-desc{font-size:13px;color:var(--muted);line-height:1.75;flex:1;margin-bottom:20px}
-.community-card-meta{display:flex;gap:16px;padding-bottom:18px;margin-bottom:18px;border-bottom:1px solid var(--border)}
-.community-card-stat .meta-val{font-family:'Inter',sans-serif;font-size:15px;font-weight:800;color:var(--text)}
-.community-card-stat .meta-lbl{font-size:10px;color:var(--muted);letter-spacing:0.5px}
+.community-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:32px;display:flex;flex-direction:column;gap:0;transition:border-color 0.2s;position:relative;overflow:hidden;isolation:isolate;will-change:transform}
+.community-card:hover{border-color:var(--purple-border);background:var(--surface2)}
+.community-card::after{content:'';position:absolute;inset:0;border-radius:13px;background:linear-gradient(var(--holo,130deg),transparent 28%,rgba(200,150,255,0.08) 44%,rgba(255,180,255,0.07) 50%,rgba(140,210,255,0.07) 56%,transparent 72%);opacity:0;transition:opacity 0.5s;pointer-events:none;mix-blend-mode:screen;z-index:0}
+.community-card:hover::after{opacity:1}
+.community-card-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:24px}
+.community-card-icon{font-size:32px;line-height:1}
+.community-card-badge{font-size:10px;font-weight:700;letter-spacing:1.5px;padding:4px 12px;border-radius:100px;background:var(--purple-dim);color:var(--purple-bright);border:1px solid var(--purple-border)}
+.community-card-name{font-family:'Inter',sans-serif;font-size:20px;font-weight:800;letter-spacing:-0.5px;margin-bottom:8px}
+.community-card-desc{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:24px;flex:1}
+.community-card-meta{display:flex;gap:16px;margin-bottom:22px;padding-bottom:22px;border-bottom:1px solid var(--border)}
 .community-empty{text-align:center;padding:80px 20px;grid-column:1/-1}
 .community-empty-icon{font-size:40px;margin-bottom:16px}
 .community-empty h3{font-family:'Inter',sans-serif;font-size:20px;font-weight:700;color:var(--text);margin-bottom:8px}
 .community-empty p{font-size:13px;color:var(--muted)}
+.builder-emoji-picker{display:flex;align-items:center;gap:14px}
+.builder-emoji-preview{font-size:40px;width:64px;height:64px;background:var(--surface);border:1px solid var(--border2);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer}
+.builder-emoji-suggestions{display:flex;flex-wrap:wrap;gap:6px}
+.builder-emoji-opt{font-size:20px;width:36px;height:36px;background:var(--surface);border:1px solid var(--border);border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:border-color 0.15s}
+.builder-emoji-opt:hover,.builder-emoji-opt.sel{border-color:var(--purple-border);background:var(--purple-dim)}
 
 /* PACK BUILDER */
 .builder-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(4px);z-index:300;opacity:0;pointer-events:none;transition:opacity 0.2s}
@@ -924,16 +931,22 @@ footer p{font-size:11px;color:var(--muted)}
   </div>
   <div class="builder-body">
     <div class="builder-field">
+      <div class="builder-label">Pack Icon</div>
+      <div class="builder-emoji-picker">
+        <div class="builder-emoji-preview" id="b-emoji-preview">🎯</div>
+        <div class="builder-emoji-suggestions" id="b-emoji-suggestions">
+          🎯 🏆 🔥 💎 🚀 🐐 🕵️ 🧠 👑 ⚡ 🌊 🎪 🦅 🌀 🎲 🏹 🐉 💀 🦁 🌙 🔮 👾 🎭 ⚔️ 🧬
+        </div>
+      </div>
+      <input class="builder-input" id="b-pack-emoji" placeholder="Or type any emoji..." maxlength="4" style="margin-top:8px" oninput="setBuilderEmoji(this.value)">
+    </div>
+    <div class="builder-field">
       <div class="builder-label">Pack Name *</div>
       <input class="builder-input" id="b-name" placeholder="e.g. Top Memecoin Traders">
     </div>
     <div class="builder-field">
       <div class="builder-label">Description</div>
       <input class="builder-input" id="b-desc" placeholder="What makes these wallets worth tracking?">
-    </div>
-    <div class="builder-field">
-      <div class="builder-label">Your Name / Handle</div>
-      <input class="builder-input" id="b-by" placeholder="e.g. @yourhandle (optional)">
     </div>
     <div class="builder-field">
       <div class="builder-label" style="display:flex;align-items:center;justify-content:space-between"><span>Wallets <span id="b-wallet-count" style="color:var(--purple-bright);font-weight:800">0</span></span><button class="builder-add-btn" style="font-size:11px;padding:5px 12px" onclick="toggleImportArea()">Import</button></div>
@@ -2492,14 +2505,42 @@ const ADMIN_PASSWORD = 'nova_admin';
 // Community pack builder state
 let builderWallets = [];
 
+function setBuilderEmoji(val) {
+  const e = val.trim();
+  if (e) document.getElementById('b-emoji-preview').textContent = e;
+}
+
+(function initEmojiPicker() {
+  const container = document.getElementById('b-emoji-suggestions');
+  if (!container) return;
+  const emojis = container.textContent.trim().split(/\s+/);
+  container.innerHTML = '';
+  emojis.forEach(em => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'builder-emoji-opt';
+    btn.textContent = em;
+    btn.onclick = function() {
+      document.getElementById('b-emoji-preview').textContent = em;
+      document.getElementById('b-pack-emoji').value = '';
+      container.querySelectorAll('.builder-emoji-opt').forEach(b => b.classList.remove('sel'));
+      btn.classList.add('sel');
+    };
+    container.appendChild(btn);
+  });
+  emojis[0] && container.children[0] && container.children[0].classList.add('sel');
+})();
+
 function openBuilder() {
   builderWallets = [];
+  document.getElementById('b-pack-emoji').value = '';
+  document.getElementById('b-emoji-preview').textContent = '🎯';
   document.getElementById('b-name').value = '';
   document.getElementById('b-desc').value = '';
-  document.getElementById('b-by').value = '';
   document.getElementById('b-emoji').value = '';
   document.getElementById('b-wallet-name').value = '';
   document.getElementById('b-wallet-addr').value = '';
+  document.querySelectorAll('.builder-emoji-opt').forEach((b,i) => b.classList.toggle('sel', i===0));
   renderBuilderList();
   document.getElementById('builder-overlay').classList.add('open');
   document.getElementById('builder-modal').classList.add('open');
@@ -2576,14 +2617,14 @@ function builderRemoveWallet(i) {
 async function builderSubmit() {
   const name = document.getElementById('b-name').value.trim();
   const desc = document.getElementById('b-desc').value.trim();
-  const by = document.getElementById('b-by').value.trim();
+  const icon = document.getElementById('b-emoji-preview').textContent.trim() || '🎯';
   if (!name) { showToast('Pack needs a name'); return; }
   if (builderWallets.length < 1) { showToast('Add at least one wallet'); return; }
   const btn = document.querySelector('.builder-submit');
   btn.textContent = 'Submitting...';
   btn.disabled = true;
   const { error } = await sb.from('community_packs').insert({
-    name, description: desc || null, submitted_by: by || null, wallets: builderWallets, status: 'pending'
+    name, description: desc || null, submitted_by: icon, wallets: builderWallets, status: 'pending'
   });
   btn.disabled = false;
   if (error) { btn.textContent = 'Submit Pack for Review'; showToast('Error — try again'); return; }
@@ -2599,21 +2640,48 @@ async function loadCommunityPacks() {
     grid.innerHTML = `<div class="community-empty"><div class="community-empty-icon">📦</div><h3>No packs yet</h3><p>Be the first to submit a community pack.</p></div>`;
     return;
   }
-  grid.innerHTML = data.map(p => `
-    <div class="community-card">
-      ${p.submitted_by ? `<div class="community-card-by">by ${p.submitted_by}</div>` : ''}
-      <div class="community-card-name">${p.name}</div>
-      <div class="community-card-desc">${p.description || 'Community curated wallet pack.'}</div>
-      <div class="community-card-meta">
-        <div class="community-card-stat"><div class="meta-val">${p.wallets.length}</div><div class="meta-lbl">WALLETS</div></div>
-        <div class="community-card-stat"><div class="meta-val">Community</div><div class="meta-lbl">SOURCE</div></div>
+  grid.innerHTML = data.map(p => {
+    const icon = p.submitted_by || '🎯';
+    const walletsJson = JSON.stringify(p.wallets).replace(/"/g,'&quot;');
+    const safeName = p.name.replace(/'/g,"\\'");
+    return `<div class="community-card">
+      <div class="community-card-top">
+        <div class="community-card-icon">${icon}</div>
+        <span class="community-card-badge">COMMUNITY</span>
       </div>
-      <button class="dl-btn" onclick="importCommunityPack(${JSON.stringify(p.wallets).replace(/"/g,'&quot;')}, '${p.name.replace(/'/g,"\\'")}', this)">
+      <div class="community-card-name">${p.name}</div>
+      <p class="community-card-desc">${p.description || 'Community curated wallet pack.'}</p>
+      <div class="community-card-meta">
+        <div class="pack-meta-item"><div class="meta-val">${p.wallets.length}</div><div class="meta-lbl">WALLETS</div></div>
+        <div class="pack-meta-item"><div class="meta-val">Community</div><div class="meta-lbl">SOURCE</div></div>
+      </div>
+      <button class="dl-btn" onclick="importCommunityPack(${walletsJson},'${safeName}',this)">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
         Copy to Clipboard
       </button>
+      <button class="view-btn" onclick="openCommunityModal(${walletsJson},'${safeName}')">View ${p.wallets.length} wallets →</button>
+    </div>`;
+  }).join('');
+}
+
+function openCommunityModal(wallets, name) {
+  document.getElementById('modal-title').textContent = name;
+  document.getElementById('modal-meta').textContent = wallets.length + ' wallets · Community pack';
+  document.getElementById('modal-body').innerHTML = wallets.map((w, i) => `
+    <div class="mrow">
+      <div class="mrank">${i + 1}</div>
+      <div class="memoji">${w.emoji || '👛'}</div>
+      <div class="minfo">
+        <div class="mname">${w.name}</div>
+        <div class="maddr">${fmt(w.address)}</div>
+      </div>
     </div>
   `).join('');
+  const copyBtn = document.getElementById('modal-copy-btn');
+  copyBtn.onclick = () => importCommunityPack(wallets, name, copyBtn);
+  document.getElementById('overlay').classList.add('open');
+  document.getElementById('modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
 }
 
 function importCommunityPack(wallets, groupName, btn) {
