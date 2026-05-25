@@ -443,11 +443,11 @@ footer p{font-size:11px;color:var(--muted)}
 .community-empty-icon{font-size:40px;margin-bottom:16px}
 .community-empty h3{font-family:'Inter',sans-serif;font-size:20px;font-weight:700;color:var(--text);margin-bottom:8px}
 .community-empty p{font-size:13px;color:var(--muted)}
-.builder-emoji-picker{display:flex;align-items:center;gap:14px}
-.builder-emoji-preview{font-size:40px;width:64px;height:64px;background:var(--surface);border:1px solid var(--border2);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer}
-.builder-emoji-suggestions{display:flex;flex-wrap:wrap;gap:6px}
-.builder-emoji-opt{font-size:20px;width:36px;height:36px;background:var(--surface);border:1px solid var(--border);border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:border-color 0.15s}
-.builder-emoji-opt:hover,.builder-emoji-opt.sel{border-color:var(--purple-border);background:var(--purple-dim)}
+.builder-emoji-picker{display:flex;align-items:center;gap:14px;position:relative}
+.builder-emoji-preview{font-size:36px;width:60px;height:60px;background:var(--surface);border:1px solid var(--border2);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer;transition:border-color 0.15s}
+.builder-emoji-preview:hover{border-color:var(--purple-border)}
+.builder-emoji-drop{position:absolute;top:68px;left:0;z-index:400;border-radius:12px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,0.5)}
+emoji-picker{--background:#111;--border-color:rgba(255,255,255,0.08);--button-active-background:rgba(155,140,255,0.2);--button-hover-background:rgba(155,140,255,0.1);--category-font-color:#6B6880;--emoji-size:1.5rem;--input-border-color:rgba(155,140,255,0.3);--input-font-color:#F2F0FF;--input-placeholder-color:#6B6880;--outline-color:rgba(155,140,255,0.5);--search-background:#181818;}
 
 /* PACK BUILDER */
 .builder-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(4px);z-index:300;opacity:0;pointer-events:none;transition:opacity 0.2s}
@@ -894,12 +894,11 @@ footer p{font-size:11px;color:var(--muted)}
     <div class="builder-field">
       <div class="builder-label">Pack Icon</div>
       <div class="builder-emoji-picker">
-        <div class="builder-emoji-preview" id="b-emoji-preview">🎯</div>
-        <div class="builder-emoji-suggestions" id="b-emoji-suggestions">
-          🎯 🏆 🔥 💎 🚀 🐐 🕵️ 🧠 👑 ⚡ 🌊 🎪 🦅 🌀 🎲 🏹 🐉 💀 🦁 🌙 🔮 👾 🎭 ⚔️ 🧬
+        <div class="builder-emoji-preview" id="b-emoji-preview" onclick="toggleEmojiPicker()" title="Pick an emoji">🎯</div>
+        <div class="builder-emoji-drop" id="b-emoji-drop" style="display:none">
+          <emoji-picker></emoji-picker>
         </div>
       </div>
-      <input class="builder-input" id="b-pack-emoji" placeholder="Or type any emoji..." maxlength="4" style="margin-top:8px" oninput="setBuilderEmoji(this.value)">
     </div>
     <div class="builder-field">
       <div class="builder-label">Pack Name *</div>
@@ -953,6 +952,7 @@ footer p{font-size:11px;color:var(--muted)}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script type="module" src="https://cdn.jsdelivr.net/npm/emoji-picker-element@1/index.js"></script>
 <script>
 const wallets = [
   { rank:1 , name:"Cented", emoji:"🤪", twitter:"Cented7", pfp:"https://cdn.kolscan.io/profiles/CyaE1VxvBrahnPWkqm5VsdCvyS2QmNht2UFrKJHga54o.png", address:"CyaE1VxvBrahnPWkqm5VsdCvyS2QmNht2UFrKJHga54o", pnl:18943, wr:56 },
@@ -2110,6 +2110,11 @@ gsap.from('#site-nav', { y: -58, opacity: 0, duration: 0.9, ease: 'power2.out', 
 // Scroll cue entrance — appears after logo animation finishes
 gsap.to('#scroll-cue', { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out', delay: 2.8 });
 
+// Supabase client — must be initialized before hash routing runs
+const SUPABASE_URL = 'https://zslgaensifehhnjyfxkp.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_vfUJGDWs5LQxT6_O10eQRA_K5SsuTlV';
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
 // Browser back/forward
 window.addEventListener('popstate', e => navigate(e.state && e.state.page ? e.state.page : 'home', true));
 (function() {
@@ -2457,50 +2462,46 @@ ScrollTrigger.create({
 });
 
 // ── Supabase + Community Packs ──────────────────────────────────────────
-const SUPABASE_URL = 'https://zslgaensifehhnjyfxkp.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_vfUJGDWs5LQxT6_O10eQRA_K5SsuTlV';
-const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 
 // Community pack builder state
 let builderWallets = [];
 
-function setBuilderEmoji(val) {
-  const e = val.trim();
-  if (e) document.getElementById('b-emoji-preview').textContent = e;
+function toggleEmojiPicker() {
+  const drop = document.getElementById('b-emoji-drop');
+  const isOpen = drop.style.display !== 'none';
+  drop.style.display = isOpen ? 'none' : 'block';
+  if (!isOpen) {
+    const picker = drop.querySelector('emoji-picker');
+    if (picker && !picker._listenerAdded) {
+      picker.addEventListener('emoji-click', e => {
+        document.getElementById('b-emoji-preview').textContent = e.detail.unicode;
+        drop.style.display = 'none';
+      });
+      picker._listenerAdded = true;
+    }
+  }
 }
 
-(function initEmojiPicker() {
-  const container = document.getElementById('b-emoji-suggestions');
-  if (!container) return;
-  const emojis = container.textContent.trim().split(/\s+/);
-  container.innerHTML = '';
-  emojis.forEach(em => {
-    const btn = document.createElement('button');
-    btn.type = 'button';
-    btn.className = 'builder-emoji-opt';
-    btn.textContent = em;
-    btn.onclick = function() {
-      document.getElementById('b-emoji-preview').textContent = em;
-      document.getElementById('b-pack-emoji').value = '';
-      container.querySelectorAll('.builder-emoji-opt').forEach(b => b.classList.remove('sel'));
-      btn.classList.add('sel');
-    };
-    container.appendChild(btn);
-  });
-  emojis[0] && container.children[0] && container.children[0].classList.add('sel');
-})();
+document.addEventListener('click', function(e) {
+  const drop = document.getElementById('b-emoji-drop');
+  if (!drop) return;
+  if (drop.style.display === 'none') return;
+  if (!drop.contains(e.target) && e.target.id !== 'b-emoji-preview') {
+    drop.style.display = 'none';
+  }
+});
+
 
 function openBuilder() {
   builderWallets = [];
-  document.getElementById('b-pack-emoji').value = '';
   document.getElementById('b-emoji-preview').textContent = '🎯';
+  document.getElementById('b-emoji-drop').style.display = 'none';
   document.getElementById('b-name').value = '';
   document.getElementById('b-desc').value = '';
   document.getElementById('b-emoji').value = '';
   document.getElementById('b-wallet-name').value = '';
   document.getElementById('b-wallet-addr').value = '';
-  document.querySelectorAll('.builder-emoji-opt').forEach((b,i) => b.classList.toggle('sel', i===0));
   renderBuilderList();
   document.getElementById('builder-overlay').classList.add('open');
   document.getElementById('builder-modal').classList.add('open');
@@ -2510,6 +2511,7 @@ function openBuilder() {
 function closeBuilder() {
   document.getElementById('builder-overlay').classList.remove('open');
   document.getElementById('builder-modal').classList.remove('open');
+  document.getElementById('b-emoji-drop').style.display = 'none';
   document.body.style.overflow = '';
 }
 
