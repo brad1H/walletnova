@@ -214,9 +214,9 @@ h1 .hl{color:var(--purple-bright)}
 .pod-copy:hover{border-color:var(--purple-border);color:var(--purple-bright)}
 /* LIST */
 .lb-list-hdr{display:flex;align-items:center;gap:10px;margin-bottom:10px}
-.col-hdr{display:grid;grid-template-columns:52px 1fr 120px 180px 80px;gap:14px;padding:0 20px 8px;font-size:10px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;border-bottom:1px solid var(--border);margin-bottom:6px}
+.col-hdr{display:grid;grid-template-columns:52px 1fr 120px 180px 110px;gap:14px;padding:0 20px 8px;font-size:10px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;border-bottom:1px solid var(--border);margin-bottom:6px}
 .wallets{display:flex;flex-direction:column;gap:3px}
-.wrow{display:grid;grid-template-columns:52px 1fr 120px 180px 80px;align-items:center;gap:14px;background:var(--surface);border:1px solid var(--border);border-left:3px solid transparent;border-radius:10px;padding:13px 20px;transition:border-color 0.15s,background 0.15s,border-left-color 0.2s}
+.wrow{display:grid;grid-template-columns:52px 1fr 120px 180px 110px;align-items:center;gap:14px;background:var(--surface);border:1px solid var(--border);border-left:3px solid transparent;border-radius:10px;padding:13px 20px;transition:border-color 0.15s,background 0.15s,border-left-color 0.2s}
 .wrow:hover{border-color:var(--border2);background:var(--surface2);border-left-color:var(--purple)}
 .wrank{font-size:13px;font-weight:700;color:var(--muted);text-align:center;font-family:'Inter',sans-serif}
 .wrank.top{color:var(--purple-bright)}
@@ -235,7 +235,7 @@ h1 .hl{color:var(--purple-bright)}
 .wr-bar{flex:1;height:4px;background:rgba(255,255,255,0.07);border-radius:2px;overflow:hidden}
 .wr-fill{height:100%;border-radius:2px}
 .wr-lbl{font-size:12px;font-weight:600;min-width:34px;text-align:right}
-.wactions{display:flex;align-items:center}
+.wactions{display:flex;align-items:center;gap:5px}
 .abtn{background:transparent;border:1px solid var(--border);border-radius:5px;padding:5px 12px;font-family:'DM Sans',sans-serif;font-size:11px;color:var(--muted);cursor:pointer;transition:all 0.15s;white-space:nowrap}
 .abtn:hover{border-color:var(--purple-border);color:var(--purple-bright)}
 .xlink{display:inline-flex;align-items:center;justify-content:center;width:17px;height:17px;background:#000;border-radius:4px;flex-shrink:0;text-decoration:none;transition:transform 0.15s ease;margin-left:2px}
@@ -417,7 +417,7 @@ footer p{font-size:11px;color:var(--muted)}
 .cat-demo-av img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:50%}
 .cat-demo-info{flex:1;min-width:0}
 .cat-demo-name{font-size:13px;font-weight:600;margin-bottom:3px;display:flex;align-items:center;gap:5px}
-.cat-demo-addr{font-size:10px;color:var(--muted);font-family:monospace}
+.cat-demo-addr{font-size:10px;color:var(--muted);font-family:monospace;display:flex;align-items:center;gap:4px}
 .cat-demo-copybtn{font-size:11px;color:var(--muted);border:1px solid var(--border);border-radius:5px;padding:5px 10px;flex-shrink:0;white-space:nowrap}
 .cat-demo-bubblebtn{background:#fff;border:none;border-radius:7px;padding:6px 8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-left:3px}
 
@@ -474,7 +474,10 @@ footer p{font-size:11px;color:var(--muted)}
 .cat-info{flex:1;min-width:0}
 .cat-name{font-size:13px;font-weight:600;color:var(--text);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:flex;align-items:center;gap:5px}
 .cat-pack{font-size:10px;font-weight:600;letter-spacing:0.3px;margin-bottom:2px}
-.cat-addr{font-size:10px;color:var(--muted);font-family:monospace}
+.cat-addr{font-size:10px;color:var(--muted);font-family:monospace;display:flex;align-items:center;gap:4px}
+.solscan-lnk{display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;border:1px solid rgba(155,140,255,0.35);border-radius:3px;text-decoration:none;transition:border-color 0.15s,opacity 0.15s,transform 0.15s;opacity:0.7;flex-shrink:0}
+.solscan-lnk:hover{border-color:rgba(155,140,255,0.55);opacity:1;transform:scale(1.2)}
+.solscan-lnk svg{width:8px;height:8px;stroke:var(--purple-bright);fill:none;stroke-width:2.5}
 .cat-rank{font-family:'Inter',sans-serif;font-size:10px;font-weight:800;color:rgba(155,140,255,0.35);min-width:26px;text-align:right;flex-shrink:0}
 .cat-rank.gold{color:#F5C842}.cat-rank.silver{color:#C8CAD8}.cat-rank.bronze{color:#D4924E}
 .cat-copy{background:none;border:1px solid var(--border);border-radius:5px;padding:5px 10px;font-family:'DM Sans',sans-serif;font-size:11px;color:var(--muted);cursor:pointer;transition:all 0.15s;flex-shrink:0;white-space:nowrap}
@@ -544,6 +547,24 @@ emoji-picker{--background:#111;--border-color:rgba(255,255,255,0.08);--button-ac
 .cat-conn{background:#fff;border:none;border-radius:7px;padding:6px 8px;cursor:pointer;transition:all 0.18s cubic-bezier(0.34,1.56,0.64,1);flex-shrink:0;margin-left:4px;display:flex;align-items:center;justify-content:center;box-shadow:0 1px 10px rgba(255,255,255,0.12)}
 .cat-conn:hover{background:#ece8ff;box-shadow:0 2px 18px rgba(155,140,255,0.35),0 0 0 2px rgba(155,140,255,0.18);transform:scale(1.06)}
 .cat-conn:active{transform:scale(0.95);box-shadow:0 1px 6px rgba(155,140,255,0.2)}
+.star-btn{background:none;border:1px solid var(--border);border-radius:7px;padding:6px 7px;cursor:pointer;transition:all 0.18s;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.star-btn:hover{border-color:rgba(245,200,66,0.45);background:rgba(245,200,66,0.07)}
+.star-btn.starred{border-color:rgba(245,200,66,0.55);background:rgba(245,200,66,0.1)}
+.star-btn svg{width:13px;height:13px;stroke:var(--muted);fill:none;transition:stroke 0.15s,fill 0.15s;stroke-width:2}
+.star-btn:hover svg{stroke:#F5C842}
+.star-btn.starred svg{stroke:#F5C842;fill:#F5C842}
+.nav-watch{background:none;border:1px solid var(--border2);border-radius:100px;padding:7px 13px;display:flex;align-items:center;gap:6px;font-family:'DM Sans',sans-serif;font-size:12px;color:var(--muted);cursor:pointer;transition:all 0.18s}
+.nav-watch:hover{border-color:rgba(245,200,66,0.45);color:#F5C842}
+.nav-watch svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;flex-shrink:0}
+.nav-watch-count{font-size:10px;font-weight:800;color:var(--purple-bright);background:var(--purple-dim);border:1px solid var(--purple-border);border-radius:100px;padding:1px 7px;display:none}
+.nav-watch-count.show{display:inline-block}
+#page-watchlist{padding-top:80px;font-family:'Inter',sans-serif}
+.watchlist-wrap{max-width:1440px;margin:0 auto;padding:60px 44px 100px}
+.watchlist-hdr{margin-bottom:44px;text-align:center}
+.watchlist-empty{text-align:center;padding:100px 20px;grid-column:1/-1}
+.watchlist-empty-icon{font-size:44px;margin-bottom:18px}
+.watchlist-empty h3{font-family:'Inter',sans-serif;font-size:22px;font-weight:700;margin-bottom:10px}
+.watchlist-empty p{font-size:14px;color:var(--muted);max-width:320px;margin:0 auto;line-height:1.7}
 
 /* PACK BUILDER */
 .builder-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(4px);z-index:300;opacity:0;pointer-events:none;transition:opacity 0.2s}
@@ -592,10 +613,16 @@ emoji-picker{--background:#111;--border-color:rgba(255,255,255,0.08);--button-ac
     <button class="nav-link" data-page="leaderboard" onclick="navigate('leaderboard')">Leaderboard</button>
     <button class="nav-link" data-page="community" onclick="navigate('community')">Community Packs</button>
   </div>
-  <button class="nav-cta" onclick="navigate('import')">
-    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
-    Import Wallets
-  </button>
+  <div style="display:flex;align-items:center;gap:8px">
+    <button class="nav-watch" id="nav-watch-btn" onclick="navigate('watchlist')">
+      <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      <span class="nav-watch-count" id="nav-watch-count">0</span>
+    </button>
+    <button class="nav-cta" onclick="navigate('import')">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+      Import Wallets
+    </button>
+  </div>
 </header>
 
 <div id="page-home" class="page active">
@@ -831,6 +858,11 @@ emoji-picker{--background:#111;--border-color:rgba(255,255,255,0.08);--button-ac
     </div>
   </section>
 
+  <footer>
+    <div class="foot-logo"><img src="Novawalletlogo.png" alt="" style="height:26px;width:auto;">Nova Wallet</div>
+    <p>Not financial advice · DYOR</p>
+    <p>© 2026</p>
+  </footer>
 </div>
 
 <div id="page-import" class="page">
@@ -974,7 +1006,7 @@ emoji-picker{--background:#111;--border-color:rgba(255,255,255,0.08);--button-ac
   <div class="lb-list-hdr">
     <div class="search-wrap">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-      <input id="search" type="text" placeholder="Search name or address…">
+      <input id="search" type="text" placeholder="/ Search name or address…">
     </div>
     <div class="rcount" id="rcount"></div>
   </div>
@@ -1001,7 +1033,7 @@ emoji-picker{--background:#111;--border-color:rgba(255,255,255,0.08);--button-ac
   <div class="catalog-controls">
     <div class="catalog-search-wrap">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-      <input id="cat-search" type="text" placeholder="Search name or address…">
+      <input id="cat-search" type="text" placeholder="/ Search name or address…">
     </div>
     <div class="cat-filters" id="cat-filters">
       <button class="cat-filter active" data-pack="all">All</button>
@@ -1039,6 +1071,23 @@ emoji-picker{--background:#111;--border-color:rgba(255,255,255,0.08);--button-ac
 </div>
 </div>
 
+
+<!-- WATCHLIST PAGE -->
+<div id="page-watchlist" class="page">
+<div class="watchlist-wrap">
+  <div class="watchlist-hdr">
+    <div class="import-eyebrow" style="margin-bottom:16px">My List</div>
+    <h1 class="catalog-h1">Watchlist</h1>
+    <p class="catalog-sub" id="watchlist-count"></p>
+  </div>
+  <div class="cat-grid" id="watchlist-grid"></div>
+</div>
+<footer>
+  <div class="foot-logo"><img src="Novawalletlogo.png" alt="" style="height:26px;width:auto;">Nova Wallet</div>
+  <p>Not financial advice · DYOR</p>
+  <p>© 2026</p>
+</footer>
+</div>
 
 <!-- PACK BUILDER MODAL -->
 <div class="builder-overlay" id="builder-overlay" onclick="closeBuilder()"></div>
@@ -2020,11 +2069,12 @@ function renderRow(w) {
       <div class="wname">${pfp} ${w.name}${xLink}</div>
       <div class="waddr-row"><span class="waddr">${fmt(w.address)}</span>
         <button class="cbtn" onclick="copyAddr('${w.address}')" title="Copy"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke="currentColor"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg></button>
+        <a class="solscan-lnk" href="https://solscan.io/account/${w.address}" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>
       </div>
     </div>
     <div class="wpnl ${pnlCls}">${pnlStr}</div>
     <div class="wr-wrap">${wrHtml}</div>
-    <div class="wactions"><button class="abtn" onclick="copyAddr('${w.address}')">Copy</button><button class="cat-conn" onclick="openConnections('${w.address}','${w.name.replace(/'/g,"\\'")}','${w.emoji||'👛'}','${w.pfp||''}')" title="Bubble Map"><svg width="18" height="18" viewBox="-1 -1 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="9" cy="12" r="5" stroke="#080818" stroke-width="1.4"/><circle cx="6.5" cy="9.5" r="1.2" fill="#080818" opacity="0.2"/><circle cx="4.5" cy="4" r="4" stroke="#080818" stroke-width="1.4"/><circle cx="3" cy="2.6" r="0.9" fill="#080818" opacity="0.2"/><circle cx="11.5" cy="4.5" r="3" stroke="#080818" stroke-width="1.4"/><circle cx="10.3" cy="3.2" r="0.65" fill="#080818" opacity="0.2"/></svg></button></div>
+    <div class="wactions"><button class="abtn" onclick="copyAddr('${w.address}')">Copy</button><button class="cat-conn" onclick="openConnections('${w.address}','${w.name.replace(/'/g,"\\'")}','${w.emoji||'👛'}','${w.pfp||''}')" title="Bubble Map"><svg width="18" height="18" viewBox="-1 -1 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="9" cy="12" r="5" stroke="#080818" stroke-width="1.4"/><circle cx="6.5" cy="9.5" r="1.2" fill="#080818" opacity="0.2"/><circle cx="4.5" cy="4" r="4" stroke="#080818" stroke-width="1.4"/><circle cx="3" cy="2.6" r="0.9" fill="#080818" opacity="0.2"/><circle cx="11.5" cy="4.5" r="3" stroke="#080818" stroke-width="1.4"/><circle cx="10.3" cy="3.2" r="0.65" fill="#080818" opacity="0.2"/></svg></button><button class="star-btn${isWatched(w.address)?' starred':''}" data-addr="${w.address}" onclick="toggleWatch('${w.address}','${w.name.replace(/'/g,"\\'")}','${w.emoji||'👛'}','${w.pfp||''}')" title="Watchlist"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div>
   </div>`;
 }
 
@@ -2099,10 +2149,11 @@ function renderCatalog() {
       <div class="cat-avatar">${w.emoji || '👛'}${img}</div>
       <div class="cat-info">
         <div class="cat-name">${w.name}${xLink}</div>
-        <div class="cat-addr">${fmt(w.address)}</div>
+        <div class="cat-addr">${fmt(w.address)}<a class="solscan-lnk" href="https://solscan.io/account/${w.address}" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a></div>
       </div>
       <button class="cat-copy" onclick="copyAddr('${w.address}')">Copy</button>
       <button class="cat-conn" onclick="openConnections('${w.address}','${w.name.replace(/'/g,"\\'")}','${w.emoji||'👛'}','${w.pfp||''}')" title="Bubble Map"><svg width="18" height="18" viewBox="-1 -1 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="9" cy="12" r="5" stroke="#080818" stroke-width="1.4"/><circle cx="6.5" cy="9.5" r="1.2" fill="#080818" opacity="0.2"/><circle cx="4.5" cy="4" r="4" stroke="#080818" stroke-width="1.4"/><circle cx="3" cy="2.6" r="0.9" fill="#080818" opacity="0.2"/><circle cx="11.5" cy="4.5" r="3" stroke="#080818" stroke-width="1.4"/><circle cx="10.3" cy="3.2" r="0.65" fill="#080818" opacity="0.2"/></svg></button>
+      <button class="star-btn${isWatched(w.address)?' starred':''}" data-addr="${w.address}" onclick="toggleWatch('${w.address}','${w.name.replace(/'/g,"\\'")}','${w.emoji||'👛'}','${w.pfp||''}')" title="Watchlist"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button>
     </div>`;
   }).join('');
 }
@@ -2146,7 +2197,15 @@ function closeModal() {
   document.body.style.overflow = '';
 }
 
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeModal();
+  if (e.key === '/' && !e.target.matches('input,textarea')) {
+    const onCatalog = document.getElementById('page-catalog').classList.contains('active');
+    const onLB = document.getElementById('page-leaderboard').classList.contains('active');
+    const s = onCatalog ? document.getElementById('cat-search') : onLB ? document.getElementById('search') : null;
+    if (s) { e.preventDefault(); s.focus(); }
+  }
+});
 
 // Hero intro
 (function() {
@@ -2304,7 +2363,7 @@ const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 window.addEventListener('popstate', e => navigate(e.state && e.state.page ? e.state.page : 'home', true));
 (function() {
   const hash = location.hash.replace('#', '');
-  if (hash === 'import' || hash === 'leaderboard' || hash === 'catalog' || hash === 'community') navigate(hash, true);
+  if (hash === 'import' || hash === 'leaderboard' || hash === 'catalog' || hash === 'community' || hash === 'watchlist') navigate(hash, true);
   else history.replaceState({ page: 'home' }, '', location.href);
 })();
 
@@ -2386,7 +2445,7 @@ ScrollTrigger.create({
           <div class="cat-demo-av">${w.emoji || '👛'}${img}</div>
           <div class="cat-demo-info">
             <div class="cat-demo-name">${nameHl}${xLink}</div>
-            <div class="cat-demo-addr">${w.address.slice(0,5)}...${w.address.slice(-4)}</div>
+            <div class="cat-demo-addr">${w.address.slice(0,5)}...${w.address.slice(-4)}<span class="solscan-lnk" style="pointer-events:none"><svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></span></div>
           </div>
           <div class="cat-demo-copybtn">Copy</div>
           <div class="cat-demo-bubblebtn"><svg width="16" height="16" viewBox="-1 -1 20 20" fill="none"><circle cx="9" cy="12" r="5" stroke="#080818" stroke-width="1.4"/><circle cx="4.5" cy="4" r="4" stroke="#080818" stroke-width="1.4"/><circle cx="11.5" cy="4.5" r="3" stroke="#080818" stroke-width="1.4"/></svg></div>
@@ -2546,6 +2605,10 @@ function navigate(page, skipPush) {
     if (page === 'community') {
       gsap.from('#page-community .community-hdr > *', { y: 20, opacity: 0, duration: 0.5, ease: 'power2.out', stagger: 0.1 });
       loadCommunityPacks();
+    }
+    if (page === 'watchlist') {
+      renderWatchlist();
+      gsap.from('#page-watchlist .watchlist-hdr > *', { y: 20, opacity: 0, duration: 0.5, ease: 'power2.out', stagger: 0.1 });
     }
   }
 
@@ -3260,6 +3323,52 @@ function showToast(msg) {
   t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 2200);
 }
+
+// Watchlist
+function getWatchlist() { try { return JSON.parse(localStorage.getItem('nw_watchlist') || '{}'); } catch { return {}; } }
+function isWatched(addr) { return !!getWatchlist()[addr]; }
+function toggleWatch(addr, name, emoji, pfp) {
+  const wl = getWatchlist();
+  if (wl[addr]) { delete wl[addr]; } else { wl[addr] = { addr, name, emoji, pfp, addedAt: Date.now() }; }
+  localStorage.setItem('nw_watchlist', JSON.stringify(wl));
+  const count = Object.keys(wl).length;
+  const badge = document.getElementById('nav-watch-count');
+  badge.textContent = count;
+  badge.classList.toggle('show', count > 0);
+  document.querySelectorAll(`.star-btn[data-addr="${addr}"]`).forEach(b => b.classList.toggle('starred', !!wl[addr]));
+  if (document.getElementById('page-watchlist').classList.contains('active')) renderWatchlist();
+}
+function renderWatchlist() {
+  const wl = getWatchlist();
+  const items = Object.values(wl).sort((a, b) => b.addedAt - a.addedAt);
+  const grid = document.getElementById('watchlist-grid');
+  const countEl = document.getElementById('watchlist-count');
+  if (countEl) countEl.textContent = items.length + ' wallet' + (items.length !== 1 ? 's' : '');
+  if (!items.length) {
+    grid.innerHTML = `<div class="watchlist-empty"><div class="watchlist-empty-icon">⭐</div><h3>No wallets saved yet</h3><p>Star any wallet from the Catalog or Leaderboard and it'll show up here.</p></div>`;
+    return;
+  }
+  const solscanSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="var(--purple-bright)" stroke-width="2.5" width="8" height="8"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>`;
+  const starSvg = `<svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`;
+  grid.innerHTML = items.map(w => {
+    const img = w.pfp ? `<img src="${w.pfp}" loading="lazy" onerror="this.style.display='none'" alt="">` : '';
+    return `<div class="cat-card">
+      <div class="cat-avatar">${w.emoji||'👛'}${img}</div>
+      <div class="cat-info">
+        <div class="cat-name">${w.name}</div>
+        <div class="cat-addr">${fmt(w.addr)}<a class="solscan-lnk" href="https://solscan.io/account/${w.addr}" target="_blank" rel="noopener">${solscanSvg}</a></div>
+      </div>
+      <button class="cat-copy" onclick="copyAddr('${w.addr}')">Copy</button>
+      <button class="cat-conn" onclick="openConnections('${w.addr}','${w.name.replace(/'/g,"\\'")}','${w.emoji||'👛'}','${w.pfp||''}')" title="Bubble Map"><svg width="18" height="18" viewBox="-1 -1 20 20" fill="none"><circle cx="9" cy="12" r="5" stroke="#080818" stroke-width="1.4"/><circle cx="4.5" cy="4" r="4" stroke="#080818" stroke-width="1.4"/><circle cx="11.5" cy="4.5" r="3" stroke="#080818" stroke-width="1.4"/></svg></button>
+      <button class="star-btn starred" data-addr="${w.addr}" onclick="toggleWatch('${w.addr}','${w.name.replace(/'/g,"\\'")}','${w.emoji||'👛'}','${w.pfp||''}')">${starSvg}</button>
+    </div>`;
+  }).join('');
+}
+(function initWatchlist() {
+  const count = Object.keys(getWatchlist()).length;
+  const badge = document.getElementById('nav-watch-count');
+  if (badge && count > 0) { badge.textContent = count; badge.classList.add('show'); }
+})();
 
 function copyBubbleAddr(addr, btn) {
   navigator.clipboard.writeText(addr).then(() => {
