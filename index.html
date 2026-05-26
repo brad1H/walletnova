@@ -1988,7 +1988,7 @@ function renderCatalog() {
         <div class="cat-addr">${fmt(w.address)}</div>
       </div>
       <button class="cat-copy" onclick="copyAddr('${w.address}')">Copy</button>
-      <button class="cat-conn" onclick="openConnections('${w.address}','${w.name.replace(/'/g,"\\'")}','${w.emoji||'👛'}','${w.pfp||''}')" title="Bubble Map"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="11" cy="11" r="5.5" stroke="#080818" stroke-width="1.4"/><circle cx="8.5" cy="8.5" r="1.2" fill="#080818" opacity="0.22"/><circle cx="4.5" cy="9.5" r="3.3" stroke="#080818" stroke-width="1.4"/><circle cx="3.2" cy="8.1" r="0.75" fill="#080818" opacity="0.22"/><circle cx="10.5" cy="3.5" r="2.2" stroke="#080818" stroke-width="1.4"/><circle cx="9.6" cy="2.6" r="0.55" fill="#080818" opacity="0.22"/></svg></button>
+      <button class="cat-conn" onclick="openConnections('${w.address}','${w.name.replace(/'/g,"\\'")}','${w.emoji||'👛'}','${w.pfp||''}')" title="Bubble Map"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="9" cy="11" r="5" stroke="#080818" stroke-width="1.4"/><circle cx="6.5" cy="8.5" r="1.2" fill="#080818" opacity="0.2"/><circle cx="3.5" cy="5" r="3.5" stroke="#080818" stroke-width="1.4"/><circle cx="2.1" cy="3.6" r="0.7" fill="#080818" opacity="0.2"/><circle cx="9" cy="4" r="2" stroke="#080818" stroke-width="1.4"/><circle cx="8.1" cy="3.1" r="0.5" fill="#080818" opacity="0.2"/></svg></button>
     </div>`;
   }).join('');
 }
