@@ -313,6 +313,42 @@ footer p{font-size:11px;color:var(--muted)}
 .comm-card-row-name{flex:1;color:var(--text);font-weight:500}
 .comm-card-more{font-size:11px;color:rgba(155,140,255,0.45);margin-top:6px}
 
+/* Bubble Map section */
+.home-bubble-sec{padding:110px 44px;position:relative;z-index:2;border-top:1px solid var(--border);overflow:hidden}
+.home-bubble-sec::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 65% 70% at 75% 50%,rgba(120,90,255,0.09) 0%,transparent 65%);pointer-events:none}
+.home-bubble-inner{max-width:1060px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.home-bubble-h2{font-family:'Inter',sans-serif;font-size:clamp(30px,4vw,50px);font-weight:800;line-height:1.1;letter-spacing:-1.5px;color:var(--text);margin:12px 0 18px}
+.home-bubble-sub{font-size:16px;line-height:1.65;color:var(--muted);margin-bottom:28px}
+.bubble-feats{list-style:none;padding:0;margin:0 0 36px;display:flex;flex-direction:column;gap:11px}
+.bubble-feats li{display:flex;align-items:center;gap:10px;font-size:14px;color:rgba(210,200,255,0.82);font-weight:500}
+/* CSS Bubble demo */
+.bdemo-wrap{position:relative;width:420px;height:350px;flex-shrink:0}
+.bdemo-svg{position:absolute;inset:0;pointer-events:none;overflow:visible}
+.bdemo-node{position:absolute;display:flex;flex-direction:column;align-items:center;gap:6px;transform-origin:center}
+.bdemo-circle{border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-size:11px;font-weight:800;position:relative}
+.bdemo-circle.main{width:68px;height:68px;background:radial-gradient(circle at 35% 32%,#d4c8ff,#9b8cff 50%,#4a3dbf);box-shadow:0 0 36px rgba(155,140,255,0.55),0 0 70px rgba(155,140,255,0.18);color:#fff}
+.bdemo-circle.gold{width:80px;height:80px;background:radial-gradient(circle at 35% 32%,#fff0a0,#edb820 50%,#7a5000);box-shadow:0 0 28px rgba(255,210,60,0.55),0 0 55px rgba(255,210,60,0.18);color:rgba(40,20,0,0.9)}
+.bdemo-circle.p1{width:50px;height:50px;background:radial-gradient(circle at 35% 32%,rgba(190,170,255,0.9),rgba(110,90,200,0.8) 55%,rgba(16,12,36,0.9));box-shadow:0 0 14px rgba(155,140,255,0.3);color:rgba(255,255,255,0.9)}
+.bdemo-circle.p2{width:44px;height:44px;background:radial-gradient(circle at 35% 32%,rgba(175,155,245,0.8),rgba(95,75,185,0.7) 55%,rgba(16,12,36,0.85));box-shadow:0 0 11px rgba(155,140,255,0.22);color:rgba(255,255,255,0.85)}
+.bdemo-circle.p3{width:38px;height:38px;background:radial-gradient(circle at 35% 32%,rgba(155,135,225,0.65),rgba(75,58,165,0.6) 55%,rgba(16,12,36,0.8));box-shadow:0 0 8px rgba(155,140,255,0.16);color:rgba(255,255,255,0.75)}
+.bdemo-lbl{font-family:monospace;font-size:9px;color:rgba(190,175,255,0.65);white-space:nowrap}
+.bdemo-lbl.gold-lbl{font-family:'Inter',sans-serif;font-size:8px;font-weight:800;color:#ffd040;letter-spacing:1.2px}
+.bdemo-ring{position:absolute;border-radius:50%;border:1.5px solid rgba(155,140,255,0.45);animation:bdRing 2.4s ease-out infinite;pointer-events:none;inset:-16px}
+.bdemo-ring.r2{animation-delay:1.2s;border-color:rgba(155,140,255,0.25);inset:-26px}
+@keyframes bdRing{0%{opacity:0.7;transform:scale(0.85)}100%{opacity:0;transform:scale(1.45)}}
+.bdemo-gold-ring{position:absolute;border-radius:50%;border:1.5px solid rgba(255,210,60,0.4);animation:bdGold 2s ease-out infinite;pointer-events:none;inset:-10px}
+@keyframes bdGold{0%{opacity:0.6;transform:scale(0.88)}100%{opacity:0;transform:scale(1.35)}}
+@keyframes bdf1{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+@keyframes bdf2{0%,100%{transform:translateY(-4px)}50%{transform:translateY(7px)}}
+@keyframes bdf3{0%,100%{transform:translateY(3px)}50%{transform:translateY(-8px)}}
+@keyframes bdf4{0%,100%{transform:translateY(-2px)}50%{transform:translateY(9px)}}
+@keyframes bdf5{0%,100%{transform:translateY(5px)}50%{transform:translateY(-6px)}}
+.bdf1{animation:bdf1 3.9s ease-in-out infinite}
+.bdf2{animation:bdf2 4.3s ease-in-out infinite}
+.bdf3{animation:bdf3 3.6s ease-in-out infinite}
+.bdf4{animation:bdf4 4.9s ease-in-out infinite}
+.bdf5{animation:bdf5 3.3s ease-in-out infinite}
+
 .home-lb-sec{padding:100px 44px;position:relative;z-index:2;border-top:1px solid var(--border);overflow:hidden}
 .home-lb-sec::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 80% at 20% 50%,rgba(155,140,255,0.07) 0%,transparent 65%);pointer-events:none}
 .home-lb-inner{max-width:1060px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center}
@@ -583,6 +619,71 @@ emoji-picker{--background:#111;--border-color:rgba(255,255,255,0.08);--button-ac
           <span class="cat-demo-input" id="cat-demo-input"></span><span class="cat-demo-cursor"></span>
         </div>
         <div class="cat-demo-cards" id="cat-demo-cards"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bubble Map Feature -->
+  <section class="home-bubble-sec">
+    <div class="home-bubble-inner">
+      <div>
+        <div class="home-sec-tag">Bubble Map</div>
+        <h2 class="home-bubble-h2">See who KOLs<br><span class="hl">actually trade with.</span></h2>
+        <p class="home-bubble-sub">Click any KOL to instantly map their on-chain connections — side wallets, repeat trading partners, and hidden relationships. Powered by live Helius data.</p>
+        <ul class="bubble-feats">
+          <li><span>🤝</span> Identify side wallets in seconds</li>
+          <li><span>🔗</span> Map on-chain trading relationships</li>
+          <li><span>📋</span> Copy any connected address in one click</li>
+        </ul>
+        <button class="home-cta-btn" onclick="navigate('catalog')">
+          <svg width="15" height="15" viewBox="-1 -1 20 20" fill="none"><circle cx="9" cy="12" r="5" stroke="currentColor" stroke-width="1.6"/><circle cx="4.5" cy="4" r="4" stroke="currentColor" stroke-width="1.6"/><circle cx="11.5" cy="4.5" r="3" stroke="currentColor" stroke-width="1.6"/></svg>
+          Explore Bubble Maps
+        </button>
+      </div>
+      <div class="bdemo-wrap">
+        <svg class="bdemo-svg" viewBox="0 0 420 350" xmlns="http://www.w3.org/2000/svg">
+          <line x1="210" y1="175" x2="75" y2="125" stroke="rgba(155,140,255,0.18)" stroke-width="1.5"/>
+          <line x1="210" y1="175" x2="335" y2="72" stroke="rgba(155,140,255,0.13)" stroke-width="1.2"/>
+          <line x1="210" y1="175" x2="348" y2="262" stroke="rgba(155,140,255,0.13)" stroke-width="1.2"/>
+          <line x1="210" y1="175" x2="105" y2="282" stroke="rgba(155,140,255,0.10)" stroke-width="1"/>
+          <line x1="210" y1="175" x2="268" y2="308" stroke="rgba(155,140,255,0.10)" stroke-width="1"/>
+        </svg>
+        <!-- Center KOL node -->
+        <div class="bdemo-node" style="left:176px;top:141px">
+          <div class="bdemo-circle main">
+            <div class="bdemo-ring"></div>
+            <div class="bdemo-ring r2"></div>
+            👛
+          </div>
+        </div>
+        <!-- Side wallet (gold) -->
+        <div class="bdemo-node bdf1" style="left:35px;top:85px">
+          <div class="bdemo-circle gold">
+            <div class="bdemo-gold-ring"></div>
+            13x
+          </div>
+          <div class="bdemo-lbl gold-lbl">SIDE WALLET</div>
+        </div>
+        <!-- Connection #2 -->
+        <div class="bdemo-node bdf2" style="left:309px;top:46px">
+          <div class="bdemo-circle p1">7x</div>
+          <div class="bdemo-lbl">GKf2..u1w</div>
+        </div>
+        <!-- Connection #3 -->
+        <div class="bdemo-node bdf3" style="left:323px;top:238px">
+          <div class="bdemo-circle p1">6x</div>
+          <div class="bdemo-lbl">8Ns3..p9v</div>
+        </div>
+        <!-- Connection #4 -->
+        <div class="bdemo-node bdf4" style="left:83px;top:258px">
+          <div class="bdemo-circle p2">4x</div>
+          <div class="bdemo-lbl">Fk7m..3Ys</div>
+        </div>
+        <!-- Connection #5 -->
+        <div class="bdemo-node bdf5" style="left:247px;top:286px">
+          <div class="bdemo-circle p3">3x</div>
+          <div class="bdemo-lbl">2hPa..Jw8</div>
+        </div>
       </div>
     </div>
   </section>
