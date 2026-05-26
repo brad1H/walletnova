@@ -2573,6 +2573,10 @@ class BubbleMap {
     this.raf = null;
     this.pfpEl = null;
     this.zoom = 0.85;
+    this.panX = 0;
+    this.panY = 0;
+    this._drag = null;
+    this._dragMoved = false;
     const MIN_ZOOM = 0.4, MAX_ZOOM = 2.5;
     this.canvas.addEventListener('wheel', ev => {
       ev.preventDefault();
@@ -2592,9 +2596,29 @@ class BubbleMap {
     });
     edges.forEach(e => { e.cpOff = (Math.random() > 0.5 ? 1 : -1) * (15 + Math.random() * 30); });
 
-    this.canvas.addEventListener('mousemove', ev => this._onMove(ev));
-    this.canvas.addEventListener('mouseleave', () => { this.hovered = null; this.canvas.style.cursor = 'default'; document.getElementById('conn-tooltip').classList.remove('show'); });
-    this.canvas.addEventListener('click', ev => this._onClick(ev));
+    this.canvas.addEventListener('mousedown', ev => {
+      this._drag = { sx: ev.clientX, sy: ev.clientY, panX: this.panX, panY: this.panY };
+      this._dragMoved = false;
+      this.canvas.style.cursor = 'grabbing';
+    });
+    this._onMouseUp = () => { this._drag = null; this.canvas.style.cursor = this.hovered ? 'pointer' : 'default'; };
+    window.addEventListener('mouseup', this._onMouseUp);
+    this.canvas.addEventListener('mousemove', ev => {
+      if (this._drag) {
+        const dx = ev.clientX - this._drag.sx, dy = ev.clientY - this._drag.sy;
+        if (Math.abs(dx) > 3 || Math.abs(dy) > 3) this._dragMoved = true;
+        if (this._dragMoved) {
+          this.panX = this._drag.panX + dx;
+          this.panY = this._drag.panY + dy;
+          this._updatePfp();
+          document.getElementById('conn-tooltip').classList.remove('show');
+          return;
+        }
+      }
+      this._onMove(ev);
+    });
+    this.canvas.addEventListener('mouseleave', () => { if (!this._drag) { this.hovered = null; this.canvas.style.cursor = 'default'; } document.getElementById('conn-tooltip').classList.remove('show'); });
+    this.canvas.addEventListener('click', ev => { if (this._dragMoved) return; this._onClick(ev); });
 
     // DOM img overlay for center pfp — avoids canvas CORS taint
     const mainNode = nodes.find(n => n.isMain);
@@ -2611,9 +2635,9 @@ class BubbleMap {
     this._loop();
   }
 
-  _pos(ev) { const rect = this.canvas.getBoundingClientRect(); const cx = this.canvas.width/2, cy = this.canvas.height/2; const sx = ev.clientX - rect.left, sy = ev.clientY - rect.top; return { x: (sx - cx) / this.zoom + cx, y: (sy - cy) / this.zoom + cy }; }
+  _pos(ev) { const rect = this.canvas.getBoundingClientRect(); const w = this.canvas.width, h = this.canvas.height; const sx = ev.clientX - rect.left, sy = ev.clientY - rect.top; return { x: (sx - w/2 - this.panX) / this.zoom + w/2, y: (sy - h/2 - this.panY) / this.zoom + h/2 }; }
   _hit(mx, my) { return this.nodes.find(n => { const dx = n.x-mx, dy = n.y-my; return Math.sqrt(dx*dx+dy*dy) <= n.r+5; }) || null; }
-  _updatePfp() { if (!this.pfpEl) return; const cx = this.canvas.width/2, cy = this.canvas.height/2; const mainNode = this.nodes.find(n => n.isMain); if (!mainNode) return; const r = (mainNode.r - 2) * this.zoom; this.pfpEl.style.left = (cx - r) + 'px'; this.pfpEl.style.top = (cy - r) + 'px'; this.pfpEl.style.width = (r * 2) + 'px'; this.pfpEl.style.height = (r * 2) + 'px'; }
+  _updatePfp() { if (!this.pfpEl) return; const w = this.canvas.width, h = this.canvas.height; const mainNode = this.nodes.find(n => n.isMain); if (!mainNode) return; const r = (mainNode.r - 2) * this.zoom; this.pfpEl.style.left = (w/2 + this.panX - r) + 'px'; this.pfpEl.style.top = (h/2 + this.panY - r) + 'px'; this.pfpEl.style.width = (r * 2) + 'px'; this.pfpEl.style.height = (r * 2) + 'px'; }
 
   _onMove(ev) {
     const { x, y } = this._pos(ev);
@@ -2668,7 +2692,7 @@ class BubbleMap {
     ctx.clearRect(0, 0, w, h);
     this.t++;
     ctx.save();
-    ctx.translate(w/2, h/2);
+    ctx.translate(w/2 + this.panX, h/2 + this.panY);
     ctx.scale(this.zoom, this.zoom);
     ctx.translate(-w/2, -h/2);
 
@@ -2748,7 +2772,7 @@ class BubbleMap {
   }
 
   _loop() { this._force(); this._draw(); this.raf = requestAnimationFrame(() => this._loop()); }
-  destroy() { if (this.raf) cancelAnimationFrame(this.raf); if (this.pfpEl) { this.pfpEl.remove(); this.pfpEl = null; } document.getElementById('conn-tooltip')?.classList.remove('show'); }
+  destroy() { if (this.raf) cancelAnimationFrame(this.raf); if (this.pfpEl) { this.pfpEl.remove(); this.pfpEl = null; } if (this._onMouseUp) window.removeEventListener('mouseup', this._onMouseUp); document.getElementById('conn-tooltip')?.classList.remove('show'); }
 }
 
 let connMap = null;
