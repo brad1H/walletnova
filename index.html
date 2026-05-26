@@ -2571,7 +2571,7 @@ class BubbleMap {
     this.t = 0;
     this.raf = null;
     this.pfpEl = null;
-    this.zoom = 1.0;
+    this.zoom = 0.6;
     const MIN_ZOOM = 0.4, MAX_ZOOM = 2.5;
     this.canvas.addEventListener('wheel', ev => {
       ev.preventDefault();
@@ -2583,10 +2583,11 @@ class BubbleMap {
     nodes.forEach(n => {
       if (n.isMain) { n.x = cx; n.y = cy; n.vx = 0; n.vy = 0; return; }
       const angle = Math.random() * Math.PI * 2;
-      n.x = cx + Math.cos(angle) * (90 + Math.random() * 60);
-      n.y = cy + Math.sin(angle) * (90 + Math.random() * 60);
-      n.vx = (Math.random() - 0.5) * 3;
-      n.vy = (Math.random() - 0.5) * 3;
+      const dist = 130 + Math.random() * 160;
+      n.x = cx + Math.cos(angle) * dist;
+      n.y = cy + Math.sin(angle) * dist;
+      n.vx = (Math.random() - 0.5) * 2;
+      n.vy = (Math.random() - 0.5) * 2;
     });
     edges.forEach(e => { e.cpOff = (Math.random() > 0.5 ? 1 : -1) * (15 + Math.random() * 30); });
 
@@ -2643,19 +2644,21 @@ class BubbleMap {
     const w = this.canvas.width, h = this.canvas.height;
     this.nodes.forEach(n => {
       if (n.isMain) { n.x = cx; n.y = cy; return; }
-      n.vx += (cx - n.x) * 0.0007;
-      n.vy += (cy - n.y) * 0.0007;
+      const distC = Math.sqrt((n.x-cx)**2 + (n.y-cy)**2) || 1;
+      const grav = 0.0002 + distC * 0.000006;
+      n.vx += (cx - n.x) * grav;
+      n.vy += (cy - n.y) * grav;
       this.nodes.forEach(o => {
         if (o === n) return;
         const dx = n.x-o.x, dy = n.y-o.y, d = Math.sqrt(dx*dx+dy*dy)||0.1;
-        const min = n.r + o.r + 36;
-        if (d < min) { const f = (min-d)/min*0.7; n.vx += dx/d*f*5; n.vy += dy/d*f*5; }
-        else { const f = 6000/(d*d); n.vx += dx/d*f; n.vy += dy/d*f; }
+        const min = n.r + o.r + 50;
+        if (d < min) { const f = (min-d)/min*0.8; n.vx += dx/d*f*6; n.vy += dy/d*f*6; }
+        else { const f = 10000/(d*d); n.vx += dx/d*f; n.vy += dy/d*f; }
       });
-      n.vx *= 0.85; n.vy *= 0.85;
+      n.vx *= 0.83; n.vy *= 0.83;
       n.x += n.vx; n.y += n.vy;
-      n.x = Math.max(n.r+16, Math.min(w-n.r-16, n.x));
-      n.y = Math.max(n.r+16, Math.min(h-n.r-16, n.y));
+      n.x = Math.max(n.r+30, Math.min(w-n.r-30, n.x));
+      n.y = Math.max(n.r+30, Math.min(h-n.r-30, n.y));
     });
   }
 
