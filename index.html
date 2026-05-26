@@ -470,11 +470,12 @@ emoji-picker{--background:#111;--border-color:rgba(255,255,255,0.08);--button-ac
 .conn-info-badge.side{background:rgba(255,210,60,0.12);border:1px solid rgba(255,210,60,0.35);color:#ffd040}
 .conn-info-badge.conn{background:rgba(155,140,255,0.1);border:1px solid rgba(155,140,255,0.25);color:var(--purple-bright)}
 .conn-info-row{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
-.conn-info-addr{font-family:monospace;font-size:10px;color:var(--muted);margin-bottom:2px}
-.conn-info-stat{font-family:'Inter',sans-serif;font-size:20px;font-weight:800;letter-spacing:-0.5px;color:var(--text)}
-.conn-info-stat span{color:var(--purple-bright)}
-.conn-info-copy{background:var(--purple-dim);border:1px solid var(--purple-border);border-radius:8px;padding:8px 16px;font-family:'DM Sans',sans-serif;font-size:12px;color:var(--purple-bright);cursor:pointer;transition:all 0.15s;white-space:nowrap}
-.conn-info-copy:hover{background:rgba(155,140,255,0.2)}
+.conn-info-addr{font-family:monospace;font-size:12px;color:rgba(210,200,255,0.9);margin:5px 0;letter-spacing:0.4px;word-break:break-all}
+.conn-info-name{font-family:'Inter',sans-serif;font-size:16px;font-weight:800;color:var(--text);margin:3px 0 2px}
+.conn-info-stat{font-family:'Inter',sans-serif;font-size:13px;font-weight:600;color:var(--muted)}
+.conn-info-stat span{color:var(--purple-bright);font-size:18px;font-weight:800}
+.conn-info-copy{background:var(--purple-bright);border:none;border-radius:8px;padding:10px 20px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;color:#fff;cursor:pointer;transition:all 0.15s;white-space:nowrap;flex-shrink:0}
+.conn-info-copy:hover{background:#b8a8ff;transform:scale(1.04)}
 .conn-footer{padding:9px 20px;border-top:1px solid rgba(155,140,255,0.08);font-size:10px;color:rgba(155,140,255,0.3);letter-spacing:0.3px}
 .conn-tooltip{position:fixed;background:rgba(14,12,24,0.96);border:1px solid rgba(155,140,255,0.25);border-radius:10px;padding:10px 14px;font-size:11px;color:var(--text);pointer-events:none;z-index:600;opacity:0;transition:opacity 0.12s;white-space:nowrap;backdrop-filter:blur(8px);box-shadow:0 8px 24px rgba(0,0,0,0.5)}
 .conn-tooltip.show{opacity:1}
@@ -2657,11 +2658,16 @@ class BubbleMap {
   _onClick(ev) {
     const { x, y } = this._pos(ev);
     const n = this._hit(x, y);
-    if (!n || n.isMain) return;
+    if (!n) return;
     const panel = document.getElementById('conn-info');
-    const isSide = n.rank === 1;
     panel.className = 'conn-info-panel';
-    panel.innerHTML = `<div class="conn-info-row"><div><div class="conn-info-badge ${isSide?'side':'conn'}">${isSide?'🤝 Side Wallet':'#'+n.rank+' Connection'}</div><div class="conn-info-addr">${n.fullAddr}</div><div class="conn-info-stat"><span>${n.count}</span> shared transactions</div></div><button class="conn-info-copy" onclick="copyBubbleAddr('${n.fullAddr}',this)">Copy Address</button></div>`;
+    if (n.isMain) {
+      panel.innerHTML = `<div class="conn-info-row"><div><div class="conn-info-badge conn">KOL Wallet</div><div class="conn-info-name">${n.name}</div><div class="conn-info-addr">${n.id.slice(0,8)}...${n.id.slice(-8)}</div></div><button class="conn-info-copy" onclick="copyBubbleAddr('${n.id}',this)">Copy Address</button></div>`;
+    } else {
+      const isSide = n.rank === 1;
+      const shortAddr = n.fullAddr.slice(0,8)+'...'+n.fullAddr.slice(-8);
+      panel.innerHTML = `<div class="conn-info-row"><div><div class="conn-info-badge ${isSide?'side':'conn'}">${isSide?'🤝 Side Wallet':'#'+n.rank+' Connection'}</div><div class="conn-info-addr">${shortAddr}</div><div class="conn-info-stat"><span>${n.count}</span> shared txns</div></div><button class="conn-info-copy" onclick="copyBubbleAddr('${n.fullAddr}',this)">Copy Address</button></div>`;
+    }
   }
 
   _force() {
@@ -2821,7 +2827,7 @@ async function openConnections(address, name, emoji, pfp) {
     if (!top.length) { loading.innerHTML='<div style="color:var(--muted);text-align:center;padding:20px">No wallet interactions found.</div>'; return; }
 
     const maxCount = top[0][1];
-    const nodes = [{ id: address, emoji: emoji||'👛', pfp: pfp||'', isMain: true, r: 28, vx:0, vy:0 }];
+    const nodes = [{ id: address, name: name, emoji: emoji||'👛', pfp: pfp||'', isMain: true, r: 28, vx:0, vy:0 }];
     const edges = [];
     top.forEach(([addr, count], i) => {
       const ratio = count / maxCount;
