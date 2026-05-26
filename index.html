@@ -3,8 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nova Wallet</title>
+<title>Nova Wallet — Solana Wallet Tracker Packs</title>
+<meta name="description" content="Curated Solana wallet packs for any trading platform. Top Traders, Insiders, The Goats — 510+ KOLs, all named and ready to import in one click.">
 <link rel="icon" type="image/png" href="Novawalletlogo.png">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://brad1H.github.io/walletnova">
+<meta property="og:title" content="Nova Wallet — Solana Wallet Tracker Packs">
+<meta property="og:description" content="Curated Solana wallet packs for any trading platform. Top Traders, Insiders, The Goats — 510+ KOLs, all named and ready to import in one click.">
+<meta property="og:image" content="https://brad1H.github.io/walletnova/og-banner.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Nova Wallet — Solana Wallet Tracker Packs">
+<meta name="twitter:description" content="Curated Solana wallet packs for any trading platform. Top Traders, Insiders, The Goats — 510+ KOLs, all named and ready to import in one click.">
+<meta name="twitter:image" content="https://brad1H.github.io/walletnova/og-banner.png">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=Inter:wght@400;500;700;800;900&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -296,22 +306,29 @@ footer p{font-size:11px;color:var(--muted)}
 .home-community-h2{font-family:'Inter',sans-serif;font-size:clamp(36px,5vw,62px);font-weight:800;letter-spacing:-2.5px;line-height:1.04;margin-bottom:18px}
 .home-community-sub{font-family:'Inter',sans-serif;font-size:15px;color:var(--muted);max-width:400px;line-height:1.85;margin-bottom:36px}
 .home-community-btns{display:flex;gap:12px;flex-wrap:wrap}
-.comm-stack{position:relative;height:340px}
-.comm-card{position:absolute;width:290px;background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:22px 24px;opacity:0;transform:translateX(60px)}
-.comm-card.c1{top:20px;left:50%;margin-left:-145px;border-color:var(--purple-border);background:linear-gradient(145deg,rgba(155,140,255,0.06) 0%,transparent 60%),var(--surface);box-shadow:0 0 32px rgba(155,140,255,0.12);z-index:3}
-.comm-card.c1::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--purple) 30%,var(--purple-bright) 70%,transparent)}
-.comm-card.c2{top:50px;left:50%;margin-left:-125px;z-index:2;opacity:0;transform:translateX(60px) rotate(3deg)}
-.comm-card.c3{top:80px;left:50%;margin-left:-105px;z-index:1;opacity:0;transform:translateX(60px) rotate(6deg)}
-.comm-card-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
-.comm-card-icon{font-size:26px}
-.comm-card-badge{font-size:9px;font-weight:700;letter-spacing:1.5px;padding:3px 9px;border-radius:100px;background:var(--purple-dim);color:var(--purple-bright);border:1px solid var(--purple-border)}
-.comm-card-name{font-family:'Inter',sans-serif;font-size:16px;font-weight:800;letter-spacing:-0.4px;margin-bottom:4px}
-.comm-card-by{font-size:11px;color:var(--muted);margin-bottom:14px}
-.comm-card-wallets{display:flex;flex-direction:column;gap:7px}
-.comm-card-row{display:flex;align-items:center;gap:9px;font-size:12px;color:var(--muted)}
-.comm-card-row-emoji{font-size:14px;width:20px;text-align:center}
-.comm-card-row-name{flex:1;color:var(--text);font-weight:500}
-.comm-card-more{font-size:11px;color:rgba(155,140,255,0.45);margin-top:6px}
+/* Builder demo */
+.bdemo{background:var(--surface);border:1px solid var(--purple-border);border-radius:18px;overflow:hidden;box-shadow:0 0 50px rgba(155,140,255,0.14),0 16px 48px rgba(0,0,0,0.4);width:100%;max-width:310px;margin:0 auto;position:relative}
+.bdemo::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--purple) 30%,var(--purple-bright) 70%,transparent)}
+.bdemo-hdr{padding:16px 18px 14px;border-bottom:1px solid var(--border);background:linear-gradient(145deg,rgba(155,140,255,0.07) 0%,transparent 60%);display:flex;align-items:center;justify-content:space-between}
+.bdemo-hdr-title{font-size:12px;font-weight:700;color:var(--text);letter-spacing:-0.2px}
+.bdemo-badge{font-size:9px;font-weight:700;letter-spacing:1.4px;padding:3px 9px;border-radius:100px;background:var(--purple-dim);color:var(--purple-bright);border:1px solid var(--purple-border)}
+.bdemo-body{padding:14px 18px 10px}
+.bdemo-field-label{font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.bdemo-field{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:9px 12px;font-size:14px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:2px;margin-bottom:14px;min-height:38px}
+.bdemo-cursor{display:inline-block;width:2px;height:15px;background:var(--purple-bright);border-radius:1px;vertical-align:middle;animation:bdBlink 1s step-end infinite}
+@keyframes bdBlink{0%,100%{opacity:1}50%{opacity:0}}
+.bdemo-list{display:flex;flex-direction:column;gap:5px;height:238px;overflow:hidden}
+.bdemo-row{display:flex;align-items:center;gap:9px;padding:7px 9px;background:rgba(255,255,255,0.03);border-radius:8px;border:1px solid rgba(255,255,255,0.05);animation:bdRowIn 0.28s cubic-bezier(0.34,1.4,0.64,1) both}
+@keyframes bdRowIn{from{opacity:0;transform:translateY(10px) scale(0.97)}to{opacity:1;transform:none}}
+.bdemo-row-emoji{font-size:15px;flex-shrink:0;width:22px;text-align:center}
+.bdemo-row-info{flex:1;min-width:0}
+.bdemo-row-name{font-size:12px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bdemo-row-addr{font-size:10px;color:var(--muted);font-family:'DM Mono',monospace}
+.bdemo-ftr{padding:12px 18px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.bdemo-ftr-count{font-size:12px;color:var(--muted)}
+.bdemo-ftr-count b{color:var(--purple-bright);font-weight:700}
+.bdemo-submit{background:var(--purple);color:#fff;border:none;border-radius:8px;padding:8px 16px;font-size:12px;font-weight:700;cursor:default;font-family:'Inter',sans-serif;opacity:0.65;transition:opacity 0.4s}
+.bdemo-submit.ready{opacity:1}
 
 /* Bubble Map section */
 .home-bubble-sec{padding:110px 44px;position:relative;z-index:2;border-top:1px solid var(--border);overflow:hidden}
@@ -472,10 +489,10 @@ footer p{font-size:11px;color:var(--muted)}
 .community-h1 .hl{color:var(--purple-bright)}
 .community-sub{font-size:14px;color:var(--muted);line-height:1.85;max-width:440px;margin:0 auto 28px}
 .community-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-.community-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:32px;display:flex;flex-direction:column;gap:0;transition:border-color 0.2s;position:relative;overflow:hidden;isolation:isolate;will-change:transform}
-.community-card:hover{border-color:var(--purple-border);background:var(--surface2)}
-.community-card::after{content:'';position:absolute;inset:0;border-radius:13px;background:linear-gradient(var(--holo,130deg),transparent 28%,rgba(200,150,255,0.08) 44%,rgba(255,180,255,0.07) 50%,rgba(140,210,255,0.07) 56%,transparent 72%);opacity:0;transition:opacity 0.5s;pointer-events:none;mix-blend-mode:screen;z-index:0}
-.community-card:hover::after{opacity:1}
+.community-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:32px;display:flex;flex-direction:column;gap:0;transition:border-color 0.25s,box-shadow 0.25s;position:relative;overflow:hidden;isolation:isolate}
+.community-card::before{content:'';position:absolute;inset:0;border-radius:13px;background:radial-gradient(320px circle at var(--mx,-300px) var(--my,-300px),rgba(255,255,255,0.07),transparent 65%);pointer-events:none;z-index:0;transition:opacity 0.3s;opacity:0}
+.community-card:hover::before{opacity:1}
+.community-card:hover{border-color:rgba(255,255,255,0.22);box-shadow:0 0 0 1px rgba(255,255,255,0.06),0 8px 32px rgba(0,0,0,0.28)}
 .community-card-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:24px}
 .community-card-icon{font-size:32px;line-height:1}
 .community-card-badge{font-size:10px;font-weight:700;letter-spacing:1.5px;padding:4px 12px;border-radius:100px;background:var(--purple-dim);color:var(--purple-bright);border:1px solid var(--purple-border)}
@@ -514,6 +531,10 @@ emoji-picker{--background:#111;--border-color:rgba(255,255,255,0.08);--button-ac
 .conn-info-copy{background:#fff;border:none;border-radius:8px;padding:10px 22px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;color:#0a0814;cursor:pointer;transition:all 0.18s cubic-bezier(0.34,1.56,0.64,1);white-space:nowrap;flex-shrink:0;box-shadow:0 2px 12px rgba(255,255,255,0.1)}
 .conn-info-copy:hover{background:#ece8ff;box-shadow:0 2px 20px rgba(155,140,255,0.35),0 0 0 2px rgba(155,140,255,0.2);transform:scale(1.06)}
 .conn-info-copy:active{transform:scale(0.96)}
+.conn-info-btns{display:flex;gap:8px;align-items:center;flex-shrink:0}
+.conn-info-solscan{background:transparent;border:1px solid rgba(155,140,255,0.3);border-radius:8px;padding:10px 16px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;color:var(--purple-bright);cursor:pointer;transition:all 0.18s ease;white-space:nowrap;text-decoration:none;display:inline-flex;align-items:center;gap:5px}
+.conn-info-solscan:hover{background:rgba(155,140,255,0.1);border-color:rgba(155,140,255,0.6);transform:scale(1.06)}
+.conn-info-solscan:active{transform:scale(0.96)}
 .conn-footer{padding:9px 20px;border-top:1px solid rgba(155,140,255,0.08);font-size:10px;color:rgba(155,140,255,0.3);letter-spacing:0.3px}
 .conn-tooltip{position:fixed;background:rgba(14,12,24,0.96);border:1px solid rgba(155,140,255,0.25);border-radius:10px;padding:10px 14px;font-size:11px;color:var(--text);pointer-events:none;z-index:600;opacity:0;transition:opacity 0.12s;white-space:nowrap;backdrop-filter:blur(8px);box-shadow:0 8px 24px rgba(0,0,0,0.5)}
 .conn-tooltip.show{opacity:1}
@@ -763,31 +784,20 @@ emoji-picker{--background:#111;--border-color:rgba(255,255,255,0.08);--button-ac
           <button class="home-cta-btn secondary" onclick="navigate('community');setTimeout(openBuilder,350)">Submit a Pack</button>
         </div>
       </div>
-      <div class="comm-stack" id="comm-stack">
-        <div class="comm-card c3">
-          <div class="comm-card-top"><span class="comm-card-icon">🌊</span><span class="comm-card-badge">COMMUNITY</span></div>
-          <div class="comm-card-name">Silent Whales</div>
-          <div class="comm-card-by">by @whale_watcher · 18 wallets</div>
+      <div class="bdemo" id="bdemo">
+        <div class="bdemo-hdr">
+          <span class="bdemo-hdr-title">Create Pack</span>
+          <span class="bdemo-badge">COMMUNITY</span>
         </div>
-        <div class="comm-card c2">
-          <div class="comm-card-top"><span class="comm-card-icon">🎯</span><span class="comm-card-badge">COMMUNITY</span></div>
-          <div class="comm-card-name">Memecoin Killers</div>
-          <div class="comm-card-by">by @degen_alpha · 9 wallets</div>
-          <div class="comm-card-wallets">
-            <div class="comm-card-row"><span class="comm-card-row-emoji">🔥</span><span class="comm-card-row-name">SolSniper</span></div>
-            <div class="comm-card-row"><span class="comm-card-row-emoji">⚡</span><span class="comm-card-row-name">FastFingers</span></div>
-          </div>
+        <div class="bdemo-body">
+          <div class="bdemo-field-label">Pack Name</div>
+          <div class="bdemo-field"><span id="bd-name"></span><span class="bdemo-cursor"></span></div>
+          <div class="bdemo-field-label">Wallets</div>
+          <div class="bdemo-list" id="bd-list"></div>
         </div>
-        <div class="comm-card c1">
-          <div class="comm-card-top"><span class="comm-card-icon">🏹</span><span class="comm-card-badge">COMMUNITY</span></div>
-          <div class="comm-card-name">Alpha Snipers</div>
-          <div class="comm-card-by">by @tradoor · 12 wallets</div>
-          <div class="comm-card-wallets">
-            <div class="comm-card-row"><span class="comm-card-row-emoji">💎</span><span class="comm-card-row-name">DiamondHands</span></div>
-            <div class="comm-card-row"><span class="comm-card-row-emoji">🚀</span><span class="comm-card-row-name">MoonShoter</span></div>
-            <div class="comm-card-row"><span class="comm-card-row-emoji">🎯</span><span class="comm-card-row-name">PrecisionTrade</span></div>
-          </div>
-          <div class="comm-card-more">+9 more wallets</div>
+        <div class="bdemo-ftr">
+          <div class="bdemo-ftr-count"><b id="bd-count">0</b> wallets added</div>
+          <button class="bdemo-submit" id="bd-submit">Submit Pack</button>
         </div>
       </div>
     </div>
@@ -2628,20 +2638,108 @@ function navigate(page, skipPush) {
   });
 })();
 
-// Community section scroll animation
-ScrollTrigger.create({
-  trigger: '.home-community-sec',
-  start: 'top 75%',
-  once: true,
-  onEnter() {
-    gsap.from('.home-community-sec .home-sec-tag, .home-community-h2, .home-community-sub, .home-community-btns', {
-      y: 24, opacity: 0, duration: 0.6, ease: 'power2.out', stagger: 0.1
-    });
-    gsap.to('.comm-card.c3', { opacity: 0.3, x: 0, rotation: 6, duration: 0.7, ease: 'power3.out', delay: 0.2 });
-    gsap.to('.comm-card.c2', { opacity: 0.55, x: 0, rotation: 3, duration: 0.7, ease: 'power3.out', delay: 0.35 });
-    gsap.to('.comm-card.c1', { opacity: 1, x: 0, rotation: 0, duration: 0.8, ease: 'power3.out', delay: 0.5 });
+// Community page: mouse spotlight (delegated — cards render dynamically)
+(function() {
+  const grid = document.getElementById('community-grid');
+  if (!grid) return;
+  grid.addEventListener('mousemove', function(e) {
+    const card = e.target.closest('.community-card');
+    if (!card) return;
+    const r = card.getBoundingClientRect();
+    card.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+    card.style.setProperty('--my', (e.clientY - r.top) + 'px');
+  });
+  grid.addEventListener('mouseout', function(e) {
+    const card = e.target.closest('.community-card');
+    if (!card || card.contains(e.relatedTarget)) return;
+    card.style.setProperty('--mx', '-300px');
+    card.style.setProperty('--my', '-300px');
+  });
+})();
+
+// Community builder demo animation
+(function() {
+  const PACKS = [
+    { name: 'Alpha Snipers', wallets: [
+      { emoji:'💎', name:'DiamondHands', addr:'7xKp...f3Qm' },
+      { emoji:'🚀', name:'MoonSniper',   addr:'Ax9r...kL2p' },
+      { emoji:'🔥', name:'SolSniper',    addr:'3mNw...8vBc' },
+      { emoji:'⚡', name:'FastFingers',  addr:'Kp2x...9tRq' },
+      { emoji:'🎯', name:'PrecisionTrade', addr:'Bv5m...2jYn' },
+    ]},
+    { name: 'Silent Whales', wallets: [
+      { emoji:'🐳', name:'DeepWater',    addr:'9sLm...x4Hj' },
+      { emoji:'🌑', name:'DarkPool',     addr:'Qr7n...v8Wz' },
+      { emoji:'🌊', name:'TideWatcher',  addr:'2pKb...d6Ry' },
+      { emoji:'🔵', name:'OceanAlpha',   addr:'Hn4t...c1Fp' },
+    ]},
+    { name: 'Degen Kings', wallets: [
+      { emoji:'👑', name:'KingDegen',    addr:'5vCx...m9Gs' },
+      { emoji:'🎰', name:'RiskyBiz',     addr:'Lw3k...t7Aq' },
+      { emoji:'🃏', name:'WildCard',     addr:'8jRp...e2Nk' },
+      { emoji:'⚔️', name:'NightRaider',  addr:'Zb6u...h5Wd' },
+      { emoji:'🦁', name:'BoldEntry',    addr:'4cMv...q3Sx' },
+    ]},
+  ];
+
+  let packIdx = 0, charIdx = 0, walletIdx = 0, phase = 'typing', timer = null, started = false;
+
+  function tick() {
+    const pack = PACKS[packIdx];
+    const nameEl = document.getElementById('bd-name');
+    const listEl = document.getElementById('bd-list');
+    const countEl = document.getElementById('bd-count');
+    const submitEl = document.getElementById('bd-submit');
+    if (!nameEl) return;
+
+    if (phase === 'typing') {
+      if (charIdx < pack.name.length) {
+        nameEl.textContent = pack.name.slice(0, ++charIdx);
+        timer = setTimeout(tick, 75 + Math.random() * 40);
+      } else {
+        phase = 'adding'; walletIdx = 0;
+        timer = setTimeout(tick, 500);
+      }
+    } else if (phase === 'adding') {
+      if (walletIdx < pack.wallets.length) {
+        const w = pack.wallets[walletIdx++];
+        const row = document.createElement('div');
+        row.className = 'bdemo-row';
+        row.innerHTML = `<span class="bdemo-row-emoji">${w.emoji}</span><div class="bdemo-row-info"><div class="bdemo-row-name">${w.name}</div><div class="bdemo-row-addr">${w.addr}</div></div>`;
+        listEl.appendChild(row);
+        countEl.textContent = walletIdx;
+        timer = setTimeout(tick, 620);
+      } else {
+        if (submitEl) submitEl.classList.add('ready');
+        phase = 'pause';
+        timer = setTimeout(tick, 2200);
+      }
+    } else if (phase === 'pause') {
+      if (submitEl) submitEl.classList.remove('ready');
+      listEl.innerHTML = '';
+      nameEl.textContent = '';
+      countEl.textContent = '0';
+      charIdx = 0;
+      packIdx = (packIdx + 1) % PACKS.length;
+      phase = 'typing';
+      timer = setTimeout(tick, 500);
+    }
   }
-});
+
+  ScrollTrigger.create({
+    trigger: '.home-community-sec',
+    start: 'top 75%',
+    once: true,
+    onEnter() {
+      gsap.from('.home-community-sec .home-sec-tag, .home-community-h2, .home-community-sub, .home-community-btns', {
+        y: 24, opacity: 0, duration: 0.6, ease: 'power2.out', stagger: 0.1
+      });
+      gsap.from('#bdemo', { opacity: 0, y: 28, duration: 0.7, ease: 'power3.out', delay: 0.3, onComplete() {
+        if (!started) { started = true; setTimeout(tick, 400); }
+      }});
+    }
+  });
+})();
 
 // ── Wallet Connections Graph ─────────────────────────────────────────────
 const HELIUS_KEY = '7e2d3992-481f-44a8-91d5-80d3f7abcf41';
@@ -2766,11 +2864,11 @@ class BubbleMap {
     const panel = document.getElementById('conn-info');
     panel.className = 'conn-info-panel';
     if (n.isMain) {
-      panel.innerHTML = `<div class="conn-info-row"><div><div class="conn-info-badge conn">KOL Wallet</div><div class="conn-info-name">${n.name}</div><div class="conn-info-addr">${n.id.slice(0,8)}...${n.id.slice(-8)}</div></div><button class="conn-info-copy" onclick="copyBubbleAddr('${n.id}',this)">Copy Address</button></div>`;
+      panel.innerHTML = `<div class="conn-info-row"><div><div class="conn-info-badge conn">KOL Wallet</div><div class="conn-info-name">${n.name}</div><div class="conn-info-addr">${n.id.slice(0,8)}...${n.id.slice(-8)}</div></div><div class="conn-info-btns"><button class="conn-info-copy" onclick="copyBubbleAddr('${n.id}',this)">Copy Address</button><a class="conn-info-solscan" href="https://solscan.io/account/${n.id}" target="_blank" rel="noopener">Solscan ↗</a></div></div>`;
     } else {
       const isSide = n.rank === 1;
       const shortAddr = n.fullAddr.slice(0,8)+'...'+n.fullAddr.slice(-8);
-      panel.innerHTML = `<div class="conn-info-row"><div><div class="conn-info-badge ${isSide?'side':'conn'}">${isSide?'🤝 Side Wallet':'#'+n.rank+' Connection'}</div><div class="conn-info-addr">${shortAddr}</div><div class="conn-info-stat"><span>${n.count}</span> shared txns</div></div><button class="conn-info-copy" onclick="copyBubbleAddr('${n.fullAddr}',this)">Copy Address</button></div>`;
+      panel.innerHTML = `<div class="conn-info-row"><div><div class="conn-info-badge ${isSide?'side':'conn'}">${isSide?'🤝 Side Wallet':'#'+n.rank+' Connection'}</div><div class="conn-info-addr">${shortAddr}</div><div class="conn-info-stat"><span>${n.count}</span> shared txns</div></div><div class="conn-info-btns"><button class="conn-info-copy" onclick="copyBubbleAddr('${n.fullAddr}',this)">Copy Address</button><a class="conn-info-solscan" href="https://solscan.io/account/${n.fullAddr}" target="_blank" rel="noopener">Solscan ↗</a></div></div>`;
     }
   }
 
