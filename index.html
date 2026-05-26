@@ -2621,6 +2621,17 @@ class BubbleMap {
     this.canvas.addEventListener('mouseleave', () => { if (!this._drag) { this.hovered = null; this.canvas.style.cursor = 'default'; } document.getElementById('conn-tooltip').classList.remove('show'); });
     this.canvas.addEventListener('click', ev => { if (this._dragMoved) return; this._onClick(ev); });
 
+    // pfp overlay — positioned every frame so it tracks pan + zoom
+    const mainNode = nodes.find(n => n.isMain);
+    if (mainNode && mainNode.pfp) {
+      const el = document.createElement('img');
+      el.src = mainNode.pfp;
+      el.onerror = () => el.remove();
+      el.style.cssText = `position:absolute;border-radius:50%;object-fit:cover;pointer-events:none;z-index:2;`;
+      container.appendChild(el);
+      this.pfpEl = el;
+    }
+
     this._loop();
   }
 
@@ -2759,8 +2770,16 @@ class BubbleMap {
     ctx.restore();
   }
 
-  _loop() { this._force(); this._draw(); this.raf = requestAnimationFrame(() => this._loop()); }
-  destroy() { if (this.raf) cancelAnimationFrame(this.raf); if (this._onMouseUp) window.removeEventListener('mouseup', this._onMouseUp); document.getElementById('conn-tooltip')?.classList.remove('show'); }
+  _updatePfp() {
+    if (!this.pfpEl) return;
+    const w = this.canvas.width, h = this.canvas.height;
+    const r = (this.nodes.find(n => n.isMain).r - 2) * this.zoom;
+    this.pfpEl.style.left = (w/2 + this.panX - r) + 'px';
+    this.pfpEl.style.top  = (h/2 + this.panY - r) + 'px';
+    this.pfpEl.style.width = this.pfpEl.style.height = (r * 2) + 'px';
+  }
+  _loop() { this._force(); this._draw(); this._updatePfp(); this.raf = requestAnimationFrame(() => this._loop()); }
+  destroy() { if (this.raf) cancelAnimationFrame(this.raf); if (this.pfpEl) { this.pfpEl.remove(); this.pfpEl = null; } if (this._onMouseUp) window.removeEventListener('mouseup', this._onMouseUp); document.getElementById('conn-tooltip')?.classList.remove('show'); }
 }
 
 let connMap = null;
