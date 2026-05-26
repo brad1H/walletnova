@@ -455,6 +455,18 @@ footer p{font-size:11px;color:var(--muted)}
 .builder-emoji-drop{position:absolute;top:68px;left:0;z-index:400;border-radius:12px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,0.5)}
 emoji-picker{--background:#111;--border-color:rgba(255,255,255,0.08);--button-active-background:rgba(155,140,255,0.2);--button-hover-background:rgba(155,140,255,0.1);--category-font-color:#6B6880;--emoji-size:1.5rem;--input-border-color:rgba(155,140,255,0.3);--input-font-color:#F2F0FF;--input-placeholder-color:#6B6880;--outline-color:rgba(155,140,255,0.5);--search-background:#181818;}
 
+/* CONNECTIONS MODAL */
+.conn-modal{position:fixed;top:50%;left:50%;transform:translate(-50%,-48%);width:min(780px,95vw);background:#0f0f0f;border:1px solid var(--border2);border-radius:14px;z-index:201;display:flex;flex-direction:column;opacity:0;pointer-events:none;transition:opacity 0.2s,transform 0.2s;overflow:hidden}
+.conn-modal.open{opacity:1;pointer-events:all;transform:translate(-50%,-50%)}
+.conn-body{position:relative;height:480px}
+.conn-loading{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;color:var(--muted);font-size:13px}
+.conn-spinner{width:32px;height:32px;border:2px solid var(--border2);border-top-color:var(--purple-bright);border-radius:50%;animation:spin 0.8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+#conn-graph{width:100%;height:100%;display:none;background:#0a0a0f}
+.conn-footer{padding:10px 20px;border-top:1px solid var(--border);font-size:10px;color:var(--muted);letter-spacing:0.3px}
+.cat-conn{background:none;border:1px solid var(--border);border-radius:5px;padding:5px 10px;font-family:'DM Sans',sans-serif;font-size:11px;color:var(--muted);cursor:pointer;transition:all 0.15s;flex-shrink:0;white-space:nowrap;margin-left:4px}
+.cat-conn:hover{border-color:rgba(155,140,255,0.4);color:var(--purple-bright)}
+
 /* PACK BUILDER */
 .builder-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(4px);z-index:300;opacity:0;pointer-events:none;transition:opacity 0.2s}
 .builder-overlay.open{opacity:1;pointer-events:all}
@@ -962,6 +974,23 @@ emoji-picker{--background:#111;--border-color:rgba(255,255,255,0.08);--button-ac
   </div>
 </div>
 
+<div class="overlay" id="conn-overlay" onclick="closeConnections()"></div>
+<div class="conn-modal" id="conn-modal">
+  <div class="modal-hdr">
+    <div>
+      <div class="modal-title" id="conn-title">Wallet Connections</div>
+      <div class="modal-meta" id="conn-sub"></div>
+    </div>
+    <button class="modal-close" onclick="closeConnections()">✕</button>
+  </div>
+  <div class="conn-body">
+    <div class="conn-loading" id="conn-loading"><div class="conn-spinner"></div><span>Fetching on-chain data…</span></div>
+    <div id="conn-graph"></div>
+  </div>
+  <div class="conn-footer">Most interacted wallets from last 100 transactions · Powered by Helius</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.28.1/cytoscape.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
@@ -1939,6 +1968,7 @@ function renderCatalog() {
         <div class="cat-addr">${fmt(w.address)}</div>
       </div>
       <button class="cat-copy" onclick="copyAddr('${w.address}')">Copy</button>
+      <button class="cat-conn" onclick="openConnections('${w.address}','${w.name.replace(/'/g,"\\'")}','${w.emoji||'👛'}')">Graph</button>
     </div>`;
   }).join('');
 }
@@ -2327,6 +2357,7 @@ ScrollTrigger.create({
   });
 })();
 
+
 // Page routing
 function navigate(page, skipPush) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
@@ -2486,6 +2517,115 @@ ScrollTrigger.create({
     gsap.to('.comm-card.c1', { opacity: 1, x: 0, rotation: 0, duration: 0.8, ease: 'power3.out', delay: 0.5 });
   }
 });
+
+// ── Wallet Connections Graph ─────────────────────────────────────────────
+const HELIUS_KEY = '7e2d3992-481f-44a8-91d5-80d3f7abcf41';
+
+const KNOWN_PROGRAMS = new Set([
+  '11111111111111111111111111111111',
+  'TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA',
+  'ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJe1brs',
+  'ComputeBudget111111111111111111111111111111',
+  'metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s',
+  'JUP6LkbZbjS1jKKwapdHNy74zcZ3tLUZoi5QNyVTaV4',
+  'JUP4Fb2cqiRUcaTHdrPC8h2gNsA2ETXiPDD33WcGuJB',
+  'whirLbMiicVdio4qvUfM5KAg6Ct8VwpYzGff3sFKDmG',
+  '675kPX9MHTjS2zt1qfr1NYHuzeLXfQM9H24wFSUt1Mp8',
+  'So11111111111111111111111111111111111111112',
+  'Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB',
+  'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v',
+  'TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb',
+  'MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr',
+  'SysvarRent111111111111111111111111111111111',
+  'SysvarC1ock11111111111111111111111111111111',
+  'Vote111111111111111111111111111111111111111p',
+  'Stake11111111111111111111111111111111111111',
+  'BPFLoaderUpgradeab1e11111111111111111111111',
+  'noopb9bkMVfRPU8AsbpTUg8AQkHtKwMYZiFUjNRtMmV',
+]);
+
+let connCy = null;
+
+async function openConnections(address, name, emoji) {
+  const overlay = document.getElementById('conn-overlay');
+  const modal = document.getElementById('conn-modal');
+  const loading = document.getElementById('conn-loading');
+  const graph = document.getElementById('conn-graph');
+
+  document.getElementById('conn-title').textContent = emoji + ' ' + name;
+  document.getElementById('conn-sub').textContent = address.slice(0,6) + '...' + address.slice(-4) + ' · last 100 txns';
+  loading.style.display = 'flex';
+  loading.innerHTML = '<div class="conn-spinner"></div><span>Fetching on-chain data…</span>';
+  graph.style.display = 'none';
+  overlay.classList.add('open');
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+
+  try {
+    const res = await fetch(`https://api.helius.xyz/v0/addresses/${address}/transactions?api-key=${HELIUS_KEY}&limit=100`);
+    if (!res.ok) throw new Error('API error');
+    const txs = await res.json();
+
+    const counts = {};
+    txs.forEach(tx => {
+      const addrs = new Set();
+      (tx.nativeTransfers || []).forEach(t => { if (t.fromUserAccount) addrs.add(t.fromUserAccount); if (t.toUserAccount) addrs.add(t.toUserAccount); });
+      (tx.tokenTransfers || []).forEach(t => { if (t.fromUserAccount) addrs.add(t.fromUserAccount); if (t.toUserAccount) addrs.add(t.toUserAccount); });
+      addrs.forEach(addr => {
+        if (!addr || addr === address || KNOWN_PROGRAMS.has(addr)) return;
+        counts[addr] = (counts[addr] || 0) + 1;
+      });
+    });
+
+    const top = Object.entries(counts).sort((a, b) => b[1] - a[1]).slice(0, 14);
+
+    if (!top.length) {
+      loading.innerHTML = '<div style="color:var(--muted);text-align:center;padding:20px">No wallet interactions found in recent transactions.</div>';
+      return;
+    }
+
+    const maxCount = top[0][1];
+    const elements = [
+      { data: { id: address, label: emoji || '👛', size: 52, type: 'main', fullAddr: address, name } }
+    ];
+    top.forEach(([addr, count]) => {
+      const size = 18 + Math.round((count / maxCount) * 28);
+      elements.push({ data: { id: addr, label: addr.slice(0,4) + '..' + addr.slice(-3), size, type: 'wallet', count, fullAddr: addr } });
+      elements.push({ data: { source: address, target: addr, weight: count } });
+    });
+
+    loading.style.display = 'none';
+    graph.style.display = 'block';
+
+    if (connCy) { connCy.destroy(); connCy = null; }
+
+    connCy = cytoscape({
+      container: graph,
+      elements,
+      style: [
+        { selector: 'node[type="main"]', style: { 'background-color': '#9b8cff', 'label': 'data(label)', 'color': '#fff', 'font-size': '20px', 'text-valign': 'center', 'text-halign': 'center', 'width': 'data(size)', 'height': 'data(size)', 'border-width': 2, 'border-color': '#c4b5ff', 'z-index': 10 } },
+        { selector: 'node[type="wallet"]', style: { 'background-color': '#1a1825', 'label': 'data(label)', 'color': '#8b88a8', 'font-size': '8px', 'text-valign': 'bottom', 'text-margin-y': 5, 'width': 'data(size)', 'height': 'data(size)', 'border-width': 1, 'border-color': 'rgba(155,140,255,0.25)' } },
+        { selector: 'node[type="wallet"]:hover', style: { 'border-color': 'rgba(155,140,255,0.7)', 'color': '#c4b5ff' } },
+        { selector: 'edge', style: { 'width': 1, 'line-color': 'rgba(155,140,255,0.15)', 'curve-style': 'bezier' } },
+      ],
+      layout: { name: 'concentric', concentric: n => n.data('type') === 'main' ? 10 : 1, levelWidth: () => 1, spacingFactor: 1.8, animate: true, animationDuration: 700, fit: true, padding: 28 }
+    });
+
+    connCy.on('tap', 'node[type="wallet"]', e => {
+      const addr = e.target.data('fullAddr');
+      navigator.clipboard.writeText(addr).then(() => showToast('Address copied'));
+    });
+
+  } catch(err) {
+    loading.innerHTML = '<div style="color:var(--muted);text-align:center;padding:20px">Failed to load data. Check your connection and try again.</div>';
+  }
+}
+
+function closeConnections() {
+  document.getElementById('conn-overlay').classList.remove('open');
+  document.getElementById('conn-modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
 
 // ── Supabase + Community Packs ──────────────────────────────────────────
 
