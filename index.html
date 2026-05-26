@@ -2745,9 +2745,7 @@ class BubbleMap {
 
       // Labels
       ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-      if (n.isMain) {
-        ctx.font = `${Math.round(r*0.72)}px serif`; ctx.fillText(n.emoji, n.x, n.y);
-      } else {
+      if (!n.isMain) {
         if (r >= 22) {
           ctx.font = `800 ${Math.min(12,Math.round(r*0.33))}px Inter,sans-serif`;
           ctx.fillStyle = n.rank===1 ? 'rgba(50,30,0,0.9)' : 'rgba(255,255,255,0.88)';
