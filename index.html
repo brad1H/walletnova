@@ -456,14 +456,31 @@ footer p{font-size:11px;color:var(--muted)}
 emoji-picker{--background:#111;--border-color:rgba(255,255,255,0.08);--button-active-background:rgba(155,140,255,0.2);--button-hover-background:rgba(155,140,255,0.1);--category-font-color:#6B6880;--emoji-size:1.5rem;--input-border-color:rgba(155,140,255,0.3);--input-font-color:#F2F0FF;--input-placeholder-color:#6B6880;--outline-color:rgba(155,140,255,0.5);--search-background:#181818;}
 
 /* CONNECTIONS MODAL */
-.conn-modal{position:fixed;top:50%;left:50%;transform:translate(-50%,-48%);width:min(780px,95vw);background:#0f0f0f;border:1px solid var(--border2);border-radius:14px;z-index:201;display:flex;flex-direction:column;opacity:0;pointer-events:none;transition:opacity 0.2s,transform 0.2s;overflow:hidden}
+.conn-modal{position:fixed;top:50%;left:50%;transform:translate(-50%,-48%);width:min(820px,96vw);background:#080810;border:1px solid rgba(155,140,255,0.2);border-radius:16px;z-index:201;display:flex;flex-direction:column;opacity:0;pointer-events:none;transition:opacity 0.25s,transform 0.25s;overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,0.7),0 0 0 1px rgba(155,140,255,0.08)}
 .conn-modal.open{opacity:1;pointer-events:all;transform:translate(-50%,-50%)}
-.conn-body{position:relative;height:480px}
+.conn-body{position:relative;height:460px;background:#05050d}
 .conn-loading{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;color:var(--muted);font-size:13px}
 .conn-spinner{width:32px;height:32px;border:2px solid var(--border2);border-top-color:var(--purple-bright);border-radius:50%;animation:spin 0.8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-#conn-graph{width:100%;height:100%;display:none;background:#0a0a0f}
-.conn-footer{padding:10px 20px;border-top:1px solid var(--border);font-size:10px;color:var(--muted);letter-spacing:0.3px}
+#conn-graph{width:100%;height:100%}
+#conn-graph canvas{display:block}
+.conn-info-panel{padding:14px 20px;border-top:1px solid rgba(155,140,255,0.12);background:#09090f;animation:connInfoIn 0.2s ease}
+@keyframes connInfoIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.conn-info-badge{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:100px;font-size:9px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px}
+.conn-info-badge.side{background:rgba(255,210,60,0.12);border:1px solid rgba(255,210,60,0.35);color:#ffd040}
+.conn-info-badge.conn{background:rgba(155,140,255,0.1);border:1px solid rgba(155,140,255,0.25);color:var(--purple-bright)}
+.conn-info-row{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.conn-info-addr{font-family:monospace;font-size:10px;color:var(--muted);margin-bottom:2px}
+.conn-info-stat{font-family:'Inter',sans-serif;font-size:20px;font-weight:800;letter-spacing:-0.5px;color:var(--text)}
+.conn-info-stat span{color:var(--purple-bright)}
+.conn-info-copy{background:var(--purple-dim);border:1px solid var(--purple-border);border-radius:8px;padding:8px 16px;font-family:'DM Sans',sans-serif;font-size:12px;color:var(--purple-bright);cursor:pointer;transition:all 0.15s;white-space:nowrap}
+.conn-info-copy:hover{background:rgba(155,140,255,0.2)}
+.conn-footer{padding:9px 20px;border-top:1px solid rgba(155,140,255,0.08);font-size:10px;color:rgba(155,140,255,0.3);letter-spacing:0.3px}
+.conn-tooltip{position:fixed;background:rgba(14,12,24,0.96);border:1px solid rgba(155,140,255,0.25);border-radius:10px;padding:10px 14px;font-size:11px;color:var(--text);pointer-events:none;z-index:600;opacity:0;transition:opacity 0.12s;white-space:nowrap;backdrop-filter:blur(8px);box-shadow:0 8px 24px rgba(0,0,0,0.5)}
+.conn-tooltip.show{opacity:1}
+.conn-tooltip-rank{font-size:9px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:4px}
+.conn-tooltip-addr{font-family:monospace;color:var(--muted);font-size:10px;margin-bottom:4px}
+.conn-tooltip-count{font-weight:800;color:var(--purple-bright)}
 .cat-conn{background:none;border:1px solid var(--border);border-radius:5px;padding:5px 10px;font-family:'DM Sans',sans-serif;font-size:11px;color:var(--muted);cursor:pointer;transition:all 0.15s;flex-shrink:0;white-space:nowrap;margin-left:4px}
 .cat-conn:hover{border-color:rgba(155,140,255,0.4);color:var(--purple-bright)}
 
@@ -987,8 +1004,10 @@ emoji-picker{--background:#111;--border-color:rgba(255,255,255,0.08);--button-ac
     <div class="conn-loading" id="conn-loading"><div class="conn-spinner"></div><span>Fetching on-chain data…</span></div>
     <div id="conn-graph"></div>
   </div>
-  <div class="conn-footer">Most interacted wallets from last 100 transactions · Powered by Helius</div>
+  <div id="conn-info"></div>
+  <div class="conn-footer">Click any bubble for details · Last 100 transactions · Powered by Helius</div>
 </div>
+<div class="conn-tooltip" id="conn-tooltip"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.28.1/cytoscape.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -1968,7 +1987,7 @@ function renderCatalog() {
         <div class="cat-addr">${fmt(w.address)}</div>
       </div>
       <button class="cat-copy" onclick="copyAddr('${w.address}')">Copy</button>
-      <button class="cat-conn" onclick="openConnections('${w.address}','${w.name.replace(/'/g,"\\'")}','${w.emoji||'👛'}')">Graph</button>
+      <button class="cat-conn" onclick="openConnections('${w.address}','${w.name.replace(/'/g,"\\'")}','${w.emoji||'👛'}','${w.pfp||''}')">Graph</button>
     </div>`;
   }).join('');
 }
@@ -2522,46 +2541,212 @@ ScrollTrigger.create({
 const HELIUS_KEY = '7e2d3992-481f-44a8-91d5-80d3f7abcf41';
 
 const KNOWN_PROGRAMS = new Set([
-  '11111111111111111111111111111111',
-  'TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA',
-  'ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJe1brs',
-  'ComputeBudget111111111111111111111111111111',
-  'metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s',
-  'JUP6LkbZbjS1jKKwapdHNy74zcZ3tLUZoi5QNyVTaV4',
-  'JUP4Fb2cqiRUcaTHdrPC8h2gNsA2ETXiPDD33WcGuJB',
-  'JUPyiwrYJFskUPiHa7hkeR8VUtAeFoSYbKedZNsDvCN',
-  'whirLbMiicVdio4qvUfM5KAg6Ct8VwpYzGff3sFKDmG',
-  '675kPX9MHTjS2zt1qfr1NYHuzeLXfQM9H24wFSUt1Mp8',
-  'CAMMCzo5YL8w4VFF8KVHrK22GGUsp5VTaW7grrKgrWqK',
-  'LBUZKhRxPF3XUpBCjp4YzTKgLLjR4gNeV8vSRHHFuKh',
-  '6EF8rrecthR5Dkzon8Nwu78hRvfCKubJ14M5uBEwF6P',
-  'TSWAPaqyCSx2KABk68Shruf4rp7CxcAi9LVkatKs7PV',
-  'So11111111111111111111111111111111111111112',
-  'Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB',
-  'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v',
-  'TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb',
-  'MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr',
-  'SysvarRent111111111111111111111111111111111',
-  'SysvarC1ock11111111111111111111111111111111',
-  'Vote111111111111111111111111111111111111111p',
-  'Stake11111111111111111111111111111111111111',
-  'BPFLoaderUpgradeab1e11111111111111111111111',
+  '11111111111111111111111111111111','TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA',
+  'ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJe1brs','ComputeBudget111111111111111111111111111111',
+  'metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s','JUP6LkbZbjS1jKKwapdHNy74zcZ3tLUZoi5QNyVTaV4',
+  'JUP4Fb2cqiRUcaTHdrPC8h2gNsA2ETXiPDD33WcGuJB','JUPyiwrYJFskUPiHa7hkeR8VUtAeFoSYbKedZNsDvCN',
+  'whirLbMiicVdio4qvUfM5KAg6Ct8VwpYzGff3sFKDmG','675kPX9MHTjS2zt1qfr1NYHuzeLXfQM9H24wFSUt1Mp8',
+  'CAMMCzo5YL8w4VFF8KVHrK22GGUsp5VTaW7grrKgrWqK','LBUZKhRxPF3XUpBCjp4YzTKgLLjR4gNeV8vSRHHFuKh',
+  '6EF8rrecthR5Dkzon8Nwu78hRvfCKubJ14M5uBEwF6P','TSWAPaqyCSx2KABk68Shruf4rp7CxcAi9LVkatKs7PV',
+  'So11111111111111111111111111111111111111112','Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB',
+  'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v','TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb',
+  'MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr','SysvarRent111111111111111111111111111111111',
+  'SysvarC1ock11111111111111111111111111111111','Vote111111111111111111111111111111111111111p',
+  'Stake11111111111111111111111111111111111111','BPFLoaderUpgradeab1e11111111111111111111111',
   'noopb9bkMVfRPU8AsbpTUg8AQkHtKwMYZiFUjNRtMmV',
 ]);
 
-let connCy = null;
+class BubbleMap {
+  constructor(container, nodes, edges) {
+    this.canvas = document.createElement('canvas');
+    this.canvas.width = container.clientWidth || 820;
+    this.canvas.height = container.clientHeight || 460;
+    container.innerHTML = '';
+    container.appendChild(this.canvas);
+    this.ctx = this.canvas.getContext('2d');
+    this.nodes = nodes;
+    this.edges = edges;
+    this.hovered = null;
+    this.t = 0;
+    this.raf = null;
+    this.mainImg = null;
+    const mainNode = nodes.find(n => n.isMain);
+    if (mainNode && mainNode.pfp) {
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      img.onload = () => { this.mainImg = img; };
+      img.onerror = () => { this.mainImg = null; };
+      img.src = mainNode.pfp;
+    }
 
-async function openConnections(address, name, emoji) {
+    const cx = this.canvas.width / 2, cy = this.canvas.height / 2;
+    nodes.forEach(n => {
+      if (n.isMain) { n.x = cx; n.y = cy; n.vx = 0; n.vy = 0; return; }
+      const angle = Math.random() * Math.PI * 2;
+      n.x = cx + Math.cos(angle) * (20 + Math.random() * 30);
+      n.y = cy + Math.sin(angle) * (20 + Math.random() * 30);
+      n.vx = (Math.random() - 0.5) * 4;
+      n.vy = (Math.random() - 0.5) * 4;
+    });
+    edges.forEach(e => { e.cpOff = (Math.random() > 0.5 ? 1 : -1) * (15 + Math.random() * 30); });
+
+    this.canvas.addEventListener('mousemove', ev => this._onMove(ev));
+    this.canvas.addEventListener('mouseleave', () => { this.hovered = null; this.canvas.style.cursor = 'default'; document.getElementById('conn-tooltip').classList.remove('show'); });
+    this.canvas.addEventListener('click', ev => this._onClick(ev));
+    this._loop();
+  }
+
+  _pos(ev) { const r = this.canvas.getBoundingClientRect(); return { x: ev.clientX - r.left, y: ev.clientY - r.top }; }
+  _hit(mx, my) { return this.nodes.find(n => { const dx = n.x-mx, dy = n.y-my; return Math.sqrt(dx*dx+dy*dy) <= n.r+5; }) || null; }
+
+  _onMove(ev) {
+    const { x, y } = this._pos(ev);
+    this.hovered = this._hit(x, y);
+    this.canvas.style.cursor = this.hovered ? 'pointer' : 'default';
+    const tip = document.getElementById('conn-tooltip');
+    if (this.hovered && !this.hovered.isMain) {
+      const n = this.hovered;
+      const rankLabel = n.rank === 1 ? '🤝 Side Wallet' : '#' + n.rank + ' Connection';
+      tip.innerHTML = `<div class="conn-tooltip-rank" style="color:${n.rank===1?'#ffd040':'var(--purple-bright)'}">${rankLabel}</div><div class="conn-tooltip-addr">${n.fullAddr.slice(0,8)}…${n.fullAddr.slice(-6)}</div><div class="conn-tooltip-count">${n.count} shared txns</div>`;
+      tip.classList.add('show');
+      tip.style.left = (ev.clientX + 16) + 'px';
+      tip.style.top = (ev.clientY - 12) + 'px';
+    } else { tip.classList.remove('show'); }
+  }
+
+  _onClick(ev) {
+    const { x, y } = this._pos(ev);
+    const n = this._hit(x, y);
+    if (!n || n.isMain) return;
+    const panel = document.getElementById('conn-info');
+    const isSide = n.rank === 1;
+    panel.className = 'conn-info-panel';
+    panel.innerHTML = `<div class="conn-info-row"><div><div class="conn-info-badge ${isSide?'side':'conn'}">${isSide?'🤝 Side Wallet':'#'+n.rank+' Connection'}</div><div class="conn-info-addr">${n.fullAddr}</div><div class="conn-info-stat"><span>${n.count}</span> shared transactions</div></div><button class="conn-info-copy" onclick="navigator.clipboard.writeText('${n.fullAddr}').then(()=>showToast('Address copied'))">Copy Address</button></div>`;
+  }
+
+  _force() {
+    const cx = this.canvas.width/2, cy = this.canvas.height/2;
+    const w = this.canvas.width, h = this.canvas.height;
+    this.nodes.forEach(n => {
+      if (n.isMain) { n.x = cx; n.y = cy; return; }
+      n.vx += (cx - n.x) * 0.0012;
+      n.vy += (cy - n.y) * 0.0012;
+      this.nodes.forEach(o => {
+        if (o === n) return;
+        const dx = n.x-o.x, dy = n.y-o.y, d = Math.sqrt(dx*dx+dy*dy)||0.1;
+        const min = n.r + o.r + 18;
+        if (d < min) { const f = (min-d)/min*0.6; n.vx += dx/d*f*4; n.vy += dy/d*f*4; }
+        else { const f = 2200/(d*d); n.vx += dx/d*f; n.vy += dy/d*f; }
+      });
+      n.vx *= 0.87; n.vy *= 0.87;
+      n.x += n.vx; n.y += n.vy;
+      n.x = Math.max(n.r+16, Math.min(w-n.r-16, n.x));
+      n.y = Math.max(n.r+16, Math.min(h-n.r-16, n.y));
+    });
+  }
+
+  _draw() {
+    const ctx = this.ctx, w = this.canvas.width, h = this.canvas.height;
+    ctx.clearRect(0, 0, w, h);
+    this.t++;
+
+    // Edges
+    this.edges.forEach(e => {
+      const src = this.nodes.find(n => n.id === e.source), tgt = this.nodes.find(n => n.id === e.target);
+      if (!src || !tgt) return;
+      const dx = tgt.x-src.x, dy = tgt.y-src.y, d = Math.sqrt(dx*dx+dy*dy)||1;
+      const px = -dy/d * e.cpOff, py = dx/d * e.cpOff;
+      ctx.beginPath();
+      ctx.moveTo(src.x, src.y);
+      ctx.quadraticCurveTo(src.x+dx/2+px, src.y+dy/2+py, tgt.x, tgt.y);
+      ctx.strokeStyle = `rgba(155,140,255,${0.05 + e.w * 0.07})`;
+      ctx.lineWidth = e.w * 1.2;
+      ctx.stroke();
+    });
+
+    // Nodes
+    this.nodes.forEach(n => {
+      const isHov = this.hovered === n;
+      const scale = isHov && !n.isMain ? 1.15 : 1;
+      const r = n.r * scale;
+
+      // Pulse rings
+      if (n.isMain) {
+        [0, 45].forEach((offset, i) => {
+          const p = ((this.t + offset) % 80) / 80;
+          ctx.beginPath(); ctx.arc(n.x, n.y, n.r + 8 + p*24, 0, Math.PI*2);
+          ctx.strokeStyle = `rgba(155,140,255,${0.4*(1-p)})`; ctx.lineWidth = 2-i*0.5; ctx.stroke();
+        });
+      }
+      if (n.rank === 1 && !n.isMain) {
+        const p = ((this.t + 10) % 70) / 70;
+        ctx.beginPath(); ctx.arc(n.x, n.y, r+5+p*12, 0, Math.PI*2);
+        ctx.strokeStyle = `rgba(255,210,60,${0.55*(1-p)})`; ctx.lineWidth = 1.5; ctx.stroke();
+      }
+
+      // Glow + fill
+      ctx.save();
+      ctx.shadowBlur = n.isMain ? 30+Math.sin(this.t*0.04)*10 : isHov ? 24 : n.rank===1 ? 16 : 7;
+      ctx.shadowColor = n.isMain ? '#9b8cff' : n.rank===1 ? '#ffd040' : isHov ? '#9b8cff' : 'rgba(155,140,255,0.3)';
+      const g = ctx.createRadialGradient(n.x-r*0.3, n.y-r*0.35, r*0.05, n.x, n.y, r);
+      if (n.isMain) { g.addColorStop(0,'#d4c8ff'); g.addColorStop(0.5,'#9b8cff'); g.addColorStop(1,'#4a3dbf'); }
+      else if (n.rank===1) { g.addColorStop(0,'#fff0a0'); g.addColorStop(0.5,'#edb820'); g.addColorStop(1,'#7a5000'); }
+      else {
+        const int = Math.max(0.12, 1-(n.rank-2)/14);
+        g.addColorStop(0, `rgba(190,170,255,${int*0.85+0.08})`);
+        g.addColorStop(0.55, `rgba(110,90,200,${int*0.7})`);
+        g.addColorStop(1, `rgba(16,12,36,${int*0.9+0.1})`);
+      }
+      ctx.beginPath(); ctx.arc(n.x, n.y, r, 0, Math.PI*2);
+      ctx.fillStyle = g; ctx.fill();
+      ctx.shadowBlur = 0;
+      ctx.strokeStyle = n.isMain ? 'rgba(210,195,255,0.75)' : n.rank===1 ? 'rgba(255,210,60,0.65)' : `rgba(155,140,255,${isHov?0.75:0.28})`;
+      ctx.lineWidth = n.isMain ? 2 : 1.5; ctx.stroke();
+      ctx.restore();
+
+      // Labels
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      if (n.isMain) {
+        if (this.mainImg) {
+          ctx.save();
+          ctx.beginPath(); ctx.arc(n.x, n.y, r-1, 0, Math.PI*2); ctx.clip();
+          ctx.drawImage(this.mainImg, n.x-r+1, n.y-r+1, (r-1)*2, (r-1)*2);
+          ctx.restore();
+        } else {
+          ctx.font = `${Math.round(r*0.72)}px serif`; ctx.fillText(n.emoji, n.x, n.y);
+        }
+      } else {
+        if (r >= 22) {
+          ctx.font = `800 ${Math.min(12,Math.round(r*0.33))}px Inter,sans-serif`;
+          ctx.fillStyle = n.rank===1 ? 'rgba(50,30,0,0.9)' : 'rgba(255,255,255,0.88)';
+          ctx.fillText(n.count+'x', n.x, n.y);
+        }
+        ctx.font = '7.5px monospace'; ctx.fillStyle = isHov?'#c4b5ff':'rgba(155,140,255,0.55)';
+        ctx.textBaseline = 'top'; ctx.fillText(n.label, n.x, n.y+r+4);
+        if (n.rank===1) { ctx.font='800 7px Inter,sans-serif'; ctx.fillStyle='#ffd040'; ctx.fillText('SIDE WALLET', n.x, n.y+r+14); }
+      }
+    });
+  }
+
+  _loop() { this._force(); this._draw(); this.raf = requestAnimationFrame(() => this._loop()); }
+  destroy() { if (this.raf) cancelAnimationFrame(this.raf); document.getElementById('conn-tooltip')?.classList.remove('show'); }
+}
+
+let connMap = null;
+
+async function openConnections(address, name, emoji, pfp) {
   const overlay = document.getElementById('conn-overlay');
   const modal = document.getElementById('conn-modal');
   const loading = document.getElementById('conn-loading');
-  const graph = document.getElementById('conn-graph');
+  const graphEl = document.getElementById('conn-graph');
+  const info = document.getElementById('conn-info');
 
-  document.getElementById('conn-title').textContent = emoji + ' ' + name;
+  document.getElementById('conn-title').textContent = (emoji||'👛') + ' ' + name;
   document.getElementById('conn-sub').textContent = address.slice(0,6) + '...' + address.slice(-4) + ' · last 100 txns';
   loading.style.display = 'flex';
   loading.innerHTML = '<div class="conn-spinner"></div><span>Fetching on-chain data…</span>';
-  graph.style.display = 'none';
+  graphEl.innerHTML = '';
+  info.innerHTML = '';
   overlay.classList.add('open');
   modal.classList.add('open');
   document.body.style.overflow = 'hidden';
@@ -2574,57 +2759,31 @@ async function openConnections(address, name, emoji) {
     const counts = {};
     txs.forEach(tx => {
       const addrs = new Set();
-      (tx.nativeTransfers || []).forEach(t => { if (t.fromUserAccount) addrs.add(t.fromUserAccount); if (t.toUserAccount) addrs.add(t.toUserAccount); });
-      (tx.tokenTransfers || []).forEach(t => { if (t.fromUserAccount) addrs.add(t.fromUserAccount); if (t.toUserAccount) addrs.add(t.toUserAccount); });
-      addrs.forEach(addr => {
-        if (!addr || addr === address || KNOWN_PROGRAMS.has(addr)) return;
-        counts[addr] = (counts[addr] || 0) + 1;
-      });
+      (tx.nativeTransfers||[]).forEach(t => { if(t.fromUserAccount) addrs.add(t.fromUserAccount); if(t.toUserAccount) addrs.add(t.toUserAccount); });
+      (tx.tokenTransfers||[]).forEach(t => { if(t.fromUserAccount) addrs.add(t.fromUserAccount); if(t.toUserAccount) addrs.add(t.toUserAccount); });
+      addrs.forEach(addr => { if(!addr||addr===address||KNOWN_PROGRAMS.has(addr)) return; counts[addr]=(counts[addr]||0)+1; });
     });
 
-    // Filter out addresses appearing in >35% of txns — those are DEXes, not real wallets
     const freqCap = Math.max(3, txs.length * 0.35);
-    const top = Object.entries(counts).filter(([, c]) => c <= freqCap).sort((a, b) => b[1] - a[1]).slice(0, 14);
+    const top = Object.entries(counts).filter(([,c])=>c<=freqCap).sort((a,b)=>b[1]-a[1]).slice(0,13);
 
-    if (!top.length) {
-      loading.innerHTML = '<div style="color:var(--muted);text-align:center;padding:20px">No wallet interactions found in recent transactions.</div>';
-      return;
-    }
+    if (!top.length) { loading.innerHTML='<div style="color:var(--muted);text-align:center;padding:20px">No wallet interactions found.</div>'; return; }
 
     const maxCount = top[0][1];
-    const elements = [
-      { data: { id: address, label: emoji || '👛', size: 52, type: 'main', fullAddr: address, name } }
-    ];
-    top.forEach(([addr, count]) => {
-      const size = 18 + Math.round((count / maxCount) * 28);
-      elements.push({ data: { id: addr, label: addr.slice(0,4) + '..' + addr.slice(-3), size, type: 'wallet', count, fullAddr: addr } });
-      elements.push({ data: { source: address, target: addr, weight: count } });
+    const nodes = [{ id: address, emoji: emoji||'👛', pfp: pfp||'', isMain: true, r: 42, vx:0, vy:0 }];
+    const edges = [];
+    top.forEach(([addr, count], i) => {
+      const ratio = count / maxCount;
+      nodes.push({ id: addr, label: addr.slice(0,4)+'..'+addr.slice(-3), fullAddr: addr, count, rank: i+1, isMain: false, r: Math.round(14 + Math.pow(ratio, 0.55) * 68) });
+      edges.push({ source: address, target: addr, w: Math.max(1, Math.round(ratio * 5)) });
     });
 
     loading.style.display = 'none';
-    graph.style.display = 'block';
-
-    if (connCy) { connCy.destroy(); connCy = null; }
-
-    connCy = cytoscape({
-      container: graph,
-      elements,
-      style: [
-        { selector: 'node[type="main"]', style: { 'background-color': '#9b8cff', 'label': 'data(label)', 'color': '#fff', 'font-size': '20px', 'text-valign': 'center', 'text-halign': 'center', 'width': 'data(size)', 'height': 'data(size)', 'border-width': 2, 'border-color': '#c4b5ff', 'z-index': 10 } },
-        { selector: 'node[type="wallet"]', style: { 'background-color': '#1a1825', 'label': 'data(label)', 'color': '#8b88a8', 'font-size': '8px', 'text-valign': 'bottom', 'text-margin-y': 5, 'width': 'data(size)', 'height': 'data(size)', 'border-width': 1, 'border-color': 'rgba(155,140,255,0.25)' } },
-        { selector: 'node[type="wallet"]:hover', style: { 'border-color': 'rgba(155,140,255,0.7)', 'color': '#c4b5ff' } },
-        { selector: 'edge', style: { 'width': 1, 'line-color': 'rgba(155,140,255,0.15)', 'curve-style': 'bezier' } },
-      ],
-      layout: { name: 'concentric', concentric: n => n.data('type') === 'main' ? 10 : 1, levelWidth: () => 1, spacingFactor: 1.8, animate: true, animationDuration: 700, fit: true, padding: 28 }
-    });
-
-    connCy.on('tap', 'node[type="wallet"]', e => {
-      const addr = e.target.data('fullAddr');
-      navigator.clipboard.writeText(addr).then(() => showToast('Address copied'));
-    });
+    if (connMap) { connMap.destroy(); connMap = null; }
+    connMap = new BubbleMap(graphEl, nodes, edges);
 
   } catch(err) {
-    loading.innerHTML = '<div style="color:var(--muted);text-align:center;padding:20px">Failed to load data. Check your connection and try again.</div>';
+    loading.innerHTML = '<div style="color:var(--muted);text-align:center;padding:20px">Failed to load. Try again.</div>';
   }
 }
 
@@ -2632,6 +2791,7 @@ function closeConnections() {
   document.getElementById('conn-overlay').classList.remove('open');
   document.getElementById('conn-modal').classList.remove('open');
   document.body.style.overflow = '';
+  if (connMap) { connMap.destroy(); connMap = null; }
 }
 
 // ── Supabase + Community Packs ──────────────────────────────────────────
