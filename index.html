@@ -2529,8 +2529,13 @@ const KNOWN_PROGRAMS = new Set([
   'metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s',
   'JUP6LkbZbjS1jKKwapdHNy74zcZ3tLUZoi5QNyVTaV4',
   'JUP4Fb2cqiRUcaTHdrPC8h2gNsA2ETXiPDD33WcGuJB',
+  'JUPyiwrYJFskUPiHa7hkeR8VUtAeFoSYbKedZNsDvCN',
   'whirLbMiicVdio4qvUfM5KAg6Ct8VwpYzGff3sFKDmG',
   '675kPX9MHTjS2zt1qfr1NYHuzeLXfQM9H24wFSUt1Mp8',
+  'CAMMCzo5YL8w4VFF8KVHrK22GGUsp5VTaW7grrKgrWqK',
+  'LBUZKhRxPF3XUpBCjp4YzTKgLLjR4gNeV8vSRHHFuKh',
+  '6EF8rrecthR5Dkzon8Nwu78hRvfCKubJ14M5uBEwF6P',
+  'TSWAPaqyCSx2KABk68Shruf4rp7CxcAi9LVkatKs7PV',
   'So11111111111111111111111111111111111111112',
   'Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB',
   'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v',
@@ -2577,7 +2582,9 @@ async function openConnections(address, name, emoji) {
       });
     });
 
-    const top = Object.entries(counts).sort((a, b) => b[1] - a[1]).slice(0, 14);
+    // Filter out addresses appearing in >35% of txns — those are DEXes, not real wallets
+    const freqCap = Math.max(3, txs.length * 0.35);
+    const top = Object.entries(counts).filter(([, c]) => c <= freqCap).sort((a, b) => b[1] - a[1]).slice(0, 14);
 
     if (!top.length) {
       loading.innerHTML = '<div style="color:var(--muted);text-align:center;padding:20px">No wallet interactions found in recent transactions.</div>';
