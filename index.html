@@ -2700,6 +2700,14 @@ class BubbleMap {
       ctx.beginPath(); ctx.arc(n.x, n.y, r, 0, Math.PI*2);
       ctx.fillStyle = g; ctx.fill();
       ctx.shadowBlur = 0;
+      // Draw pfp on top of gradient fill, clipped to circle
+      if (n.isMain && this.mainImg) {
+        ctx.save();
+        ctx.beginPath(); ctx.arc(n.x, n.y, r-1, 0, Math.PI*2); ctx.clip();
+        ctx.drawImage(this.mainImg, n.x-r+1, n.y-r+1, (r-1)*2, (r-1)*2);
+        ctx.restore();
+      }
+      ctx.beginPath(); ctx.arc(n.x, n.y, r, 0, Math.PI*2);
       ctx.strokeStyle = n.isMain ? 'rgba(210,195,255,0.75)' : n.rank===1 ? 'rgba(255,210,60,0.65)' : `rgba(155,140,255,${isHov?0.75:0.28})`;
       ctx.lineWidth = n.isMain ? 2 : 1.5; ctx.stroke();
       ctx.restore();
@@ -2707,12 +2715,7 @@ class BubbleMap {
       // Labels
       ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
       if (n.isMain) {
-        if (this.mainImg) {
-          ctx.save();
-          ctx.beginPath(); ctx.arc(n.x, n.y, r-1, 0, Math.PI*2); ctx.clip();
-          ctx.drawImage(this.mainImg, n.x-r+1, n.y-r+1, (r-1)*2, (r-1)*2);
-          ctx.restore();
-        } else {
+        if (!this.mainImg) {
           ctx.font = `${Math.round(r*0.72)}px serif`; ctx.fillText(n.emoji, n.x, n.y);
         }
       } else {
