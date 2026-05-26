@@ -2608,8 +2608,9 @@ class BubbleMap {
         const dx = ev.clientX - this._drag.sx, dy = ev.clientY - this._drag.sy;
         if (Math.abs(dx) > 3 || Math.abs(dy) > 3) this._dragMoved = true;
         if (this._dragMoved) {
-          this.panX = this._drag.panX + dx;
-          this.panY = this._drag.panY + dy;
+          const MAX_PAN = 280;
+          this.panX = Math.max(-MAX_PAN, Math.min(MAX_PAN, this._drag.panX + dx));
+          this.panY = Math.max(-MAX_PAN, Math.min(MAX_PAN, this._drag.panY + dy));
           this._updatePfp();
           document.getElementById('conn-tooltip').classList.remove('show');
           return;
@@ -2619,18 +2620,6 @@ class BubbleMap {
     });
     this.canvas.addEventListener('mouseleave', () => { if (!this._drag) { this.hovered = null; this.canvas.style.cursor = 'default'; } document.getElementById('conn-tooltip').classList.remove('show'); });
     this.canvas.addEventListener('click', ev => { if (this._dragMoved) return; this._onClick(ev); });
-
-    // DOM img overlay for center pfp — avoids canvas CORS taint
-    const mainNode = nodes.find(n => n.isMain);
-    if (mainNode && mainNode.pfp) {
-      const r = mainNode.r - 2;
-      const el = document.createElement('img');
-      el.src = mainNode.pfp;
-      el.onerror = () => el.remove();
-      el.style.cssText = `position:absolute;left:${cx-r}px;top:${cy-r}px;width:${r*2}px;height:${r*2}px;border-radius:50%;object-fit:cover;pointer-events:none;z-index:2;`;
-      container.appendChild(el);
-      this.pfpEl = el;
-    }
 
     this._loop();
   }
@@ -2676,9 +2665,12 @@ class BubbleMap {
       this.nodes.forEach(o => {
         if (o === n) return;
         const dx = n.x-o.x, dy = n.y-o.y, d = Math.sqrt(dx*dx+dy*dy)||0.1;
-        const min = n.r + o.r + 30;
-        if (d < min) { const f = (min-d)/min*0.7; n.vx += dx/d*f*5; n.vy += dy/d*f*5; }
-        else { const f = 5000/(d*d); n.vx += dx/d*f; n.vy += dy/d*f; }
+        const min = n.r + o.r + 18;
+        if (d < min) {
+          const push = (min - d) * 0.5;
+          n.x += dx/d * push; n.y += dy/d * push;
+          const f = (min-d)/min*0.9; n.vx += dx/d*f*6; n.vy += dy/d*f*6;
+        } else { const f = 5000/(d*d); n.vx += dx/d*f; n.vy += dy/d*f; }
       });
       n.vx *= 0.83; n.vy *= 0.83;
       n.x += n.vx; n.y += n.vy;
@@ -2754,9 +2746,7 @@ class BubbleMap {
       // Labels
       ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
       if (n.isMain) {
-        if (!this.pfpEl) {
-          ctx.font = `${Math.round(r*0.72)}px serif`; ctx.fillText(n.emoji, n.x, n.y);
-        }
+        ctx.font = `${Math.round(r*0.72)}px serif`; ctx.fillText(n.emoji, n.x, n.y);
       } else {
         if (r >= 22) {
           ctx.font = `800 ${Math.min(12,Math.round(r*0.33))}px Inter,sans-serif`;
@@ -2772,7 +2762,7 @@ class BubbleMap {
   }
 
   _loop() { this._force(); this._draw(); this.raf = requestAnimationFrame(() => this._loop()); }
-  destroy() { if (this.raf) cancelAnimationFrame(this.raf); if (this.pfpEl) { this.pfpEl.remove(); this.pfpEl = null; } if (this._onMouseUp) window.removeEventListener('mouseup', this._onMouseUp); document.getElementById('conn-tooltip')?.classList.remove('show'); }
+  destroy() { if (this.raf) cancelAnimationFrame(this.raf); if (this._onMouseUp) window.removeEventListener('mouseup', this._onMouseUp); document.getElementById('conn-tooltip')?.classList.remove('show'); }
 }
 
 let connMap = null;
@@ -2784,7 +2774,8 @@ async function openConnections(address, name, emoji, pfp) {
   const graphEl = document.getElementById('conn-graph');
   const info = document.getElementById('conn-info');
 
-  document.getElementById('conn-title').textContent = (emoji||'👛') + ' ' + name;
+  const pfpHtml = pfp ? `<img src="${pfp}" onerror="this.style.display='none'" style="width:32px;height:32px;border-radius:50%;object-fit:cover;vertical-align:middle;margin-right:8px;flex-shrink:0;">` : '';
+  document.getElementById('conn-title').innerHTML = `<div style="display:flex;align-items:center">${pfpHtml}<span>${name}</span></div>`;
   document.getElementById('conn-sub').textContent = address.slice(0,6) + '...' + address.slice(-4) + ' · last 100 txns';
   loading.style.display = 'flex';
   loading.innerHTML = '<div class="conn-spinner"></div><span>Fetching on-chain data…</span>';
