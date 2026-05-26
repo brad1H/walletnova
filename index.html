@@ -2661,7 +2661,7 @@ class BubbleMap {
     const panel = document.getElementById('conn-info');
     const isSide = n.rank === 1;
     panel.className = 'conn-info-panel';
-    panel.innerHTML = `<div class="conn-info-row"><div><div class="conn-info-badge ${isSide?'side':'conn'}">${isSide?'🤝 Side Wallet':'#'+n.rank+' Connection'}</div><div class="conn-info-addr">${n.fullAddr}</div><div class="conn-info-stat"><span>${n.count}</span> shared transactions</div></div><button class="conn-info-copy" onclick="navigator.clipboard.writeText('${n.fullAddr}').then(()=>showToast('Address copied'))">Copy Address</button></div>`;
+    panel.innerHTML = `<div class="conn-info-row"><div><div class="conn-info-badge ${isSide?'side':'conn'}">${isSide?'🤝 Side Wallet':'#'+n.rank+' Connection'}</div><div class="conn-info-addr">${n.fullAddr}</div><div class="conn-info-stat"><span>${n.count}</span> shared transactions</div></div><button class="conn-info-copy" onclick="copyBubbleAddr('${n.fullAddr}',this)">Copy Address</button></div>`;
   }
 
   _force() {
@@ -2762,9 +2762,9 @@ class BubbleMap {
           ctx.fillStyle = n.rank===1 ? 'rgba(50,30,0,0.9)' : 'rgba(255,255,255,0.88)';
           ctx.fillText(n.count+'x', n.x, n.y);
         }
-        ctx.font = '7.5px monospace'; ctx.fillStyle = isHov?'#c4b5ff':'rgba(155,140,255,0.55)';
-        ctx.textBaseline = 'top'; ctx.fillText(n.label, n.x, n.y+r+4);
-        if (n.rank===1) { ctx.font='800 7px Inter,sans-serif'; ctx.fillStyle='#ffd040'; ctx.fillText('SIDE WALLET', n.x, n.y+r+14); }
+        ctx.font = `600 ${isHov?10:9}px monospace`; ctx.fillStyle = isHov?'#e0d8ff':'rgba(200,190,255,0.75)';
+        ctx.textBaseline = 'top'; ctx.fillText(n.label, n.x, n.y+r+5);
+        if (n.rank===1) { ctx.font='800 8px Inter,sans-serif'; ctx.fillStyle='#ffd040'; ctx.fillText('SIDE WALLET', n.x, n.y+r+17); }
       }
     });
     ctx.restore();
@@ -2825,7 +2825,7 @@ async function openConnections(address, name, emoji, pfp) {
     const edges = [];
     top.forEach(([addr, count], i) => {
       const ratio = count / maxCount;
-      nodes.push({ id: addr, label: addr.slice(0,4)+'..'+addr.slice(-3), fullAddr: addr, count, rank: i+1, isMain: false, r: Math.round(8 + Math.pow(ratio, 0.55) * 36) });
+      nodes.push({ id: addr, label: addr.slice(0,5)+'..'+addr.slice(-4), fullAddr: addr, count, rank: i+1, isMain: false, r: Math.round(8 + Math.pow(ratio, 0.55) * 36) });
       edges.push({ source: address, target: addr, w: Math.max(1, Math.round(ratio * 5)) });
     });
 
@@ -3051,6 +3051,15 @@ function showToast(msg) {
   t.textContent = msg;
   t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+function copyBubbleAddr(addr, btn) {
+  navigator.clipboard.writeText(addr).then(() => {
+    btn.textContent = '✓ Copied!';
+    btn.style.cssText += ';background:#16a34a;border-color:#16a34a;color:#fff';
+    setTimeout(() => { btn.textContent = 'Copy Address'; btn.style.cssText = btn.style.cssText.replace(/;?background:[^;]+;border-color:[^;]+;color:[^;]+/g,''); }, 1600);
+    showToast('Address copied');
+  });
 }
 
 // Button glint on hover
