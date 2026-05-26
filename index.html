@@ -600,6 +600,117 @@ emoji-picker{--background:#111;--border-color:rgba(255,255,255,0.08);--button-ac
 .builder-cancel{background:transparent;border:1px solid var(--border2);border-radius:8px;padding:13px 20px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--muted);cursor:pointer;transition:all 0.15s}
 .builder-cancel:hover{color:var(--text)}
 
+/* MOBILE MENU */
+.mob-menu-btn{display:none;background:none;border:1px solid var(--border2);border-radius:8px;padding:8px 10px;cursor:pointer;color:var(--text);align-items:center;justify-content:center}
+.mob-menu-btn svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2}
+.mob-menu{position:fixed;top:72px;left:10px;right:10px;background:rgba(6,6,12,0.97);border:1px solid rgba(155,140,255,0.18);border-radius:18px;z-index:499;display:none;flex-direction:column;padding:10px;gap:3px;backdrop-filter:blur(24px);box-shadow:0 16px 48px rgba(0,0,0,0.6)}
+.mob-menu.open{display:flex}
+.mob-menu-lnk{background:none;border:none;font-family:'Inter',sans-serif;font-size:15px;font-weight:600;color:rgba(255,255,255,0.8);cursor:pointer;padding:14px 18px;border-radius:12px;text-align:left;transition:background 0.15s,color 0.15s;width:100%}
+.mob-menu-lnk:hover{background:var(--surface);color:#fff}
+.mob-menu-lnk.watch{color:var(--purple-bright)}
+.mob-menu-divider{height:1px;background:var(--border);margin:4px 0}
+
+@media(max-width:768px){
+  /* NAV */
+  #site-nav{left:10px;right:10px;padding:0 16px;height:52px}
+  .nav-links{display:none}
+  #site-nav>div:last-child{display:none}
+  .mob-menu-btn{display:flex}
+
+  /* HERO */
+  .landing{padding:20px 20px 36px;min-height:auto}
+  #center-logo{width:min(160px,44vw)}
+  #hero-logo-text{font-size:clamp(36px,10vw,52px)}
+  .hero{padding:40px 20px 36px}
+  .hero-steps{flex-direction:column;gap:12px}
+
+  /* TICKER */
+  .ticker-item{padding:10px 16px}
+
+  /* HOME SECTIONS */
+  .home-sec{padding:60px 20px 40px}
+  .home-sec-split{grid-template-columns:1fr;gap:36px}
+  .home-sec-right{display:none}
+  .home-sec-h2{font-size:38px;letter-spacing:-1.5px}
+  .home-sec-sub{max-width:100%}
+
+  .home-bubble-sec{padding:60px 20px}
+  .home-bubble-inner{grid-template-columns:1fr;gap:36px}
+  .bdemo-wrap{display:none}
+  .home-bubble-h2{font-size:34px}
+
+  .home-community-sec{padding:60px 20px}
+  .home-community-inner{grid-template-columns:1fr;gap:36px}
+  .bdemo{display:none}
+  .home-community-h2{font-size:34px;letter-spacing:-1.5px}
+
+  .home-lb-sec{padding:60px 20px}
+  .home-lb-inner{grid-template-columns:1fr;gap:36px}
+  .home-lb-terminal{display:none}
+  .home-lb-h2{font-size:34px;letter-spacing:-1.5px}
+  .home-lb-stats{gap:20px}
+  .lb-stat-val{font-size:24px}
+
+  .home-cat-sec{padding:60px 20px}
+  .home-cat-inner{gap:32px}
+  .home-cat-h2{font-size:38px;letter-spacing:-1.5px}
+  .cat-demo{height:260px}
+
+  /* IMPORT PAGE */
+  #page-import{padding-top:70px}
+  .import-wrap{padding:36px 20px 60px}
+  .import-h1{font-size:30px;letter-spacing:-1.5px}
+  .packs-grid{grid-template-columns:1fr}
+  .import-pill{flex-wrap:wrap;gap:4px;justify-content:center}
+
+  /* LEADERBOARD PAGE */
+  #page-leaderboard{padding-top:70px}
+  .lb-page-wrap{padding:36px 20px 60px}
+  .lb-title{font-size:38px;letter-spacing:-1.5px}
+  .lb-page-stats{gap:24px}
+  .lb-ps-val{font-size:22px}
+  .lb-podium{grid-template-columns:1fr;max-width:320px;margin:0 auto 32px}
+  .pod-card.r1{padding-top:36px}
+  .col-hdr{display:none}
+  .wrow{grid-template-columns:32px 1fr auto;gap:8px;padding:11px 14px}
+  .wpnl{display:none}
+  .wr-wrap{display:none}
+  .abtn{padding:5px 9px;font-size:10px}
+  .wrank{font-size:12px}
+
+  /* CATALOG PAGE */
+  #page-catalog.active{display:flex;flex-direction:column}
+  .catalog-wrap{padding:36px 20px 60px}
+  .catalog-h1{font-size:38px;letter-spacing:-1.5px}
+  .cat-grid{grid-template-columns:1fr}
+  .cat-card{padding:13px 14px}
+
+  /* COMMUNITY PAGE */
+  #page-community{padding-top:70px}
+  .community-wrap{padding:36px 20px 60px}
+  .community-h1{font-size:30px;letter-spacing:-1.5px}
+  .community-grid{grid-template-columns:1fr}
+
+  /* WATCHLIST PAGE */
+  #page-watchlist{padding-top:70px}
+  .watchlist-wrap{padding:36px 20px 60px}
+
+  /* BUBBLE MAP MODAL */
+  .conn-modal{width:100vw;height:100dvh;top:0!important;left:0!important;transform:none!important;border-radius:0;max-height:100dvh}
+  .conn-modal.open{transform:none!important}
+  .conn-body{height:calc(100dvh - 200px)}
+
+  /* MODALS */
+  .modal{width:96vw;max-height:88dvh}
+  .builder-modal{width:96vw;max-height:92dvh}
+
+  /* FOOTER */
+  footer{flex-direction:column;gap:6px;text-align:center;padding:20px}
+
+  /* MISC */
+  .home-community-btns{flex-direction:column;align-items:flex-start}
+  .catalog-sub{font-size:13px}
+}
 </style>
 </head>
 <body>
@@ -608,6 +719,9 @@ emoji-picker{--background:#111;--border-color:rgba(255,255,255,0.08);--button-ac
   <div class="logo" style="cursor:pointer" onclick="navigate('home')">
     <img src="Novawalletlogo.png" alt="Nova Wallet" style="height:28px;width:auto;">
   </div>
+  <button class="mob-menu-btn" id="mob-menu-btn" onclick="toggleMobMenu()">
+    <svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+  </button>
   <div class="nav-links">
     <button class="nav-link" data-page="catalog" onclick="navigate('catalog')">Catalog</button>
     <button class="nav-link" data-page="import" onclick="navigate('import')">Wallet Packs</button>
@@ -625,6 +739,16 @@ emoji-picker{--background:#111;--border-color:rgba(255,255,255,0.08);--button-ac
     </button>
   </div>
 </header>
+
+<div class="mob-menu" id="mob-menu">
+  <button class="mob-menu-lnk" onclick="navigate('catalog');closeMobMenu()">Catalog</button>
+  <button class="mob-menu-lnk" onclick="navigate('import');closeMobMenu()">Wallet Packs</button>
+  <button class="mob-menu-lnk" onclick="navigate('leaderboard');closeMobMenu()">Leaderboard</button>
+  <button class="mob-menu-lnk" onclick="navigate('community');closeMobMenu()">Community Packs</button>
+  <div class="mob-menu-divider"></div>
+  <button class="mob-menu-lnk watch" onclick="navigate('watchlist');closeMobMenu()">⭐ My Watchlist</button>
+  <button class="mob-menu-lnk" style="margin-top:4px;background:var(--purple);color:#080808;font-weight:700;text-align:center" onclick="navigate('import');closeMobMenu()">Import Wallets</button>
+</div>
 
 <div id="page-home" class="page active">
   <div class="landing">
@@ -2027,6 +2151,9 @@ function showToast(msg) {
   t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 2500);
 }
+function toggleMobMenu() { document.getElementById('mob-menu').classList.toggle('open'); }
+function closeMobMenu() { document.getElementById('mob-menu').classList.remove('open'); }
+document.addEventListener('click', e => { const m = document.getElementById('mob-menu'); if (m.classList.contains('open') && !m.contains(e.target) && !document.getElementById('mob-menu-btn').contains(e.target)) closeMobMenu(); });
 
 function copyAddr(addr) {
   writeClipboard(addr, () => showToast('Address copied'));
