@@ -199,7 +199,11 @@ h1 .hl{color:var(--purple-bright)}
 .pod-card.r1::before{background:linear-gradient(90deg,transparent,#F5C842 40%,#F5C842 60%,transparent);opacity:0.9}
 .pod-card.r2::before{background:linear-gradient(90deg,transparent,#C8CAD8 40%,#C8CAD8 60%,transparent);opacity:0.8}
 .pod-card.r3::before{background:linear-gradient(90deg,transparent,#D4924E 40%,#D4924E 60%,transparent);opacity:0.8}
-.pod-card:hover{transform:translateY(-5px);box-shadow:0 20px 56px rgba(0,0,0,0.35)}
+@keyframes podFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.pod-card.r1{animation:podFloat 4s ease-in-out infinite}
+.pod-card.r2{animation:podFloat 4.8s ease-in-out infinite -1.6s}
+.pod-card.r3{animation:podFloat 4.3s ease-in-out infinite -2.1s}
+.pod-card:hover{animation-play-state:paused;transform:translateY(-5px);box-shadow:0 20px 56px rgba(0,0,0,0.35)}
 .pod-medal{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:18px;padding:4px 12px;border-radius:100px;border:1px solid}
 .pod-medal.r1{color:#F5C842;border-color:rgba(245,200,66,0.5);background:rgba(245,200,66,0.14);font-weight:800}
 .pod-medal.r2{color:#C8CAD8;border-color:rgba(200,202,216,0.4);background:rgba(200,202,216,0.1);font-weight:800}
