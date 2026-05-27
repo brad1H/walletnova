@@ -601,8 +601,9 @@ emoji-picker{--background:#111;--border-color:rgba(255,255,255,0.08);--button-ac
 .builder-wallet-remove{background:none;border:none;cursor:pointer;color:var(--muted);font-size:14px;padding:4px 8px;border-radius:4px;transition:color 0.15s;flex-shrink:0}
 .builder-wallet-remove:hover{color:var(--red)}
 .builder-add-row{display:grid;grid-template-columns:48px 1fr 1fr auto;gap:8px;align-items:end}
-.builder-emoji-add-btn{background:var(--surface);border:1px solid var(--border2);border-radius:8px;font-size:20px;width:100%;height:42px;cursor:pointer;transition:border-color 0.15s;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.builder-emoji-add-btn{background:var(--surface);border:1px solid var(--border2);border-radius:8px;font-size:20px;width:100%;height:42px;cursor:pointer;transition:border-color 0.15s,filter 0.3s;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .builder-emoji-add-btn:hover{border-color:var(--purple-border)}
+.builder-emoji-add-btn.face-cycle{filter:grayscale(1) opacity(0.38)}
 .builder-emoji-input{text-align:center;font-size:18px;padding:11px 8px}
 .builder-add-btn{background:var(--purple-dim);border:1px solid var(--purple-border);border-radius:8px;padding:11px 14px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--purple-bright);cursor:pointer;transition:all 0.15s;white-space:nowrap}
 .builder-add-btn:hover{background:rgba(155,140,255,0.18)}
@@ -3352,13 +3353,13 @@ function openBuilder() {
   document.getElementById('b-emoji-drop').style.display = 'none';
   document.getElementById('b-name').value = '';
   document.getElementById('b-desc').value = '';
-  document.getElementById('b-emoji-btn').textContent = '👛';
   document.getElementById('b-wallet-name').value = '';
   document.getElementById('b-wallet-addr').value = '';
   renderBuilderList();
   document.getElementById('builder-overlay').classList.add('open');
   document.getElementById('builder-modal').classList.add('open');
   document.body.style.overflow = 'hidden';
+  _startFaceCycle();
 }
 
 function closeBuilder() {
@@ -3367,6 +3368,8 @@ function closeBuilder() {
   document.getElementById('b-emoji-drop').style.display = 'none';
   document.getElementById('b-wallet-emoji-drop').style.display = 'none';
   _emojiTarget = null;
+  clearInterval(_faceInterval);
+  _faceInterval = null;
   document.body.style.overflow = '';
 }
 
@@ -3416,14 +3419,13 @@ function builderImportJSON() {
 function builderAddWallet() {
   const addr = document.getElementById('b-wallet-addr').value.trim();
   const name = document.getElementById('b-wallet-name').value.trim();
-  const emojiBtn = document.getElementById('b-emoji-btn');
-  const emoji = emojiBtn.textContent.trim() || '👛';
+  const emoji = _emojiPicked ? document.getElementById('b-emoji-btn').textContent.trim() : '👛';
   if (!addr || !name) { showToast('Enter a name and address'); return; }
   if (builderWallets.find(w => w.address === addr)) { showToast('Already added'); return; }
   builderWallets.push({ address: addr, name, emoji });
   document.getElementById('b-wallet-addr').value = '';
   document.getElementById('b-wallet-name').value = '';
-  emojiBtn.textContent = '👛';
+  _startFaceCycle();
   renderBuilderList();
 }
 
@@ -3434,6 +3436,33 @@ function builderRemoveWallet(i) {
 
 // _emojiTarget: 'add' = new wallet button, number = wallet list index
 let _emojiTarget = null;
+let _emojiPicked = false;
+let _faceInterval = null;
+const _faces = ['😊','🙂','😄','😎','🤔','😁','🙃','😶'];
+
+function _startFaceCycle() {
+  _emojiPicked = false;
+  const btn = document.getElementById('b-emoji-btn');
+  if (!btn) return;
+  btn.classList.add('face-cycle');
+  let idx = 0;
+  btn.textContent = _faces[idx];
+  clearInterval(_faceInterval);
+  _faceInterval = setInterval(() => {
+    idx = (idx + 1) % _faces.length;
+    btn.textContent = _faces[idx];
+  }, 1100);
+}
+
+function _stopFaceCycle(emoji) {
+  clearInterval(_faceInterval);
+  _faceInterval = null;
+  _emojiPicked = true;
+  const btn = document.getElementById('b-emoji-btn');
+  if (!btn) return;
+  btn.classList.remove('face-cycle');
+  btn.textContent = emoji;
+}
 
 function _showWalletEmojiPicker(target, el) {
   _emojiTarget = target;
@@ -3448,7 +3477,7 @@ function _showWalletEmojiPicker(target, el) {
     picker.addEventListener('emoji-click', e => {
       const unicode = e.detail.unicode;
       if (_emojiTarget === 'add') {
-        document.getElementById('b-emoji-btn').textContent = unicode;
+        _stopFaceCycle(unicode);
       } else if (typeof _emojiTarget === 'number' && builderWallets[_emojiTarget]) {
         builderWallets[_emojiTarget].emoji = unicode;
         renderBuilderList();
