@@ -515,6 +515,9 @@ footer p{font-size:11px;color:var(--muted)}
 .builder-emoji-preview{font-size:36px;width:60px;height:60px;background:var(--surface);border:1px solid var(--border2);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer;transition:border-color 0.15s}
 .builder-emoji-preview:hover{border-color:var(--purple-border)}
 .builder-emoji-drop{position:absolute;top:68px;left:0;z-index:400;border-radius:12px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,0.5)}
+.builder-wallet-emoji-btn{background:none;border:none;font-size:20px;cursor:pointer;padding:2px 4px;border-radius:4px;transition:background 0.15s;line-height:1;flex-shrink:0}
+.builder-wallet-emoji-btn:hover{background:var(--surface2)}
+#b-wallet-emoji-drop{position:fixed;z-index:500;border-radius:12px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,0.6);display:none}
 emoji-picker{--background:#111;--border-color:rgba(255,255,255,0.08);--button-active-background:rgba(155,140,255,0.2);--button-hover-background:rgba(155,140,255,0.1);--category-font-color:#6B6880;--emoji-size:1.5rem;--input-border-color:rgba(155,140,255,0.3);--input-font-color:#F2F0FF;--input-placeholder-color:#6B6880;--outline-color:rgba(155,140,255,0.5);--search-background:#181818;}
 
 /* CONNECTIONS MODAL */
@@ -1095,6 +1098,26 @@ emoji-picker{--background:#111;--border-color:rgba(255,255,255,0.08);--button-ac
       <button class="view-btn" onclick="openModal('devs')">View 6 wallets →</button>
     </div>
 
+    <!-- PACK: Whales -->
+    <div class="pack-card live">
+      <div class="pack-top">
+        <div class="pack-icon">🐋</div>
+        <span class="pack-status status-live">LIVE</span>
+      </div>
+      <div class="pack-name">Whales</div>
+      <p class="pack-desc">Heavy hitters moving serious size — 85 wallets worth watching when the market starts moving.</p>
+      <div class="pack-meta">
+        <div class="pack-meta-item"><div class="meta-val">85</div><div class="meta-lbl">WALLETS</div></div>
+        <div class="pack-meta-item"><div class="meta-val">Curated</div><div class="meta-lbl">SOURCE</div></div>
+      </div>
+      <button class="dl-btn" id="copy-whales" onclick="copyPack('whales')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+        Copy to Clipboard
+      </button>
+      <p class="dl-note">Paste straight into your platform — all 85 wallets imported instantly</p>
+      <button class="view-btn" onclick="openModal('whales')">View 85 wallets →</button>
+    </div>
+
     <!-- PACK: Potion Alpha Wallets -->
     <div class="pack-card live">
       <div class="pack-top">
@@ -1274,6 +1297,7 @@ emoji-picker{--background:#111;--border-color:rgba(255,255,255,0.08);--button-ac
   </div>
 </div>
 
+<div id="b-wallet-emoji-drop"><emoji-picker></emoji-picker></div>
 <div class="toast" id="toast">Copied to clipboard</div>
 
 <div class="overlay" id="overlay" onclick="closeModal()"></div>
@@ -2030,6 +2054,94 @@ const devWallets = [
   { name:"Meechie", emoji:"💎", address:"9iaawVBEsFG35PSwd4PahwT8fYNQe9XYuRdWm872dUqY" }
 ];
 
+const whalesWallets = [
+  { rank:1,  name:"dragon",         emoji:"🐲", twitter:"", pfp:"", address:"6SYhd67FqypKyNqd5iFikRhrmKAKcCwwurSYUAMNSH4r", pnl:null, wr:null },
+  { rank:2,  name:"World",          emoji:"🌍", twitter:"", pfp:"", address:"BC8yiFFQWFEKrEEj75zYsuK3ZDCfv6QEeMRif9oZZ9TW", pnl:null, wr:null },
+  { rank:3,  name:"Coler",          emoji:"🥶", twitter:"", pfp:"", address:"99xnE2zEFi8YhmKDaikc1EvH6ELTQJppnqUwMzmpLXrs", pnl:null, wr:null },
+  { rank:4,  name:"Gake?",          emoji:"💰", twitter:"", pfp:"", address:"265MYhx33woRxRULwyZLLitsbhiWjgNQWzdpr3L6SxSo", pnl:null, wr:null },
+  { rank:5,  name:"Monki 2",        emoji:"🐵", twitter:"", pfp:"", address:"fCbc2do6QcQHHMDcMP7eQbdB6r8HCwXJoJkJQmgHoz3", pnl:null, wr:null },
+  { rank:6,  name:"Monki",          emoji:"🐵", twitter:"", pfp:"", address:"53BnNc49Ajgstciq3CRoyxuBpkkW1r8pgPyvr7JGYnsh", pnl:null, wr:null },
+  { rank:7,  name:"Trey",           emoji:"👒", twitter:"", pfp:"", address:"831yhv67QpKqLBJjbmw2xoDUeeFHGUx8RnuRj9imeoEs", pnl:null, wr:null },
+  { rank:8,  name:"Cap",            emoji:"🧢", twitter:"", pfp:"", address:"CAPn1yH4oSywsxGU456jfgTrSSUidf9jgeAnHceNUJdw", pnl:null, wr:null },
+  { rank:9,  name:"Cupsey",         emoji:"😍", twitter:"", pfp:"", address:"2fg5QD1eD7rzNNCsvnhmXFm5hqNgwTTG8p7kQ6f3rx6f", pnl:null, wr:null },
+  { rank:10, name:"Bandit",         emoji:"⛓",  twitter:"", pfp:"", address:"5B79fMkcFeRTiwm7ehsZsFiKsC7m7n1Bgv9yLxPp9q2X", pnl:null, wr:null },
+  { rank:11, name:"Leens",          emoji:"💤", twitter:"", pfp:"", address:"5pxkp8Rpg7xHekFf7URJ25i4P5ZXVk8hRQUaDKytU5K7", pnl:null, wr:null },
+  { rank:12, name:"whashy 2",       emoji:"👻", twitter:"", pfp:"", address:"D9gQ6RhKEpnobPBUdWY5bPQt2p3zGk3iVz6ChpUi2ArA", pnl:null, wr:null },
+  { rank:13, name:"kev",            emoji:"🙈", twitter:"", pfp:"", address:"BTf4A2exGK9BCVDNzy65b9dUzXgMqB4weVkvTMFQsadd", pnl:null, wr:null },
+  { rank:14, name:"aloh",           emoji:"🐃", twitter:"", pfp:"", address:"xXpRSpAe1ajq4tJP78tS3X1AqNwJVQ4Vvb1Swg4hHQh", pnl:null, wr:null },
+  { rank:15, name:"mars",           emoji:"🇲🇭", twitter:"", pfp:"", address:"vfDzbF5pYDrgL3jHAAzdQgKj5AA4MmsgBuGQcXUhLkN", pnl:null, wr:null },
+  { rank:16, name:"Cupsey",         emoji:"😍", twitter:"", pfp:"", address:"suqh5sHtr8HyJ7q8scBimULPkPpA557prMG47xCHQfK", pnl:null, wr:null },
+  { rank:17, name:"Pain",           emoji:"🌍", twitter:"", pfp:"", address:"J6TDXvarvpBdPXTaTU8eJbtso1PUCYKGkVtMKUUY8iEa", pnl:null, wr:null },
+  { rank:18, name:"gr3g",           emoji:"🧔‍♂️", twitter:"", pfp:"", address:"J23qr98GjGJJqKq9CBEnyRhHbmkaVxtTJNNxKu597wsA", pnl:null, wr:null },
+  { rank:19, name:"Hail",           emoji:"🚮", twitter:"", pfp:"", address:"HA1L7GhQfypSRdfBi3tCkkCVEdEcBVYqBSQCENCrwPuB", pnl:null, wr:null },
+  { rank:20, name:"whashy",         emoji:"👻", twitter:"", pfp:"", address:"GZVSEAajExLJEvACHHQcujBw7nJq98GWUEZtood9LM9b", pnl:null, wr:null },
+  { rank:21, name:"robo",           emoji:"🤖", twitter:"", pfp:"", address:"Gv7CnRo2L2SJ583XEfoKHKbmWK3wNoBDxVoJqMKJR4Nu", pnl:null, wr:null },
+  { rank:22, name:"Solstice",       emoji:"👁️‍🗨️", twitter:"", pfp:"", address:"GrD2umbfEBjQKFPDQvmmYNQ5eyRL9SAdWJj9FFMyeaDN", pnl:null, wr:null },
+  { rank:23, name:"Sweep",          emoji:"🍠", twitter:"", pfp:"", address:"GP9PyTwGybX3q3tC5dMRKeuq8Dr15uPVvn3Z9fKbempH", pnl:null, wr:null },
+  { rank:24, name:"beaver",         emoji:"🦫", twitter:"", pfp:"", address:"GM7Hrz2bDq33ezMtL6KGidSWZXMWgZ6qBuugkb5H8NvN", pnl:null, wr:null },
+  { rank:25, name:"Latuche",        emoji:"🖼️", twitter:"", pfp:"", address:"GJA1HEbxGnqBhBifH9uQauzXSB53to5rhDrzmKxhSU65", pnl:null, wr:null },
+  { rank:26, name:"dav2",           emoji:"👻", twitter:"", pfp:"", address:"GANUR8JzZBkARAGNouLSQkHfgM9BgGza9vm5tkn7cnje", pnl:null, wr:null },
+  { rank:27, name:"Insyder",        emoji:"💠", twitter:"", pfp:"", address:"G3g1CKqKWSVEVURZDNMazDBv7YAhMNTjhJBVRTiKZygk", pnl:null, wr:null },
+  { rank:28, name:"Henn100x",       emoji:"🚩", twitter:"", pfp:"", address:"FRbUNvGxYNC1eFngpn7AD3f14aKKTJVC6zSMtvj2dyCS", pnl:null, wr:null },
+  { rank:29, name:"Juicy",          emoji:"👻", twitter:"", pfp:"", address:"FaaYKNeYgphhp7WHP26Vc6bXPNqQdQqMvpv5kcHCAETk", pnl:null, wr:null },
+  { rank:30, name:"youniz",         emoji:"😥", twitter:"", pfp:"", address:"EKDDjxzJ39Bjkr47NiARGJDKFVxiiV9WNJ5XbtEhPEXP", pnl:null, wr:null },
+  { rank:31, name:"TIL",            emoji:"🎱", twitter:"", pfp:"", address:"EHg5YkU2SZBTvuT87rUsvxArGp3HLeye1fXaSDfuMyaf", pnl:null, wr:null },
+  { rank:32, name:"Jordan",         emoji:"🏝️", twitter:"", pfp:"", address:"EAnB5151L8ejp3SM6haLgyv3snk6oqc8acKgWEg9T5J", pnl:null, wr:null },
+  { rank:33, name:"The Doc",        emoji:"👨‍⚕️", twitter:"", pfp:"", address:"DYAn4XpAkN5mhiXkRB7dGq4Jadnx6XYgu8L5b3WGhbrt", pnl:null, wr:null },
+  { rank:34, name:"Classic",        emoji:"🔫", twitter:"", pfp:"", address:"DsqRyTUh1R37asYcVf1KdX4CNnz5DKEFmnXvgT4NfTPE", pnl:null, wr:null },
+  { rank:35, name:"Lynk",           emoji:"🔗", twitter:"", pfp:"", address:"DrHszsqMAMuBrgRJ3XG7ZutDfEETHFW6W7vxA1vSQ2Ub", pnl:null, wr:null },
+  { rank:36, name:"gake",           emoji:"💰", twitter:"", pfp:"", address:"DNfuF1L62WWyW3pNakVkyGGFzVVhj4Yr52jSmdTyeBHm", pnl:null, wr:null },
+  { rank:37, name:"Absol",          emoji:"🏔️", twitter:"", pfp:"", address:"BXNiM7pqt9Ld3b2Hc8iT3mA5bSwoe9CRrtkSUs15SLWN", pnl:null, wr:null },
+  { rank:38, name:"saif",           emoji:"💣", twitter:"", pfp:"", address:"BuhkHhM3j4viF71pMTd23ywxPhF35LUnc2QCLAvUxCdW", pnl:null, wr:null },
+  { rank:39, name:"Letterbomb",     emoji:"🧣", twitter:"", pfp:"", address:"BtMBMPkoNbnLF9Xn552guQq528KKXcsNBNNBre3oaQtr", pnl:null, wr:null },
+  { rank:40, name:"Betman",         emoji:"🦇", twitter:"", pfp:"", address:"BoYHJoKntk3pjkaV8qFojEonSPWmWMfQocZTwDd1bcGG", pnl:null, wr:null },
+  { rank:41, name:"theo",           emoji:"🤒", twitter:"", pfp:"", address:"Bi4rd5FH5bYEN8scZ7wevxNZyNmKHdaBcvewdPFxYdLt", pnl:null, wr:null },
+  { rank:42, name:"dv",             emoji:"😅", twitter:"", pfp:"", address:"BCagckXeMChUKrHEd6fKFA1uiWDtcmCXMsqaheLiUPJd", pnl:null, wr:null },
+  { rank:43, name:"heyitsyolo",     emoji:"🤩", twitter:"", pfp:"", address:"Av3xWHJ5EsoLZag6pr7LKbrGgLRTaykXomDD5kBhL9YQ", pnl:null, wr:null },
+  { rank:44, name:"Otta",           emoji:"🐒", twitter:"", pfp:"", address:"As7HjL7dzzvbRbaD3WCun47robib2kmAKRXMvjHkSMB5", pnl:null, wr:null },
+  { rank:45, name:"404flipped",     emoji:"🔀", twitter:"", pfp:"", address:"AbcX4XBm7DJ3i9p29i6sU8WLmiW4FWY5tiwB9D6UBbcE", pnl:null, wr:null },
+  { rank:46, name:"Loopier",        emoji:"🎃", twitter:"", pfp:"", address:"9yYya3F5EJoLnBNKW6z4bZvyQytMXzDcpU5D6yYr4jqL", pnl:null, wr:null },
+  { rank:47, name:"dior",           emoji:"🎙️", twitter:"", pfp:"", address:"9VKYME2xdBfK9GVpR4zDjCrAFbDKVgrbJTh1Kjthch33", pnl:null, wr:null },
+  { rank:48, name:"danny",          emoji:"🍉", twitter:"", pfp:"", address:"9FNz4MjPUmnJqTf6yEDbL1D4SsHVh7uA8zRHhR5K138r", pnl:null, wr:null },
+  { rank:49, name:"Orange",         emoji:"😹", twitter:"", pfp:"", address:"96sErVjEN7LNJ6Uvj63bdRWZxNuBngj56fnT9biHLKBf", pnl:null, wr:null },
+  { rank:50, name:"casino",         emoji:"🎰", twitter:"", pfp:"", address:"8rvAsDKeAcEjEkiZMug9k8v1y8mW6gQQiMobd89Uy7qR", pnl:null, wr:null },
+  { rank:51, name:"Nyhrox",         emoji:"🇳🇴", twitter:"", pfp:"", address:"87MZqjjJgpuFvaU8GyQJKbZGnCFFhX82qAjBGLRXPfcn", pnl:null, wr:null },
+  { rank:52, name:"publix",         emoji:"🥽", twitter:"", pfp:"", address:"86AEJExyjeNNgcp7GrAvCXTDicf5aGWgoERbXFiG1EdD", pnl:null, wr:null },
+  { rank:53, name:"Meechie",        emoji:"🦾", twitter:"", pfp:"", address:"831qmkeGhfL8YpcXuhrug6nHj1YdK3aXMDQUCo85Auh1", pnl:null, wr:null },
+  { rank:54, name:"Brox",           emoji:"🤎", twitter:"", pfp:"", address:"7VBTpiiEjkwRbRGHJFUz6o5fWuhPFtAmy8JGhNqwHNnn", pnl:null, wr:null },
+  { rank:55, name:"Files",          emoji:"⚽", twitter:"", pfp:"", address:"7sWQeQLuNcbQas2Y4EoDn1hZ2Ks2sKKGeyrWjffWVJSW", pnl:null, wr:null },
+  { rank:56, name:"Insentos",       emoji:"🌄", twitter:"", pfp:"", address:"7SDs3PjT2mswKQ7Zo4FTucn9gJdtuW4jaacPA65BseHS", pnl:null, wr:null },
+  { rank:57, name:"Leens",          emoji:"🎋", twitter:"", pfp:"", address:"7iabBMwmSvS4CFPcjW2XYZY53bUCHzXjCFEFhxeYP4CY", pnl:null, wr:null },
+  { rank:58, name:"ChartFu",        emoji:"⛽", twitter:"", pfp:"", address:"7i7vHEv87bs135DuoJVKe9c7abentawA5ydfWcWc8iY2", pnl:null, wr:null },
+  { rank:59, name:"JB",             emoji:"👹", twitter:"", pfp:"", address:"7dP8DmRka5rmQti4zEEDjdAyaQyvFsPkcXMjEKJucqCu", pnl:null, wr:null },
+  { rank:60, name:"Red",            emoji:"💯", twitter:"", pfp:"", address:"7ABz8qEFZTHPkovMDsmQkm64DZWN5wRtU7LEtD2ShkQ6", pnl:null, wr:null },
+  { rank:61, name:"Fashr",          emoji:"⏩", twitter:"", pfp:"", address:"719sfKUjiMThumTt2u39VMGn612BZyCcwbM5Pe8SqFYz", pnl:null, wr:null },
+  { rank:62, name:"Assasin.eth",    emoji:"💆", twitter:"", pfp:"", address:"6LChaYRYtEYjLEHhzo4HdEmgNwu2aia8CM8VhR9wn6n7", pnl:null, wr:null },
+  { rank:63, name:"Smokez",         emoji:"🚬", twitter:"", pfp:"", address:"5t9xBNuDdGTGpjaPTx6hKd7sdRJbvtKS8Mhq6qVbo8Qz", pnl:null, wr:null },
+  { rank:64, name:"Dave P",         emoji:"💃", twitter:"", pfp:"", address:"5rkPDK4JnVAumgzeV2Zu8vjggMTtHdDtrsd5o9dhGZHD", pnl:null, wr:null },
+  { rank:65, name:"Yenni",          emoji:"💴", twitter:"", pfp:"", address:"5B52w1ZW9tuwUduueP5J7HXz5AcGfruGoX6YoAudvyxG", pnl:null, wr:null },
+  { rank:66, name:"Oura",           emoji:"🍀", twitter:"", pfp:"", address:"4WPTQA7BB4iRdrPhgNpJihGcxKh8T43gLjMn5PbEVfQw", pnl:null, wr:null },
+  { rank:67, name:"Polar",          emoji:"🐻‍❄️", twitter:"", pfp:"", address:"4S9U8HckRngscHWrW418cG6Suw62dhEZzmyrT2hxSye5", pnl:null, wr:null },
+  { rank:68, name:"Mr frog",        emoji:"🐸", twitter:"", pfp:"", address:"4DdrfiDHpmx55i4SPssxVzS9ZaKLb8qr45NKY9Er9nNh", pnl:null, wr:null },
+  { rank:69, name:"WaiterG",        emoji:"🍌", twitter:"", pfp:"", address:"4cXnf2z85UiZ5cyKsPMEULq1yufAtpkatmX4j4DBZqj2", pnl:null, wr:null },
+  { rank:70, name:"Key",            emoji:"🙈", twitter:"", pfp:"", address:"4Bdn33fA7LLZQuuXuFLSxtPWGAUnMBcreQHfh9MXuixe", pnl:null, wr:null },
+  { rank:71, name:"jijo",           emoji:"🤮", twitter:"", pfp:"", address:"4BdKaxN8G6ka4GYtQQWk4G4dZRUTX2vQH9GcXdBREFUk", pnl:null, wr:null },
+  { rank:72, name:"cxltures",       emoji:"😄", twitter:"", pfp:"", address:"3ZtwP8peTwTfLUF1rgUQgUxwyeHCxfmoELXghQzKqnAJ", pnl:null, wr:null },
+  { rank:73, name:"kadenox",        emoji:"😶‍🌫️", twitter:"", pfp:"", address:"3pZ59YENxDAcjaKa3sahZJBcgER4rGYi4v6BpPurmsGj", pnl:null, wr:null },
+  { rank:74, name:"Sebastian",      emoji:"⚾", twitter:"", pfp:"", address:"3BLjRcxWGtR7WRshJ3hL25U3RjWr5Ud98wMcczQqk4Ei", pnl:null, wr:null },
+  { rank:75, name:"Al4n",           emoji:"🎇", twitter:"", pfp:"", address:"2YJbcB9G8wePrpVBcT31o8JEed6L3abgyCjt5qkJMymV", pnl:null, wr:null },
+  { rank:76, name:"Idontpaytaxes",  emoji:"🚕", twitter:"", pfp:"", address:"2T5NgDDidkvhJQg8AHDi74uCFwgp25pYFMRZXBaCUNBH", pnl:null, wr:null },
+  { rank:77, name:"MoneyMaykah",    emoji:"🤑", twitter:"", pfp:"", address:"2CXbN6nuTTb4vCrtYM89SfQHMMKGPAW4mvFe6Ht4Yo6z", pnl:null, wr:null },
+  { rank:78, name:"Kevin",          emoji:"🍬", twitter:"", pfp:"", address:"GL8xwGgW7u3H51wPQsNbeNF9RACWPdzqWu99QdmvG9YP", pnl:null, wr:null },
+  { rank:79, name:"Flames",         emoji:"🔥", twitter:"", pfp:"", address:"GiTjPLMYngDKZYxyc2MBFBwsS1Zt3NBCjJtAgsGb3AJv", pnl:null, wr:null },
+  { rank:80, name:"absol",          emoji:"👻", twitter:"", pfp:"", address:"HTM87R4mgjDdiF6Yfn8duK9vbDmZxiPCTRbGvm7eCAJY", pnl:null, wr:null },
+  { rank:81, name:"Alx",            emoji:"👻", twitter:"", pfp:"", address:"89HbgWduLwoxcofWpmn1EiF9wEdpgkNDEyPjzZ72mkDi", pnl:null, wr:null },
+  { rank:82, name:"scharo",         emoji:"👻", twitter:"", pfp:"", address:"4sAUSQFdvWRBxR8UoLBYbw8CcXuwXWxnN8pXa4mtm5nU", pnl:null, wr:null },
+  { rank:83, name:"Letterbomb2",    emoji:"🧣", twitter:"", pfp:"", address:"B7jZkdTX9px7V8qBFXe54HbE9smk42UnPcqupPvECE77", pnl:null, wr:null },
+  { rank:84, name:"west",           emoji:"🧭", twitter:"", pfp:"", address:"JDd3hy3gQn2V982mi1zqhNqUw1GfV2UL6g76STojCJPN", pnl:null, wr:null },
+  { rank:85, name:"sheep",          emoji:"🐑", twitter:"", pfp:"", address:"78N177fzNJpp8pG49xDv1efYcTMSzo9tPTKEA9mAVkh2", pnl:null, wr:null },
+];
+
 const packs = {
   kol50: {
     groupName: "Top Traders",
@@ -2050,6 +2162,10 @@ const packs = {
   devs: {
     groupName: "Best Secret Devs",
     wallets: devWallets
+  },
+  whales: {
+    groupName: "Whales",
+    wallets: whalesWallets
   }
 };
 
@@ -3247,6 +3363,8 @@ function closeBuilder() {
   document.getElementById('builder-overlay').classList.remove('open');
   document.getElementById('builder-modal').classList.remove('open');
   document.getElementById('b-emoji-drop').style.display = 'none';
+  document.getElementById('b-wallet-emoji-drop').style.display = 'none';
+  _walletEmojiIdx = -1;
   document.body.style.overflow = '';
 }
 
@@ -3254,7 +3372,7 @@ function renderBuilderList() {
   document.getElementById('b-wallet-count').textContent = builderWallets.length;
   document.getElementById('b-wallets-list').innerHTML = builderWallets.map((w, i) => `
     <div class="builder-wallet-row">
-      <span class="builder-wallet-emoji">${w.emoji || '👛'}</span>
+      <button class="builder-wallet-emoji-btn" onclick="builderEditEmoji(${i}, this)" title="Change emoji">${w.emoji || '👛'}</button>
       <div class="builder-wallet-info">
         <div class="builder-wallet-name">${w.name}</div>
         <div class="builder-wallet-addr">${fmt(w.address)}</div>
@@ -3310,6 +3428,38 @@ function builderRemoveWallet(i) {
   builderWallets.splice(i, 1);
   renderBuilderList();
 }
+
+let _walletEmojiIdx = -1;
+function builderEditEmoji(i, el) {
+  _walletEmojiIdx = i;
+  const drop = document.getElementById('b-wallet-emoji-drop');
+  const rect = el.getBoundingClientRect();
+  const dropW = 340;
+  const left = Math.min(rect.left, window.innerWidth - dropW - 8);
+  drop.style.top = (rect.bottom + 6) + 'px';
+  drop.style.left = Math.max(8, left) + 'px';
+  drop.style.display = 'block';
+  const picker = drop.querySelector('emoji-picker');
+  if (picker && !picker._wlistener) {
+    picker.addEventListener('emoji-click', e => {
+      if (_walletEmojiIdx >= 0 && builderWallets[_walletEmojiIdx]) {
+        builderWallets[_walletEmojiIdx].emoji = e.detail.unicode;
+        renderBuilderList();
+      }
+      document.getElementById('b-wallet-emoji-drop').style.display = 'none';
+      _walletEmojiIdx = -1;
+    });
+    picker._wlistener = true;
+  }
+}
+document.addEventListener('click', e => {
+  const drop = document.getElementById('b-wallet-emoji-drop');
+  if (!drop || drop.style.display === 'none') return;
+  if (!drop.contains(e.target) && !e.target.classList.contains('builder-wallet-emoji-btn')) {
+    drop.style.display = 'none';
+    _walletEmojiIdx = -1;
+  }
+});
 
 async function builderSubmit() {
   const name = document.getElementById('b-name').value.trim();
