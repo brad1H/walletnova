@@ -559,7 +559,9 @@ emoji-picker{--background:#111;--border-color:rgba(255,255,255,0.08);--button-ac
 .nav-watch svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;flex-shrink:0}
 .nav-watch-count{font-size:10px;font-weight:800;color:var(--purple-bright);background:var(--purple-dim);border:1px solid var(--purple-border);border-radius:100px;padding:1px 7px;display:none}
 .nav-watch-count.show{display:inline-block}
-#page-watchlist{padding-top:80px;font-family:'Inter',sans-serif}
+#page-watchlist{padding-top:80px;font-family:'Inter',sans-serif;display:none;flex-direction:column;min-height:100vh}
+#page-watchlist.active{display:flex;flex-direction:column}
+#page-watchlist .watchlist-wrap{flex:1}
 .watchlist-wrap{max-width:1440px;margin:0 auto;padding:60px 44px 100px}
 .watchlist-hdr{margin-bottom:44px;text-align:center}
 .watchlist-empty{text-align:center;padding:100px 20px;grid-column:1/-1}
@@ -1206,7 +1208,7 @@ emoji-picker{--background:#111;--border-color:rgba(255,255,255,0.08);--button-ac
     <div class="import-eyebrow" style="margin-bottom:16px">My List</div>
     <h1 class="catalog-h1">Watchlist</h1>
     <p class="catalog-sub" style="margin-bottom:12px">Your personal shortlist of wallets worth watching. Star any KOL from the Catalog or Leaderboard.</p>
-    <p style="font-size:12px;color:var(--muted)" id="watchlist-count"></p>
+    <p style="font-size:12px;color:var(--muted);display:flex;align-items:center;justify-content:center;gap:12px" id="watchlist-count"></p>
   </div>
   <div class="cat-grid" id="watchlist-grid"></div>
 </div>
@@ -1266,6 +1268,20 @@ emoji-picker{--background:#111;--border-color:rgba(255,255,255,0.08);--button-ac
 <div class="toast" id="toast">Copied to clipboard</div>
 
 <div class="overlay" id="overlay" onclick="closeModal()"></div>
+<div class="overlay" id="confirm-overlay" onclick="closeConfirm()"></div>
+<div class="modal" id="confirm-modal" style="max-width:380px;text-align:center">
+  <div class="modal-hdr" style="justify-content:center;border-bottom:none;padding-bottom:0">
+    <div>
+      <div style="font-size:28px;margin-bottom:10px">🗑️</div>
+      <div class="modal-title" style="font-size:18px">Clear Watchlist?</div>
+      <div style="font-size:13px;color:var(--muted);margin-top:8px;font-family:'DM Sans',sans-serif">This will remove all saved wallets from your list. This can't be undone.</div>
+    </div>
+  </div>
+  <div style="display:flex;gap:10px;padding:20px 24px 24px">
+    <button onclick="closeConfirm()" style="flex:1;background:transparent;border:1px solid var(--border2);border-radius:8px;padding:12px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--muted);cursor:pointer;transition:all 0.15s" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='var(--muted)'">Cancel</button>
+    <button onclick="confirmClearWatchlist()" style="flex:1;background:rgba(255,107,107,0.15);border:1px solid rgba(255,107,107,0.4);border-radius:8px;padding:12px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;color:#FF6B6B;cursor:pointer;transition:all 0.15s" onmouseover="this.style.background='rgba(255,107,107,0.25)'" onmouseout="this.style.background='rgba(255,107,107,0.15)'">Clear All</button>
+  </div>
+</div>
 <div class="modal" id="modal">
   <div class="modal-hdr">
     <div>
@@ -3398,7 +3414,7 @@ function renderWatchlist() {
   const items = Object.values(wl).sort((a, b) => b.addedAt - a.addedAt);
   const grid = document.getElementById('watchlist-grid');
   const countEl = document.getElementById('watchlist-count');
-  if (countEl) countEl.textContent = items.length + ' wallet' + (items.length !== 1 ? 's' : '');
+  if (countEl) countEl.innerHTML = items.length + ' wallet' + (items.length !== 1 ? 's' : '') + (items.length ? ' &nbsp;<button onclick="clearWatchlist()" style="background:rgba(255,107,107,0.1);border:1px solid rgba(255,107,107,0.35);border-radius:5px;padding:3px 10px;font-family:\'DM Sans\',sans-serif;font-size:11px;color:#FF6B6B;cursor:pointer;transition:all 0.15s" onmouseover="this.style.background=\'rgba(255,107,107,0.2)\';this.style.borderColor=\'rgba(255,107,107,0.6)\'" onmouseout="this.style.background=\'rgba(255,107,107,0.1)\';this.style.borderColor=\'rgba(255,107,107,0.35)\'">Clear All</button>' : '');
   if (!items.length) {
     grid.innerHTML = `<div class="watchlist-empty"><div class="watchlist-empty-icon">⭐</div><h3>No wallets saved yet</h3><p>Star any wallet from the Catalog or Leaderboard and it'll show up here.</p></div>`;
     return;
@@ -3418,6 +3434,21 @@ function renderWatchlist() {
       <button class="star-btn starred" data-addr="${w.addr}" onclick="toggleWatch('${w.addr}','${w.name.replace(/'/g,"\\'")}','${w.emoji||'👛'}','${w.pfp||''}')">${starSvg}</button>
     </div>`;
   }).join('');
+}
+function clearWatchlist() {
+  document.getElementById('confirm-overlay').classList.add('open');
+  document.getElementById('confirm-modal').classList.add('open');
+}
+function closeConfirm() {
+  document.getElementById('confirm-overlay').classList.remove('open');
+  document.getElementById('confirm-modal').classList.remove('open');
+}
+function confirmClearWatchlist() {
+  localStorage.removeItem('nw_watchlist');
+  const badge = document.getElementById('nav-watch-count');
+  if (badge) { badge.textContent = '0'; badge.classList.remove('show'); }
+  closeConfirm();
+  renderWatchlist();
 }
 (function initWatchlist() {
   const count = Object.keys(getWatchlist()).length;
