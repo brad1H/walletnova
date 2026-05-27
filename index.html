@@ -600,7 +600,9 @@ emoji-picker{--background:#111;--border-color:rgba(255,255,255,0.08);--button-ac
 .builder-wallet-addr{font-size:10px;color:var(--muted);font-family:monospace}
 .builder-wallet-remove{background:none;border:none;cursor:pointer;color:var(--muted);font-size:14px;padding:4px 8px;border-radius:4px;transition:color 0.15s;flex-shrink:0}
 .builder-wallet-remove:hover{color:var(--red)}
-.builder-add-row{display:grid;grid-template-columns:56px 1fr 1fr auto;gap:8px;align-items:end}
+.builder-add-row{display:grid;grid-template-columns:48px 1fr 1fr auto;gap:8px;align-items:end}
+.builder-emoji-add-btn{background:var(--surface);border:1px solid var(--border2);border-radius:8px;font-size:20px;width:100%;height:42px;cursor:pointer;transition:border-color 0.15s;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.builder-emoji-add-btn:hover{border-color:var(--purple-border)}
 .builder-emoji-input{text-align:center;font-size:18px;padding:11px 8px}
 .builder-add-btn{background:var(--purple-dim);border:1px solid var(--purple-border);border-radius:8px;padding:11px 14px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--purple-bright);cursor:pointer;transition:all 0.15s;white-space:nowrap}
 .builder-add-btn:hover{background:rgba(155,140,255,0.18)}
@@ -1284,7 +1286,7 @@ emoji-picker{--background:#111;--border-color:rgba(255,255,255,0.08);--button-ac
       </div>
       <div class="builder-wallets-list" id="b-wallets-list"></div>
       <div class="builder-add-row">
-        <input class="builder-input builder-emoji-input" id="b-emoji" placeholder="🔥" maxlength="2">
+        <button class="builder-emoji-add-btn" id="b-emoji-btn" onclick="builderToggleAddEmoji(this)" title="Pick emoji">👛</button>
         <input class="builder-input" id="b-wallet-name" placeholder="Name">
         <input class="builder-input" id="b-wallet-addr" placeholder="Wallet address">
         <button class="builder-add-btn" onclick="builderAddWallet()">Add</button>
@@ -3350,7 +3352,7 @@ function openBuilder() {
   document.getElementById('b-emoji-drop').style.display = 'none';
   document.getElementById('b-name').value = '';
   document.getElementById('b-desc').value = '';
-  document.getElementById('b-emoji').value = '';
+  document.getElementById('b-emoji-btn').textContent = '👛';
   document.getElementById('b-wallet-name').value = '';
   document.getElementById('b-wallet-addr').value = '';
   renderBuilderList();
@@ -3364,7 +3366,7 @@ function closeBuilder() {
   document.getElementById('builder-modal').classList.remove('open');
   document.getElementById('b-emoji-drop').style.display = 'none';
   document.getElementById('b-wallet-emoji-drop').style.display = 'none';
-  _walletEmojiIdx = -1;
+  _emojiTarget = null;
   document.body.style.overflow = '';
 }
 
@@ -3414,13 +3416,14 @@ function builderImportJSON() {
 function builderAddWallet() {
   const addr = document.getElementById('b-wallet-addr').value.trim();
   const name = document.getElementById('b-wallet-name').value.trim();
-  const emoji = document.getElementById('b-emoji').value.trim() || '👛';
+  const emojiBtn = document.getElementById('b-emoji-btn');
+  const emoji = emojiBtn.textContent.trim() || '👛';
   if (!addr || !name) { showToast('Enter a name and address'); return; }
   if (builderWallets.find(w => w.address === addr)) { showToast('Already added'); return; }
   builderWallets.push({ address: addr, name, emoji });
   document.getElementById('b-wallet-addr').value = '';
   document.getElementById('b-wallet-name').value = '';
-  document.getElementById('b-emoji').value = '';
+  emojiBtn.textContent = '👛';
   renderBuilderList();
 }
 
@@ -3429,35 +3432,54 @@ function builderRemoveWallet(i) {
   renderBuilderList();
 }
 
-let _walletEmojiIdx = -1;
-function builderEditEmoji(i, el) {
-  _walletEmojiIdx = i;
+// _emojiTarget: 'add' = new wallet button, number = wallet list index
+let _emojiTarget = null;
+
+function _showWalletEmojiPicker(target, el) {
+  _emojiTarget = target;
   const drop = document.getElementById('b-wallet-emoji-drop');
   const rect = el.getBoundingClientRect();
   const dropW = 340;
-  const left = Math.min(rect.left, window.innerWidth - dropW - 8);
+  drop.style.left = Math.max(8, Math.min(rect.left, window.innerWidth - dropW - 8)) + 'px';
   drop.style.top = (rect.bottom + 6) + 'px';
-  drop.style.left = Math.max(8, left) + 'px';
   drop.style.display = 'block';
   const picker = drop.querySelector('emoji-picker');
   if (picker && !picker._wlistener) {
     picker.addEventListener('emoji-click', e => {
-      if (_walletEmojiIdx >= 0 && builderWallets[_walletEmojiIdx]) {
-        builderWallets[_walletEmojiIdx].emoji = e.detail.unicode;
+      const unicode = e.detail.unicode;
+      if (_emojiTarget === 'add') {
+        document.getElementById('b-emoji-btn').textContent = unicode;
+      } else if (typeof _emojiTarget === 'number' && builderWallets[_emojiTarget]) {
+        builderWallets[_emojiTarget].emoji = unicode;
         renderBuilderList();
       }
       document.getElementById('b-wallet-emoji-drop').style.display = 'none';
-      _walletEmojiIdx = -1;
+      _emojiTarget = null;
     });
     picker._wlistener = true;
   }
 }
+
+function builderToggleAddEmoji(el) {
+  const drop = document.getElementById('b-wallet-emoji-drop');
+  if (drop.style.display !== 'none' && _emojiTarget === 'add') {
+    drop.style.display = 'none';
+    _emojiTarget = null;
+    return;
+  }
+  _showWalletEmojiPicker('add', el);
+}
+
+function builderEditEmoji(i, el) {
+  _showWalletEmojiPicker(i, el);
+}
+
 document.addEventListener('click', e => {
   const drop = document.getElementById('b-wallet-emoji-drop');
   if (!drop || drop.style.display === 'none') return;
-  if (!drop.contains(e.target) && !e.target.classList.contains('builder-wallet-emoji-btn')) {
+  if (!drop.contains(e.target) && !e.target.classList.contains('builder-wallet-emoji-btn') && e.target.id !== 'b-emoji-btn') {
     drop.style.display = 'none';
-    _walletEmojiIdx = -1;
+    _emojiTarget = null;
   }
 });
 
