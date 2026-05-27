@@ -2,7 +2,7 @@ name: Update Wallet Data
 
 'on':
   schedule:
-    - cron: '0 * * * *'
+    - cron: '*/10 * * * *'
   workflow_dispatch:
 
 jobs:
